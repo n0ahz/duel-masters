@@ -4,20 +4,25 @@ import * as Phaser from 'phaser';
 class NewScene extends Phaser.Scene {
   green: any;
   blue: any;
+  bg: any;
   greenKeys: any;
   blueKeys: any;
 
   constructor() {
-    super({ key: 'new' });
+    super({ key: 'Test' });
   }
 
   preload() {
-    this.load.setBaseURL('http://labs.phaser.io');
-    this.load.image('blueBox', 'assets/tilemaps/tiles/ground-tile.png');
-    this.load.image('greenBox', 'assets/tilemaps/tiles/ground-tile.png');
+    this.load.setBaseURL('');
+    this.load.image('bg', 'assets/imgs/bg.jpg');
+    // this.add.image(1280/2, 960/2, 'bg');
+    // this.load.setBaseURL('http://labs.phaser.io');
+    // this.load.image('blueBox', 'assets/tilemaps/tiles/ground-tile.png');
+    // this.load.image('greenBox', 'assets/tilemaps/tiles/ground-tile.png');
   }
 
   create() {
+    this.bg = this.add.image(window.innerWidth/2, window.innerHeight/2, 'bg').setAlpha(0.5,0.5,0.5,0.5);
     this.blue = this.physics.add.image(100, 100, 'blueBox').setCollideWorldBounds(true);
     this.green = this.physics.add.image(300, 340, 'greenBox').setCollideWorldBounds(true);
 
@@ -67,15 +72,17 @@ export class PhaserTestComponent implements OnInit {
   constructor() {
     this.config = {
       type: Phaser.AUTO,
+      width: window.innerWidth,
+      height: window.innerHeight,
       scene: [ NewScene ],
       physics: {
         default: 'arcade',
       },
       scale: {
-        mode: Phaser.Scale.FIT,
+        mode: Phaser.Scale.RESIZE,
         parent: 'gameContainer',
-        width: 800,
-        height: 600
+      //   width: 800,
+      //   height: 600
       }
     };
   }
