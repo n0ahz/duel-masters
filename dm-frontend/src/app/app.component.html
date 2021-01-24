@@ -1,6 +1,24 @@
 <!-- Toolbar -->
-<div class="toolbar" role="banner">
-  <span>{{ title }}</span>
-</div>
+<mat-toolbar color="warn">
+  <img src="../assets/imgs/dm-logo.png" height="100%" alt="Duel Masters" routerLink="/">
+
+  <mat-divider vertical style="height:100px"></mat-divider>
+
+  <button mat-raised-button matTooltip="Official Card Game / Trading Card Game" class="menu__button">
+    OCG / TCG
+  </button>
+
+  <button mat-raised-button color="accent" class="menu__button" routerLink="/test">
+    It's time to DUEL!
+  </button>
+
+  <mat-button-toggle-group name="menuItems" aria-label="Menu">
+    <mat-button-toggle value="rules" routerLink="/">Rules</mat-button-toggle>
+    <mat-button-toggle value="cards" routerLink="/">Cards</mat-button-toggle>
+    <mat-button-toggle value="decks" routerLink="/">Decks</mat-button-toggle>
+    <mat-button-toggle value="players" routerLink="/">Players</mat-button-toggle>
+  </mat-button-toggle-group>
+</mat-toolbar>
+
 <!-- Body -->
 <router-outlet></router-outlet>
