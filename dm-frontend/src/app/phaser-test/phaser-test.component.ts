@@ -14,20 +14,17 @@ export class PhaserTestComponent implements OnInit {
 
   constructor() {
     this.config = {
+      parent: 'gameContainer',
       type: Phaser.AUTO,
-      width: window.innerWidth,
-      height: window.innerHeight,
-      scene: [
-        TestScene
-      ],
+      width: 2000,
+      height: 960,
+      scene: TestScene,
       physics: {
         default: 'arcade',
       },
       scale: {
-        mode: Phaser.Scale.RESIZE,
-        parent: 'gameContainer',
-      //   width: 800,
-      //   height: 600
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
       }
     };
   }

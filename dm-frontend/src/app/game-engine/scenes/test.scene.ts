@@ -16,12 +16,12 @@ export class TestScene extends Phaser.Scene {
     this.load.image('bg', 'assets/imgs/bg.jpg');
     // this.add.image(1280/2, 960/2, 'bg');
     // this.load.setBaseURL('http://labs.phaser.io');
-    // this.load.image('blueBox', 'assets/tilemaps/tiles/ground-tile.png');
-    // this.load.image('greenBox', 'assets/tilemaps/tiles/ground-tile.png');
+    this.load.image('blueBox', 'assets/tilemaps/tiles/ground-tile.png');
+    this.load.image('greenBox', 'assets/tilemaps/tiles/ground-tile.png');
   }
 
   create() {
-    this.bg = this.add.image(window.innerWidth/2, window.innerHeight/2, 'bg').setAlpha(0.5,0.5,0.5,0.5);
+    this.bg = this.add.image(1280/2, 960/2, 'bg').setAlpha(0.5,0.5,0.5,0.5);
     this.blue = this.physics.add.image(100, 100, 'blueBox').setCollideWorldBounds(true);
     this.green = this.physics.add.image(300, 340, 'greenBox').setCollideWorldBounds(true);
 
