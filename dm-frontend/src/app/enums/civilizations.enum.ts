@@ -1,10 +1,10 @@
 export enum CivilizationsEnum {
-  LIGHT='Light',
-  WATER='Water',
-  DARKNESS='Darkness',
-  FIRE='Fire',
-  NATURE='Nature',
-  RAINBOW='Rainbow',
-  ZERO='Zero',
-  JOKERS='Jokers',
+  LIGHT='LIGHT',
+  WATER='WATER',
+  DARKNESS='DARKNESS',
+  FIRE='FIRE',
+  NATURE='NATURE',
+  RAINBOW='RAINBOW',
+  ZERO='ZERO',
+  JOKERS='JOKERS',
 }
