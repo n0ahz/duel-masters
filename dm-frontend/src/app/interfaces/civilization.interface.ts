@@ -1,6 +1,6 @@
 export interface CivilizationInterface {
   name: string;
   color?: string;
-  icon?: string;
+  iconUrl?: string;
   description?: string;
 }

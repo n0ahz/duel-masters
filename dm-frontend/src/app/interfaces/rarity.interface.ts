@@ -1,5 +1,5 @@
 export interface RarityInterface {
   name: string;
-  icon?: string;
+  iconUrl?: string;
   serial?: number;
 }

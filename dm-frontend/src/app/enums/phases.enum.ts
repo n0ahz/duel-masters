@@ -1,10 +1,10 @@
 export enum PhasesEnum {
-  BEGIN,
-  UNTAP,
-  STANDBY,
-  DRAW,
-  CHARGE,
-  MAIN,
-  BATTLE,
-  END,
+  BEGIN="Start",
+  UNTAP="Untap",
+  STANDBY="Stand By",
+  DRAW="Draw",
+  CHARGE="Charge",
+  MAIN="Summon & Cast",
+  BATTLE="Battle",
+  END="Finish",
 }
