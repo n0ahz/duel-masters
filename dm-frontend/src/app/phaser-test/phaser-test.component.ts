@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as Phaser from 'phaser';
+import { GAME } from "../constants/game";
 import { TestScene } from "../game-engine/scenes/test.scene";
 
 @Component({
@@ -16,8 +17,8 @@ export class PhaserTestComponent implements OnInit {
     this.config = {
       parent: 'gameContainer',
       type: Phaser.AUTO,
-      width: 2000,
-      height: 960,
+      width: GAME.WORLD.WIDTH,
+      height: GAME.WORLD.HEIGHT,
       scene: TestScene,
       physics: {
         default: 'arcade',
