@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PhaserTestComponent } from "./phaser-test/phaser-test.component";
+import { PhaserTestComponent } from "./components/phaser-test/phaser-test.component";
 
 
 const routes: Routes = [

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PhaserTestComponent } from './phaser-test/phaser-test.component';
+import { PhaserTestComponent } from './components/phaser-test/phaser-test.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { MatToolbarModule } from "@angular/material/toolbar";
