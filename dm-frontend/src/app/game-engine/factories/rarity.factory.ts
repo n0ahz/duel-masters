@@ -42,15 +42,14 @@ export class RarityFactory {
   }
 }
 
-
-export const common: RarityInterface = RarityFactory.create(RaritiesEnum.COMMON);
-export const uncommon = RarityFactory.create(RaritiesEnum.UNCOMMON);
-export const rare = RarityFactory.create(RaritiesEnum.RARE);
-export const veryRare = RarityFactory.create(RaritiesEnum.VERY_RARE);
-export const superRare = RarityFactory.create(RaritiesEnum.SUPER_RARE);
-export const victoryRare = RarityFactory.create(RaritiesEnum.VICTORY_RARE);
-export const doubleVictoryRare = RarityFactory.create(RaritiesEnum.DOUBLE_VICTORY_RARE);
-export const legend = RarityFactory.create(RaritiesEnum.LEGEND);
-export const forbiddenLegend = RarityFactory.create(RaritiesEnum.FORBIDDEN_LEGEND);
-export const master = RarityFactory.create(RaritiesEnum.MASTER);
-export const secretRare = RarityFactory.create(RaritiesEnum.SECRET_RARE);
+export const common: RarityInterface = RarityFactory.create("Common", "", 1);
+export const uncommon = RarityFactory.create("Uncommon", '', 2);
+export const rare = RarityFactory.create("Rare", '', 3);
+export const veryRare = RarityFactory.create("Very Rare", '', 4);
+export const superRare = RarityFactory.create("Super Rare", '', 5);
+export const victoryRare = RarityFactory.create("Victory Rare", '', 6);
+export const doubleVictoryRare = RarityFactory.create("Double Victory Rare", '', 7);
+export const legend = RarityFactory.create("Legend", '', 8);
+export const forbiddenLegend = RarityFactory.create("Forbidden Legend", '', 9);
+export const master = RarityFactory.create("Master", '', 10);
+export const secretRare = RarityFactory.create("Secret Rare", '', 11);
