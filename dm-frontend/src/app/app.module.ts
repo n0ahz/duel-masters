@@ -11,6 +11,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatDividerModule } from "@angular/material/divider";
+import { AboutComponent } from './components/about/about.component';
 
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: { } };
@@ -18,7 +19,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: { } };
 @NgModule({
   declarations: [
     AppComponent,
-    PhaserTestComponent
+    PhaserTestComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
