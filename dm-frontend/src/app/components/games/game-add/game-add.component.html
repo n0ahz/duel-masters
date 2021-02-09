@@ -1,0 +1,19 @@
+<div class = "tp-container">
+  <div>
+    <p>Create a game</p>
+  </div>
+  <hr>
+  <mat-form-field>
+    <input matInput placeholder = "Name" #name>
+  </mat-form-field>
+  <mat-form-field appearance = "outline">
+    <mat-select placeholder = "Game Type" #gameType>
+      <mat-option value = "SINGLE">Single</mat-option>
+      <mat-option value = "BEST2OF3">Best 2 out of 3</mat-option>
+      <mat-option value = "BEST3OF5">Best 3 out of 5</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="onSubmit(name.value, gameType.value)">
+    Create
+  </button>
+</div>
