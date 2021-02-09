@@ -8,6 +8,8 @@ import { SocketService } from "../../../services/socket.service";
 import { GamesEventsEnum } from "../../../enums/gateway/games-events.enum";
 import { CommonEventsEnum } from "../../../enums/gateway/common-events.enum";
 import { CoinTossEventsEnum } from "../../../enums/gateway/coin-toss-events.enum";
+import { DuelService } from "../../../services/duel.service";
+import { GameStatusEnum } from "../../../enums/games.enum";
 
 
 @Component({
@@ -20,8 +22,6 @@ export class GameViewComponent implements OnInit, OnDestroy {
 
   gameIdentifier: string;
   inviterSocketId: string;
-  games: GameInterface[];
-  game: GameInterface;
   coinTossDisabled: boolean;
   opponentSelectedCoinSide: CoinSidesEnum;
   duelDecisionDisabled: boolean;
@@ -33,7 +33,15 @@ export class GameViewComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private socketService: SocketService,
+    private duelService: DuelService,
   ) {
+  }
+
+  get game():GameInterface {
+    return this.duelService.game;
+  }
+  set game(data: GameInterface) {
+    this.duelService.game = data;
   }
 
   ngOnInit() {
@@ -68,7 +76,10 @@ export class GameViewComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl('/games/list');
       }, 2000);
     });
-    window.onbeforeunload = () => this.leaveGame();
+    window.onbeforeunload = () => {
+      console.log('window unloaded...');
+      this.duelService.leaveGame();
+    };
 
     this.socketService.handleEvent(GamesEventsEnum.SET_CHALLENGER, (res) => {
       this.addMessage(res.data.msg);
@@ -107,6 +118,11 @@ export class GameViewComponent implements OnInit, OnDestroy {
       this.duelDecisionDisabled = true;
       this.duelDecisionValue = null;
       this.game.firstToGo = null;
+    });
+
+    this.socketService.handleEvent(GamesEventsEnum.DUEL, (res) => {
+      this.game.status = GameStatusEnum.IN_PROGRESS;
+      this.router.navigateByUrl('/duel');
     });
 
     this.socketService.handleEvent(CommonEventsEnum.MSG_TO_CLIENT, (res: SocketPayloadInterface) => {
@@ -187,12 +203,16 @@ export class GameViewComponent implements OnInit, OnDestroy {
     return !(this.game && this.game.challenger && this.socketService.getCurrentSocketId() === this.game.challenger);
   }
 
-  leaveGame() {
-    this.socketService.emitTo(this.gameIdentifier, GamesEventsEnum.LEAVE_GAME);
-  }
-
   ngOnDestroy(): void {
-    this.leaveGame();
+    if (this.game.status === GameStatusEnum.PENDING){
+      console.log('matched condition to leave...');
+      this.duelService.leaveGame();
+    }
     this.socketService.removeAllListeners();
   }
+
+  enterGame() {
+    this.socketService.emitTo(this.gameIdentifier, GamesEventsEnum.START_DUEL);
+  }
+
 }

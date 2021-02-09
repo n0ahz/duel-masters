@@ -5,6 +5,7 @@ import { AboutComponent } from "./components/about/about.component";
 import { GameListComponent } from "./components/games/game-list/game-list.component";
 import { GameAddComponent } from "./components/games/game-add/game-add.component";
 import { GameViewComponent } from "./components/games/game-view/game-view.component";
+import { DuelComponent } from "./components/duel/duel.component";
 
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: 'games/list', component: GameListComponent},
   {path: 'games/add', component: GameAddComponent},
   {path: 'games/view/:gameIdentifier', component: GameViewComponent},
+  {path: 'duel', component: DuelComponent},
   {path: 'test', component: PhaserTestComponent},
 ];
 

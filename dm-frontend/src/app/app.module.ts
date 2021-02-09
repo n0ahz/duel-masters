@@ -26,6 +26,7 @@ import { GameListComponent } from "./components/games/game-list/game-list.compon
 import { GameAddComponent } from "./components/games/game-add/game-add.component";
 import { GameViewComponent } from './components/games/game-view/game-view.component';
 import { CoinTossComponent } from './components/games/coin-toss/coin-toss.component';
+import { DuelComponent } from './components/duel/duel.component';
 
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: { } };
@@ -39,6 +40,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: { } };
     GameAddComponent,
     GameViewComponent,
     CoinTossComponent,
+    DuelComponent,
   ],
   imports: [
     BrowserModule,
