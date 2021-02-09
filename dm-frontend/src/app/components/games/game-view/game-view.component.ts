@@ -203,16 +203,16 @@ export class GameViewComponent implements OnInit, OnDestroy {
     return !(this.game && this.game.challenger && this.socketService.getCurrentSocketId() === this.game.challenger);
   }
 
+  enterGame() {
+    this.socketService.emitTo(this.gameIdentifier, GamesEventsEnum.START_DUEL);
+  }
+
   ngOnDestroy(): void {
     if (this.game.status === GameStatusEnum.PENDING){
       console.log('matched condition to leave...');
       this.duelService.leaveGame();
     }
     this.socketService.removeAllListeners();
-  }
-
-  enterGame() {
-    this.socketService.emitTo(this.gameIdentifier, GamesEventsEnum.START_DUEL);
   }
 
 }
