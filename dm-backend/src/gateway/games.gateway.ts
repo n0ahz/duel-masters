@@ -115,4 +115,13 @@ export class GamesGateway  {
     game.firstToGo = data.firstToGo;
   }
 
+  @SubscribeMessage(GamesEventsEnum.START_DUEL)
+  duel(client: Socket, payload: SocketPayloadInterface): WsResponse<SocketPayloadInterface> {
+    const room = payload.gameRoom;
+    const game: GameInterface = this.gameRooms[room];
+    game.status = GameStatusEnum.IN_PROGRESS;
+    const response: SocketPayloadInterface = {gameRoom: room, data: {msg: `Duel!`, game: game}};
+    return GatewayUtility.broadcastTo(client, room, GamesEventsEnum.DUEL, response);
+  }
+
 }

@@ -12,4 +12,6 @@ export enum GamesEventsEnum {
     GAME_INFO = 'gameInfo',
     USER_INFO = 'userInfo',
     RESET_GAME = 'resetGame',
+    START_DUEL = 'startDuel',
+    DUEL = 'duel',
 }
