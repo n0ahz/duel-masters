@@ -4,6 +4,7 @@ import { Socket, Server } from 'socket.io';
 import { SocketPayloadInterface } from "../interfaces/socket-payload.interface";
 import { CoinTossEventsEnum } from "../enums/gateway/coin-toss-events.enum";
 import { GameInterface } from "../interfaces/game.interface";
+import { GatewayUtility } from "../utils/gateway.utility";
 
 @WebSocketGateway()
 export class DuelDecisionGateway {
@@ -16,8 +17,7 @@ export class DuelDecisionGateway {
     const room = payload.gameRoom;
     const data = payload.data;
     const response: SocketPayloadInterface = {gameRoom: room, data: {chooser: client.id, coinSide: data.coinSide}};
-    client.to(room).emit(CoinTossEventsEnum.SET_COIN_SIDE, response);
-    return {event: CoinTossEventsEnum.SET_COIN_SIDE, data: response};
+    return GatewayUtility.broadcastTo(client, room, CoinTossEventsEnum.SET_COIN_SIDE, response);
   }
 
   @SubscribeMessage(CoinTossEventsEnum.COIN_FLIPPED)
@@ -25,8 +25,7 @@ export class DuelDecisionGateway {
     const room = payload.gameRoom;
     const data = payload.data;
     const response: SocketPayloadInterface = {gameRoom: room, data: {flipper: client.id, flipResult: data.flipResult}};
-    client.to(room).emit(CoinTossEventsEnum.START_COIN_FLIP, response);
-    return {event: CoinTossEventsEnum.START_COIN_FLIP, data: response};
+    return GatewayUtility.broadcastTo(client, room, CoinTossEventsEnum.START_COIN_FLIP, response);
   }
 
   @SubscribeMessage(CoinTossEventsEnum.DUEL_DECISION_MADE)
@@ -43,8 +42,7 @@ export class DuelDecisionGateway {
         firstToGo: data.duelDecision ? client.id: (client.id === game.inviter ? game.challenger : game.inviter),
       },
     };
-    client.to(room).emit(CoinTossEventsEnum.SET_DUEL_DECISION, response);
-    return {event: CoinTossEventsEnum.SET_DUEL_DECISION, data: response};
+    return GatewayUtility.broadcastTo(client, room, CoinTossEventsEnum.SET_DUEL_DECISION, response);
   }
 
 }

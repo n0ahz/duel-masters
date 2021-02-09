@@ -10,6 +10,7 @@ import { GameInterface } from "../interfaces/game.interface";
 import { GamesEventsEnum } from "../enums/gateway/games-events.enum";
 import { CommonEventsEnum } from "../enums/gateway/common-events.enum";
 import { GatewayUtility } from "../utils/gateway.utility";
+import { GameStatusEnum } from "../enums/games.enum";
 
 
 @WebSocketGateway()
@@ -92,8 +93,7 @@ export class GamesGateway  {
     if (room) {
       response.gameRoom = room;
       response.data = this.gameLeaveHandler(client, room);
-      client.to(room).emit(CommonEventsEnum.MSG_TO_CLIENT, response);
-      return {event: CommonEventsEnum.MSG_TO_CLIENT, data: response};
+      return GatewayUtility.broadcastTo(client, room, CommonEventsEnum.MSG_TO_CLIENT, response);
     }
   }
 
