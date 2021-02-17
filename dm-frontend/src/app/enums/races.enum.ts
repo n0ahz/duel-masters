@@ -5,4 +5,6 @@ export enum RacesEnum {
   BERSERKER='Berserker',
   INITIATE='Initiate',
   STARLIGHT_TREE='Startlight Tree',
+  HUMAN='Human',
+  ARMORED_DRAGON='Armored Dragon',
 }
