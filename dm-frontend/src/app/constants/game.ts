@@ -16,29 +16,6 @@ export const CARD = {
   }
 };
 
-const SCORE_TEMPLATE = `Duel Stat
----------
-Cards: {totalCards}
-Deck: {deckZoneCards}
-Hand: {handZoneCards}
-Mana: {manaZoneCards}
-Shield: {shieldZoneCards}
-GraveYard: {graveyardZoneCards}
-Hyper Spatial: {hyperSpatialZoneCards}
-Battle: {battleZoneCards}`;
-
-const CARD_INFO_TEMPLATE = `{name}
-----------------------------
-Race: {race}
-Type: {type}
-Civilization: {civilization} 
-
-
-{cardText}
-
-
-{cost}           {power}`;
-
 export const GAME = {
   WORLD: {
     WIDTH: 2000,
@@ -51,6 +28,4 @@ export const GAME = {
     WIDTH: 1280,
     HEIGHT: 960,
   },
-  SCORE_TEMPLATE: SCORE_TEMPLATE,
-  CARD_INFO_TEMPLATE: CARD_INFO_TEMPLATE,
 };
