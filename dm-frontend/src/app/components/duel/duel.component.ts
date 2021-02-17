@@ -5,6 +5,7 @@ import { GameInterface } from "../../interfaces/game.interface";
 import { SocketService } from "../../services/socket.service";
 import { GamesEventsEnum } from "../../enums/gateway/games-events.enum";
 import { Router } from "@angular/router";
+import { GameService } from "../../services/game.service";
 
 @Component({
   selector: 'app-duel',
@@ -19,13 +20,14 @@ export class DuelComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private socketService: SocketService,
+    private gameService: GameService,
     private duelService: DuelService,
   ) {
     this.isFullScreen = false;
   }
 
   get game():GameInterface {
-    return this.duelService.game;
+    return this.gameService.game;
   }
 
   ngOnInit() {
@@ -69,7 +71,7 @@ export class DuelComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.duelService.leaveGame();
+    this.gameService.leaveGame();
     this.socketService.removeAllListeners();
   }
 }

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as Phaser from "phaser";
-import { GAME } from "../constants/game";
 import { DuelScene } from "../game-engine/scenes/duel.scene";
-import { GameInterface } from "../interfaces/game.interface";
-import { BehaviorSubject } from "rxjs";
-import { GamesEventsEnum } from "../enums/gateway/games-events.enum";
-import { SocketService } from "./socket.service";
+import { GAME } from "../constants/game";
+import { MatDialog } from "@angular/material/dialog";
+import { CardInfoComponent } from "../components/modals/card-info/card-info.component";
+import { Card } from "../game-engine/card";
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +12,11 @@ import { SocketService } from "./socket.service";
 export class DuelService {
 
   config: Phaser.Types.Core.GameConfig;
-  _game: BehaviorSubject<GameInterface>;
-  game: GameInterface;
 
   constructor(
-    private socketService: SocketService,
+    private dialog: MatDialog,
   ) {
+
     this.config = {
       parent: 'gameContainer',
       type: Phaser.AUTO,
@@ -35,26 +33,22 @@ export class DuelService {
         autoCenter: Phaser.Scale.CENTER_BOTH,
       }
     };
-    this._game = new BehaviorSubject<GameInterface>({
-      name: null,
-      inviter: null,
-      challenger: null,
-      firstToGo: null,
-      gameIdentifier: null,
-      gameType: undefined,
-      status: undefined,
-      createdAt: null,
-      endedAt: null,
-    });
-    this._game.asObservable().subscribe(game => this.game = game);
   }
 
   createGame(): Phaser.Game {
     return new Phaser.Game(this.config);
   }
 
-  leaveGame() {
-    this.socketService.emitTo(this.game.gameIdentifier, GamesEventsEnum.LEAVE_GAME);
+  showCardInfoModal(card: Card) {
+    console.log(card);
+    const dialogRef = this.dialog.open(CardInfoComponent, {
+      width: '80%',
+      data: card,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // nothing..
+    });
   }
 
 }

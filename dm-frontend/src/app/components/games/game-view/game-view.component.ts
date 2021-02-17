@@ -8,7 +8,7 @@ import { SocketService } from "../../../services/socket.service";
 import { GamesEventsEnum } from "../../../enums/gateway/games-events.enum";
 import { CommonEventsEnum } from "../../../enums/gateway/common-events.enum";
 import { CoinTossEventsEnum } from "../../../enums/gateway/coin-toss-events.enum";
-import { DuelService } from "../../../services/duel.service";
+import { GameService } from "../../../services/game.service";
 import { GameStatusEnum } from "../../../enums/games.enum";
 
 
@@ -33,15 +33,15 @@ export class GameViewComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private socketService: SocketService,
-    private duelService: DuelService,
+    private gameService: GameService,
   ) {
   }
 
   get game():GameInterface {
-    return this.duelService.game;
+    return this.gameService.game;
   }
   set game(data: GameInterface) {
-    this.duelService.game = data;
+    this.gameService.game = data;
   }
 
   ngOnInit() {
@@ -77,8 +77,7 @@ export class GameViewComponent implements OnInit, OnDestroy {
       }, 2000);
     });
     window.onbeforeunload = () => {
-      console.log('window unloaded...');
-      this.duelService.leaveGame();
+      this.gameService.leaveGame();
     };
 
     this.socketService.handleEvent(GamesEventsEnum.SET_CHALLENGER, (res) => {
@@ -209,8 +208,7 @@ export class GameViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.game.status === GameStatusEnum.PENDING){
-      console.log('matched condition to leave...');
-      this.duelService.leaveGame();
+      this.gameService.leaveGame();
     }
     this.socketService.removeAllListeners();
   }
