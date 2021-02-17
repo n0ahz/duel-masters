@@ -21,12 +21,14 @@ import { MatTableModule } from "@angular/material/table";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatGridListModule } from "@angular/material/grid-list";
+import { MatDialogModule } from "@angular/material/dialog";
 import { AboutComponent } from './components/about/about.component';
 import { GameListComponent } from "./components/games/game-list/game-list.component";
 import { GameAddComponent } from "./components/games/game-add/game-add.component";
 import { GameViewComponent } from './components/games/game-view/game-view.component';
 import { CoinTossComponent } from './components/games/coin-toss/coin-toss.component';
 import { DuelComponent } from './components/duel/duel.component';
+import { CardInfoComponent } from './components/modals/card-info/card-info.component';
 
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: { } };
@@ -41,6 +43,10 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: { } };
     GameViewComponent,
     CoinTossComponent,
     DuelComponent,
+    CardInfoComponent,
+  ],
+  entryComponents:[
+    CardInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +68,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: { } };
     MatExpansionModule,
     MatGridListModule,
     MatChipsModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

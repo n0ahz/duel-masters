@@ -1,0 +1,20 @@
+<div mat-dialog-content [ngClass]="'bg--' + card.civilization.name.toLowerCase()">
+  <mat-card>
+    <mat-card-title>
+      <span class="card__name">{{ card.name }}</span>
+      <span class="card__cost">{{ card.cost }}</span>
+    </mat-card-title>
+    <mat-card-subtitle *ngIf="card.race" style="font-size: larger">{{ card.race }}</mat-card-subtitle>
+    <mat-card-subtitle [ngClass]="'bg--' + card.civilization.name.toLowerCase()">{{ card.civilization.name }}</mat-card-subtitle>
+    <mat-card-subtitle style="font-size: xx-small">{{ card.type }}</mat-card-subtitle>
+    <mat-card-content>
+      <div>{{ card.cardText }}</div>
+      <img [src]="'assets/imgs/cards/' + card.image" alt="">
+    </mat-card-content>
+    <mat-card-footer>
+      <span class="card__power">{{ (card.power ? card.power : '') + (card.powerExtensible ? '+' : '') }}</span>
+      <span class="card__mana" [ngClass]="'bg--' + card.civilization.name.toLowerCase()">{{ card.manaNumber }}</span>
+      <span class="">{{ card.set.id + ' => ' + card.set.name + ': ' + card.collectorNo }}</span>
+    </mat-card-footer>
+  </mat-card>
+</div>

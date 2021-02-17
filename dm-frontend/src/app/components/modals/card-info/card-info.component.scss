@@ -1,0 +1,88 @@
+mat-card {
+  font-family: armada;
+
+  mat-card-title {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+
+    .card__name {
+      font-family: perceval;
+      font-size: xx-large;
+    }
+
+    .card__cost {
+      border-bottom: 1px solid black;
+      border-left: 1px solid black;
+      border-radius: 0 5px 0 5px;
+      padding: 3px;
+    }
+  }
+
+  mat-card-content {
+    height: 250px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 5px;
+    font-family: officina;
+
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+
+    img {
+      max-height: 100%;
+    }
+  }
+
+  mat-card-footer {
+    margin: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-family: officina;
+
+    .card__power {
+      font-family: perceval;
+      color: mediumpurple;
+      font-size: x-large;
+    }
+
+    .card__mana {
+      width: 1.2em;
+      border-radius: 15px;
+      text-align: center;
+      font-size: x-large;
+    }
+  }
+}
+
+.bg {
+  &--light {
+    background-color: #fff949;
+  }
+  &--water {
+    background-color: lightskyblue;
+  }
+  &--darkness {
+    background-color: #d3c4bd;
+  }
+  &--fire {
+    background-color: #ff6c4a;
+  }
+  &--nature {
+    background-color: #6c8b11;
+  }
+  &--rainbow {
+    background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
+  }
+  &--zero {
+    background-color: white;
+  }
+  &--jokers {
+    background-color: white;
+  }
+}
