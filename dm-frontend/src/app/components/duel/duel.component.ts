@@ -31,14 +31,17 @@ export class DuelComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.game.gameIdentifier) {
+    // if (this.game.gameIdentifier) {
       this.phaserGame = this.duelService.createGame();
-    }
+      this.phaserGame.scene.start('duel', {socketService: this.socketService, gameService: this.gameService, duelService: this.duelService});
+    // } else {
+    //   this.endGame();
+    // }
     this.socketService.handleEvent(GamesEventsEnum.INVITER_LEFT, (res) => {
-      this.endGame();
+      // this.endGame();
     });
     this.socketService.handleEvent(GamesEventsEnum.RESET_GAME, (res) => {
-      this.endGame();
+      // this.endGame();
     });
   }
 

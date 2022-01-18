@@ -6,7 +6,7 @@ import { ZoneSpacingEnum } from "../enums/zone-spacing.enum";
 
 export interface ZoneInterface {
   name: ZonesEnum;
-  side: PlayerSidesEnum;
+  side?: PlayerSidesEnum;
   type?: ZoneTypesEnum;
   uid?: string;
   cardsCanTap?: boolean;

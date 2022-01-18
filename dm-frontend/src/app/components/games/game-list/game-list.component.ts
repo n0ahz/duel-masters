@@ -12,7 +12,7 @@ import { GamesEventsEnum } from "../../../enums/gateway/games-events.enum";
 })
 export class GameListComponent implements OnInit, OnDestroy {
 
-  games: GameInterface[];
+  // games: GameInterface[];
   dataSource = new MatTableDataSource<GameInterface>();
   displayedColumns = ['name', 'createdAt', 'gameType', 'status', 'inviter', 'challenger', 'gameIdentifier', 'join', 'delete'];
 
@@ -24,10 +24,10 @@ export class GameListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.games = [];
+    // this.games = [];
     this.socketService.handleEvent(GamesEventsEnum.GAMES_LIST, (res) => {
-      this.games = res.data ? res.data.games : [];
-      this.dataSource.data = this.games;
+      // this.games = res.data ? res.data.games : [];
+      this.dataSource.data = res.data ? res.data.games : [];
     });
   }
 
