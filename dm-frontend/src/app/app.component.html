@@ -10,8 +10,8 @@
   </button>
 
   <mat-button-toggle-group aria-label="Menu" name="menuItems">
-    <mat-button-toggle routerLink="/" value="rules">Rules</mat-button-toggle>
-    <mat-button-toggle routerLink="/" value="cards">Cards</mat-button-toggle>
+    <mat-button-toggle routerLink="/rules" value="rules">Rules</mat-button-toggle>
+    <mat-button-toggle routerLink="/cards" value="cards">Cards</mat-button-toggle>
     <mat-button-toggle routerLink="/" value="decks" *ngIf="this.socialUser">Decks</mat-button-toggle>
     <mat-button-toggle routerLink="/" value="players" *ngIf="this.socialUser">Players</mat-button-toggle>
   </mat-button-toggle-group>
