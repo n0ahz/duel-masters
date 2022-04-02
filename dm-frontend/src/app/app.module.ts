@@ -30,6 +30,7 @@ import { CoinTossComponent } from './components/games/coin-toss/coin-toss.compon
 import { DuelComponent } from './components/duel/duel.component';
 import { CardInfoComponent } from './components/modals/card-info/card-info.component';
 import { GoogleLoginProvider, SocialLoginModule } from "angularx-social-login";
+import { RulesComponent } from './components/rules/rules.component';
 
 
 const config: SocketIoConfig = {url: 'http://localhost:3000', options: {}};
@@ -45,6 +46,7 @@ const config: SocketIoConfig = {url: 'http://localhost:3000', options: {}};
     CoinTossComponent,
     DuelComponent,
     CardInfoComponent,
+    RulesComponent,
   ],
   entryComponents: [
     CardInfoComponent,

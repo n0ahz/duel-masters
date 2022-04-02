@@ -7,11 +7,13 @@ import { GameAddComponent } from "./components/games/game-add/game-add.component
 import { GameViewComponent } from "./components/games/game-view/game-view.component";
 import { DuelComponent } from "./components/duel/duel.component";
 import { AuthGuard } from "./guards/auth.guard";
+import { RulesComponent } from "./components/rules/rules.component";
 
 
 const routes: Routes = [
   {path: '', redirectTo: 'about', pathMatch: 'full'},
   {path: 'about', component: AboutComponent},
+  {path: 'rules', component: RulesComponent},
   {path: 'games/list', component: GameListComponent, canActivate: [AuthGuard]},
   {path: 'games/add', component: GameAddComponent, canActivate: [AuthGuard]},
   {path: 'games/view/:gameIdentifier', component: GameViewComponent, canActivate: [AuthGuard]},
