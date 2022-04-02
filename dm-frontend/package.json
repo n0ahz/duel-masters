@@ -21,7 +21,7 @@
     "@angular/platform-browser": "~11.2.14",
     "@angular/platform-browser-dynamic": "~11.2.14",
     "@angular/router": "~11.2.14",
-    "angularx-social-login": "^4.1.0",
+    "angularx-social-login": "^3.5.7",
     "lodash": "^4.17.20",
     "ngx-socket-io": "^3.2.0",
     "phaser": "^3.52.0",

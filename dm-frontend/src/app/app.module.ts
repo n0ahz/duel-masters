@@ -29,9 +29,10 @@ import { GameViewComponent } from './components/games/game-view/game-view.compon
 import { CoinTossComponent } from './components/games/coin-toss/coin-toss.component';
 import { DuelComponent } from './components/duel/duel.component';
 import { CardInfoComponent } from './components/modals/card-info/card-info.component';
+import { GoogleLoginProvider, SocialLoginModule } from "angularx-social-login";
 
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: { } };
+const config: SocketIoConfig = {url: 'http://localhost:3000', options: {}};
 
 @NgModule({
   declarations: [
@@ -45,13 +46,14 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: { } };
     DuelComponent,
     CardInfoComponent,
   ],
-  entryComponents:[
+  entryComponents: [
     CardInfoComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    SocialLoginModule,
     SocketIoModule.forRoot(config),
     MatToolbarModule,
     MatButtonModule,
@@ -70,7 +72,22 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: { } };
     MatChipsModule,
     MatDialogModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: true, //keeps the user signed in
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('519801663676-moqibve9j510ppopc8mk8t3cdm72inef.apps.googleusercontent.com'),
+          }
+        ]
+
+      }
+    }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

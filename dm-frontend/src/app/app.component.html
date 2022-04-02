@@ -1,20 +1,32 @@
 <!-- Toolbar -->
 <mat-toolbar color="warn">
-  <img src="../assets/imgs/dm-logo.png" height="100%" alt="Duel Masters" routerLink="/">
+  <img alt="Duel Masters" height="100%" routerLink="/" src="../assets/imgs/dm-logo.png">
 
-  <mat-divider vertical style="height:100%"></mat-divider>
+  <mat-divider style="height:100%" vertical></mat-divider>
 
-  <button mat-raised-button matTooltip="Official Card Game / Trading Card Game" class="menu__button" routerLink="/games/list">
+  <button class="menu__button" mat-raised-button matTooltip="Official Card Game / Trading Card Game"
+          routerLink="/games/list" *ngIf="this.socialUser">
     OCG / TCG
   </button>
 
-
-  <mat-button-toggle-group name="menuItems" aria-label="Menu">
-    <mat-button-toggle value="rules" routerLink="/">Rules</mat-button-toggle>
-    <mat-button-toggle value="cards" routerLink="/">Cards</mat-button-toggle>
-    <mat-button-toggle value="decks" routerLink="/">Decks</mat-button-toggle>
-    <mat-button-toggle value="players" routerLink="/">Players</mat-button-toggle>
+  <mat-button-toggle-group aria-label="Menu" name="menuItems">
+    <mat-button-toggle routerLink="/" value="rules">Rules</mat-button-toggle>
+    <mat-button-toggle routerLink="/" value="cards">Cards</mat-button-toggle>
+    <mat-button-toggle routerLink="/" value="decks" *ngIf="this.socialUser">Decks</mat-button-toggle>
+    <mat-button-toggle routerLink="/" value="players" *ngIf="this.socialUser">Players</mat-button-toggle>
   </mat-button-toggle-group>
+
+  <div style="position: absolute; right: 1em">
+<!--    <mat-icon>person_pin</mat-icon>-->
+    <ng-container *ngIf="this.socialUser">
+      <button class="menu__button">Hello, {{socialUser.name}}!</button>
+      <button class="menu__button">Your email: {{socialUser.email}}</button>
+      <button mat-raised-button (click)="logout()">Logout</button>
+    </ng-container>
+    <ng-container *ngIf="!this.socialUser">
+      <button class="menu__button" mat-raised-button matTooltip="Log In" (click)="loginWithGoogle()">Login</button>
+    </ng-container>
+  </div>
 </mat-toolbar>
 
 <!-- Body -->
