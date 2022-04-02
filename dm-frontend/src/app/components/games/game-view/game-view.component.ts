@@ -32,7 +32,7 @@ export class GameViewComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private socketService: SocketService,
+    public socketService: SocketService,
     private gameService: GameService,
   ) {
   }
