@@ -6,6 +6,7 @@ import * as uuid from 'uuid';
 import { SocketService } from '../../../services/socket.service';
 import { GamesEventsEnum } from '../../../enums/gateway/games-events.enum';
 
+
 @Component({
   selector: 'app-game-add',
   templateUrl: './game-add.component.html',

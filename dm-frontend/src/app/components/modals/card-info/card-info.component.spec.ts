@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CardInfoComponent } from './card-info.component';
 
+
 describe('CardInfoComponent', () => {
   let component: CardInfoComponent;
   let fixture: ComponentFixture<CardInfoComponent>;
@@ -9,8 +10,7 @@ describe('CardInfoComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CardInfoComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

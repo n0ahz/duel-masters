@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { SocketPayloadInterface } from '../interfaces/socket-payload.interface';
 
+
 @Injectable({
   providedIn: 'root',
 })

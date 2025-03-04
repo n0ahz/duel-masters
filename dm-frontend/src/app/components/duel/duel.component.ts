@@ -7,6 +7,7 @@ import { GamesEventsEnum } from '../../enums/gateway/games-events.enum';
 import { Router } from '@angular/router';
 import { GameService } from '../../services/game.service';
 
+
 @Component({
   selector: 'app-duel',
   templateUrl: './duel.component.html',

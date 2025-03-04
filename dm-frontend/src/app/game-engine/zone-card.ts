@@ -9,6 +9,7 @@ import { ZoneTypesEnum } from '../enums/zone-types.enum';
 import { DuelEventsEnum } from '../enums/gateway/duel-events.enum';
 import { ZoneSpacingEnum } from '../enums/zone-spacing.enum';
 
+
 export class ZoneCard implements ZoneCardInterface {
 
   card: Card;

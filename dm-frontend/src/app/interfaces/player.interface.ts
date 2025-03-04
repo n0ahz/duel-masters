@@ -1,5 +1,6 @@
 import { DeckInterface } from './deck.interface';
 
+
 export interface PlayerInterface {
   name: string;
   avatar?: string;

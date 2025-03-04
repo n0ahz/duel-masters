@@ -9,6 +9,7 @@ import { PositionsEnum } from '../enums/positions.enum';
 import { LifeGauge } from './life-gauge';
 import { GAME } from '../constants/game';
 
+
 export class Duelist {
 
   player: Player;

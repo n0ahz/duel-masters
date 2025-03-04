@@ -4,6 +4,7 @@ import { ZoneTypesEnum } from '../enums/zone-types.enum';
 import { ZoneVisibilitiesEnum } from '../enums/zone-visibilities.enum';
 import { ZoneSpacingEnum } from '../enums/zone-spacing.enum';
 
+
 export interface ZoneInterface {
   name: ZonesEnum;
   side?: PlayerSidesEnum;

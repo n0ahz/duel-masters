@@ -1,6 +1,7 @@
 import { PlayerInterface } from '../interfaces/player.interface';
 import { Deck } from './deck';
 
+
 export class Player implements PlayerInterface {
 
   name: string;

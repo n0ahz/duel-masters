@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Card } from '../../../game-engine/card';
 
+
 @Component({
   selector: 'app-card-info',
   templateUrl: './card-info.component.html',

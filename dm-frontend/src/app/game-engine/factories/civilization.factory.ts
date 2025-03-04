@@ -1,6 +1,7 @@
 import { CivilizationsEnum } from '../../enums/civilizations.enum';
 import { CivilizationInterface } from '../../interfaces/civilization.interface';
 
+
 export class CivilizationFactory {
 
   static getInstance(value: CivilizationsEnum): CivilizationInterface {

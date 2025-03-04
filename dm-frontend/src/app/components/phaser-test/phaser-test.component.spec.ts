@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PhaserTestComponent } from './phaser-test.component';
 
+
 describe('PhaserTestComponent', () => {
   let component: PhaserTestComponent;
   let fixture: ComponentFixture<PhaserTestComponent>;
@@ -9,8 +10,7 @@ describe('PhaserTestComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PhaserTestComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

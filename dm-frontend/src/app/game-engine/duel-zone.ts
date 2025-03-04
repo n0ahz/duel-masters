@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import { PositionsEnum } from '../enums/positions.enum';
 import { ZoneSpacingEnum } from '../enums/zone-spacing.enum';
 
+
 export default class DuelZone implements ZoneInterface {
 
   name: ZonesEnum;

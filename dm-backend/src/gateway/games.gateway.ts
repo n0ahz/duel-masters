@@ -87,12 +87,10 @@ export class GamesGateway {
     client.leave(room);
     client.room = '';
     this.users = this.users.filter((user) => user !== client.id);
-    client
-      .to(room)
-      .emit(GamesEventsEnum.USER_INFO, {
-        gameRoom: room,
-        data: { users: this.users },
-      });
+    client.to(room).emit(GamesEventsEnum.USER_INFO, {
+      gameRoom: room,
+      data: { users: this.users },
+    });
     return { msg: msg };
   }
 
@@ -108,24 +106,20 @@ export class GamesGateway {
       if (client.room) {
         const previousRoom = client.room;
         const data = this.gameLeaveHandler(client, previousRoom);
-        client
-          .to(previousRoom)
-          .emit(CommonEventsEnum.MSG_TO_CLIENT, {
-            gameRoom: client.room,
-            data: data,
-          });
+        client.to(previousRoom).emit(CommonEventsEnum.MSG_TO_CLIENT, {
+          gameRoom: client.room,
+          data: data,
+        });
       }
       client.join(gameRoom);
       client.room = gameRoom;
       response.data = { msg: `${client.id} joined game...` };
       client.to(gameRoom).emit(CommonEventsEnum.MSG_TO_CLIENT, response);
       this.users.push(client.id);
-      client
-        .to(gameRoom)
-        .emit(GamesEventsEnum.USER_INFO, {
-          gameRoom: gameRoom,
-          data: { users: this.users },
-        });
+      client.to(gameRoom).emit(GamesEventsEnum.USER_INFO, {
+        gameRoom: gameRoom,
+        data: { users: this.users },
+      });
       return { event: CommonEventsEnum.MSG_TO_CLIENT, data: response };
     }
   }

@@ -1,5 +1,6 @@
 import { GameStatusEnum, GameTypesEnum } from '../enums/games.enum';
 
+
 export interface GameInterface {
   name: string;
   inviter: string;

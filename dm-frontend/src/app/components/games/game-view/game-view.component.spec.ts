@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { GameViewComponent } from './game-view.component';
 
+
 describe('GameViewComponent', () => {
   let component: GameViewComponent;
   let fixture: ComponentFixture<GameViewComponent>;
@@ -9,8 +10,7 @@ describe('GameViewComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [GameViewComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

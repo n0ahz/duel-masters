@@ -5,6 +5,7 @@ import { SocketService } from '../../../services/socket.service';
 import { GameInterface } from '../../../interfaces/game.interface';
 import { CoinTossEventsEnum } from '../../../enums/gateway/coin-toss-events.enum';
 
+
 @Component({
   selector: 'app-coin-toss',
   templateUrl: './coin-toss.component.html',

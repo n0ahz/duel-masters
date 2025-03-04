@@ -3,6 +3,7 @@ import * as Phaser from 'phaser';
 import { GAME } from '../../constants/game';
 import { TestScene } from '../../game-engine/scenes/test.scene';
 
+
 @Component({
   selector: 'app-phaser-test',
   templateUrl: './phaser-test.component.html',

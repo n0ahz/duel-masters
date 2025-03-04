@@ -3,6 +3,7 @@ import { Deck } from '../deck';
 import * as cards from '../test-data/cards';
 import { Duelist } from '../duelist';
 
+
 export class Mock {
 
   inviter: Duelist;

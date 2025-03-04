@@ -33,7 +33,6 @@ export class Card implements CardInterface {
   power?: number;
   powerExtensible?: boolean;
 
-
   constructor(cardDto: CardInterface) {
     this.name = cardDto.name;
     this._civilization = cardDto._civilization;
@@ -69,6 +68,5 @@ export class Card implements CardInterface {
   get set(): SetInterface {
     return SetFactory.getInstance(this._set);
   }
-
 
 }

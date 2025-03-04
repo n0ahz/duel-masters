@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DuelComponent } from './duel.component';
 
+
 describe('DuelComponent', () => {
   let component: DuelComponent;
   let fixture: ComponentFixture<DuelComponent>;
@@ -9,8 +10,7 @@ describe('DuelComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DuelComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

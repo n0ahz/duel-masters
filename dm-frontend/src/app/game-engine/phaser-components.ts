@@ -64,13 +64,11 @@ export class PhaserComponents {
       space: { title: 25, content: 25, action: 15, left: 20, right: 20, top: 20, bottom: 20 },
       align: { actions: 'left' },
       expand: { content: false },
-    })
-      .on('button.over', function (button, groupName, index, pointer, event) {
-        button.getElement('background').setStrokeStyle(1, 0xffffff);
-      })
-      .on('button.out', function (button, groupName, index, pointer, event) {
-        button.getElement('background').setStrokeStyle();
-      }).layout();
+    }).on('button.over', function (button, groupName, index, pointer, event) {
+      button.getElement('background').setStrokeStyle(1, 0xffffff);
+    }).on('button.out', function (button, groupName, index, pointer, event) {
+      button.getElement('background').setStrokeStyle();
+    }).layout();
   }
 
   static getPopupMenu(scene, x, y, items, clickHandler?) {
@@ -90,25 +88,20 @@ export class PhaserComponents {
       },
       easeIn: 500,
       easeOut: 100,
-    })
-      .on('button.over', function (button) {
-        console.log(button);
-        button.getElement('background').setStrokeStyle(1, 0xffffff);
-      })
-      .on('button.out', function (button) {
-        console.log(button);
-        button.getElement('background').setStrokeStyle();
-      })
-      .on('button.click', function (button, index, pointer, event) {
-        console.log(button, index, pointer, event);
-        clickHandler(button, index, pointer, event);
-      })
-      .on('popup.complete', function (subMenu) {
-        console.log('popup.complete');
-      })
-      .on('scaledown.complete', function () {
-        console.log('scaledown.complete');
-      });
+    }).on('button.over', function (button) {
+      console.log(button);
+      button.getElement('background').setStrokeStyle(1, 0xffffff);
+    }).on('button.out', function (button) {
+      console.log(button);
+      button.getElement('background').setStrokeStyle();
+    }).on('button.click', function (button, index, pointer, event) {
+      console.log(button, index, pointer, event);
+      clickHandler(button, index, pointer, event);
+    }).on('popup.complete', function (subMenu) {
+      console.log('popup.complete');
+    }).on('scaledown.complete', function () {
+      console.log('scaledown.complete');
+    });
   }
 
   static getGridTable(scene, x, y, width, height, items) {
@@ -151,30 +144,22 @@ export class PhaserComponents {
         return cellContainer;
       },
       items: items,
-    })
-      .layout();
-    gridTable
-      .on('cell.over', function (cellContainer, cellIndex, pointer) {
-        cellContainer.getElement('background')
-          .setStrokeStyle(2, COLOR_YELLOW)
-          .setDepth(1);
-      }, this)
-      .on('cell.out', function (cellContainer, cellIndex, pointer) {
-        cellContainer.getElement('background')
-          .setStrokeStyle(2, COLOR_LIGHT)
-          .setDepth(0);
-      }, this)
-      .on('cell.click', function (cellContainer, cellIndex, pointer) {
-        // open zone card gallery modal..
-        // var nextCellIndex = cellIndex + 1;
-        // var nextItem = gridTable.items[nextCellIndex];
-        // if (!nextItem) {
-        //   return;
-        // }
-        // nextItem.color = 0xffffff - nextItem.color;
-        // gridTable.updateVisibleCell(nextCellIndex);
+    }).layout();
+    gridTable.on('cell.over', function (cellContainer, cellIndex, pointer) {
+      cellContainer.getElement('background').setStrokeStyle(2, COLOR_YELLOW).setDepth(1);
+    }, this).on('cell.out', function (cellContainer, cellIndex, pointer) {
+      cellContainer.getElement('background').setStrokeStyle(2, COLOR_LIGHT).setDepth(0);
+    }, this).on('cell.click', function (cellContainer, cellIndex, pointer) {
+      // open zone card gallery modal..
+      // var nextCellIndex = cellIndex + 1;
+      // var nextItem = gridTable.items[nextCellIndex];
+      // if (!nextItem) {
+      //   return;
+      // }
+      // nextItem.color = 0xffffff - nextItem.color;
+      // gridTable.updateVisibleCell(nextCellIndex);
 
-      }, this);
+    }, this);
 
     return gridTable;
   }
@@ -206,13 +191,11 @@ export class PhaserComponents {
         item: 3,
       },
       expand: true,
-    })
-      .layout();
+    }).layout();
 
-    buttons
-      .on('button.click', function (button, index, pointer, event) {
-        console.log(`Click button-${button.text}`);
-      })
+    buttons.on('button.click', function (button, index, pointer, event) {
+      console.log(`Click button-${button.text}`);
+    })
     ;
     return buttons;
   }

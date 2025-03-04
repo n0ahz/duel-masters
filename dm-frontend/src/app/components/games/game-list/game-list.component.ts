@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { SocketService } from '../../../services/socket.service';
 import { GamesEventsEnum } from '../../../enums/gateway/games-events.enum';
 
+
 @Component({
   selector: 'app-game-list',
   templateUrl: './game-list.component.html',
