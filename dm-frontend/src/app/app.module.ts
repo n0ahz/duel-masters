@@ -37,61 +37,57 @@ import { CardsComponent } from './components/cards/cards.component';
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PhaserTestComponent,
-    AboutComponent,
-    GameListComponent,
-    GameAddComponent,
-    GameViewComponent,
-    CoinTossComponent,
-    DuelComponent,
-    CardInfoComponent,
-    RulesComponent,
-    CardsComponent,
-  ],
-  entryComponents: [
-    CardInfoComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    SocialLoginModule,
-    SocketIoModule.forRoot(config),
-    MatToolbarModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatButtonToggleModule,
-    MatDividerModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatTableModule,
-    MatExpansionModule,
-    MatGridListModule,
-    MatChipsModule,
-    MatDialogModule,
-  ],
-  providers: [
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: true, //keeps the user signed in
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('519801663676-moqibve9j510ppopc8mk8t3cdm72inef.apps.googleusercontent.com'),
-          },
-        ],
-
-      },
-    },
-  ],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        PhaserTestComponent,
+        AboutComponent,
+        GameListComponent,
+        GameAddComponent,
+        GameViewComponent,
+        CoinTossComponent,
+        DuelComponent,
+        CardInfoComponent,
+        RulesComponent,
+        CardsComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        SocialLoginModule,
+        SocketIoModule.forRoot(config),
+        MatToolbarModule,
+        MatButtonModule,
+        MatTooltipModule,
+        MatButtonToggleModule,
+        MatDividerModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatTableModule,
+        MatExpansionModule,
+        MatGridListModule,
+        MatChipsModule,
+        MatDialogModule,
+    ],
+    providers: [
+        {
+            provide: 'SocialAuthServiceConfig',
+            useValue: {
+                autoLogin: true,
+                providers: [
+                    {
+                        id: GoogleLoginProvider.PROVIDER_ID,
+                        provider: new GoogleLoginProvider('519801663676-moqibve9j510ppopc8mk8t3cdm72inef.apps.googleusercontent.com'),
+                    },
+                ],
+            },
+        },
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
