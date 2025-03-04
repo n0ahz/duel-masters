@@ -8,9 +8,9 @@ describe('CoinTossComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CoinTossComponent ]
+      declarations: [CoinTossComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

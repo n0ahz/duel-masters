@@ -5,7 +5,8 @@
       <span class="card__cost">{{ card.cost }}</span>
     </mat-card-title>
     <mat-card-subtitle *ngIf="card.race" style="font-size: larger">{{ card.race }}</mat-card-subtitle>
-    <mat-card-subtitle [ngClass]="'bg--' + card.civilization.name.toLowerCase()">{{ card.civilization.name }}</mat-card-subtitle>
+    <mat-card-subtitle [ngClass]="'bg--' + card.civilization.name.toLowerCase()">{{ card.civilization.name }}
+    </mat-card-subtitle>
     <mat-card-subtitle style="font-size: xx-small">{{ card.type }}</mat-card-subtitle>
     <mat-card-content>
       <div>{{ card.cardText }}</div>

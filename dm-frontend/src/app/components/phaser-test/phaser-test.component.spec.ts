@@ -8,9 +8,9 @@ describe('PhaserTestComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PhaserTestComponent ]
+      declarations: [PhaserTestComponent],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

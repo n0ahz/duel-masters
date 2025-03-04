@@ -1,16 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import * as Phaser from "phaser";
-import { DuelService } from "../../services/duel.service";
-import { GameInterface } from "../../interfaces/game.interface";
-import { SocketService } from "../../services/socket.service";
-import { GamesEventsEnum } from "../../enums/gateway/games-events.enum";
-import { Router } from "@angular/router";
-import { GameService } from "../../services/game.service";
+import * as Phaser from 'phaser';
+import { DuelService } from '../../services/duel.service';
+import { GameInterface } from '../../interfaces/game.interface';
+import { SocketService } from '../../services/socket.service';
+import { GamesEventsEnum } from '../../enums/gateway/games-events.enum';
+import { Router } from '@angular/router';
+import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-duel',
   templateUrl: './duel.component.html',
-  styleUrls: ['./duel.component.scss']
+  styleUrls: ['./duel.component.scss'],
 })
 export class DuelComponent implements OnInit, OnDestroy {
 
@@ -26,14 +26,18 @@ export class DuelComponent implements OnInit, OnDestroy {
     this.isFullScreen = false;
   }
 
-  get game():GameInterface {
+  get game(): GameInterface {
     return this.gameService.game;
   }
 
   ngOnInit() {
     // if (this.game.gameIdentifier) {
-      this.phaserGame = this.duelService.createGame();
-      this.phaserGame.scene.start('duel', {socketService: this.socketService, gameService: this.gameService, duelService: this.duelService});
+    this.phaserGame = this.duelService.createGame();
+    this.phaserGame.scene.start('duel', {
+      socketService: this.socketService,
+      gameService: this.gameService,
+      duelService: this.duelService,
+    });
     // } else {
     //   this.endGame();
     // }
@@ -45,13 +49,13 @@ export class DuelComponent implements OnInit, OnDestroy {
     });
   }
 
-  goFullScreen(){
+  goFullScreen() {
     let elem = document.documentElement;
     let methodToBeInvoked = elem['requestFullscreen'] || elem['webkitRequestFullScreen'] || elem['mozRequestFullscreen'] || elem['msRequestFullscreen'];
     if (methodToBeInvoked) methodToBeInvoked.call(elem);
   }
 
-  exitFullScreen(){
+  exitFullScreen() {
     let elem = document;
     let methodToBeInvoked = elem['exitFullscreen'] || elem['webkitExitFullscreen'] || elem['mozCancelFullScreen'] || elem['msExitFullscreen'];
     if (methodToBeInvoked) methodToBeInvoked.call(elem);

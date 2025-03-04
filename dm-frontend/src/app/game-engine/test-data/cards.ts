@@ -1,9 +1,9 @@
-import { Card } from "../card";
-import { RacesEnum } from "../../enums/races.enum";
-import { CivilizationsEnum } from "../../enums/civilizations.enum";
-import { RaritiesEnum } from "../../enums/rarities.enum";
-import { SetsEnum } from "../../enums/sets.enum";
-import { CardTypesEnum } from "../../enums/card-types.enum";
+import { Card } from '../card';
+import { RacesEnum } from '../../enums/races.enum';
+import { CivilizationsEnum } from '../../enums/civilizations.enum';
+import { RaritiesEnum } from '../../enums/rarities.enum';
+import { SetsEnum } from '../../enums/sets.enum';
+import { CardTypesEnum } from '../../enums/card-types.enum';
 
 
 export const chilias = () => {
@@ -22,8 +22,8 @@ export const chilias = () => {
       uid: 'DM-01/1/110',
       race: RacesEnum.LIGHT_BRINGER,
       power: 2500,
-    }
-  )
+    },
+  );
 };
 
 export const diaNork = () => {
@@ -42,8 +42,8 @@ export const diaNork = () => {
       uid: 'DM-01/2/110',
       race: RacesEnum.GUARDIAN,
       power: 5000,
-    }
-  )
+    },
+  );
 };
 
 export const emeraldGrass = () => {
@@ -62,8 +62,8 @@ export const emeraldGrass = () => {
       uid: 'DM-01/3/110',
       race: RacesEnum.STARLIGHT_TREE,
       power: 3000,
-    }
-  )
+    },
+  );
 };
 
 
@@ -83,8 +83,8 @@ export const laUraGiga = () => {
       uid: 'DM-01/9/110',
       race: RacesEnum.GUARDIAN,
       power: 2000,
-    }
-  )
+    },
+  );
 };
 
 export const reusol = () => {
@@ -103,8 +103,8 @@ export const reusol = () => {
       uid: 'DM-01/16/110',
       race: RacesEnum.LIGHT_BRINGER,
       power: 2000,
-    }
-  )
+    },
+  );
 };
 
 export const senatineJadeTree = () => {
@@ -123,8 +123,8 @@ export const senatineJadeTree = () => {
       uid: 'DM-01/18/110',
       race: RacesEnum.STARLIGHT_TREE,
       power: 4000,
-    }
-  )
+    },
+  );
 };
 
 export const szubsKin = () => {
@@ -143,8 +143,8 @@ export const szubsKin = () => {
       uid: 'DM-01/21/110',
       race: RacesEnum.GUARDIAN,
       power: 6000,
-    }
-  )
+    },
+  );
 };
 
 export const bolshack = () => {

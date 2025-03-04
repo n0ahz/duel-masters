@@ -1,13 +1,13 @@
-import { Player } from "./player";
-import { PlayerSidesEnum } from "../enums/player-sides.enum";
-import { DuelScene } from "./scenes/duel.scene";
-import { CommonEventsEnum } from "../enums/gateway/common-events.enum";
-import { RolesEnum } from "../enums/roles.enum";
-import { ZonesEnum } from "../enums/zones.enum";
-import { ZoneCard } from "./zone-card";
-import { PositionsEnum } from "../enums/positions.enum";
-import { LifeGauge } from "./life-gauge";
-import { GAME } from "../constants/game";
+import { Player } from './player';
+import { PlayerSidesEnum } from '../enums/player-sides.enum';
+import { DuelScene } from './scenes/duel.scene';
+import { CommonEventsEnum } from '../enums/gateway/common-events.enum';
+import { RolesEnum } from '../enums/roles.enum';
+import { ZonesEnum } from '../enums/zones.enum';
+import { ZoneCard } from './zone-card';
+import { PositionsEnum } from '../enums/positions.enum';
+import { LifeGauge } from './life-gauge';
+import { GAME } from '../constants/game';
 
 export class Duelist {
 
@@ -22,12 +22,12 @@ export class Duelist {
     this.player = player;
   }
 
-  prepareDuelDeck(){
+  prepareDuelDeck() {
     this.player.shuffleDeck();
-    this.duelDeck = this.player.primaryDeck.cards.map(card => new ZoneCard({card: card, ownerId: this.socketId})); // ToDo: change from name to id or something
+    this.duelDeck = this.player.primaryDeck.cards.map(card => new ZoneCard({ card: card, ownerId: this.socketId })); // ToDo: change from name to id or something
   }
 
-  startGame(scene: DuelScene){
+  startGame(scene: DuelScene) {
     this.lifeGauge = new LifeGauge(scene, this.side);
 
     const deckZone = scene.duelZones.get(`${this.player.name}-${ZonesEnum.DECK}`);
@@ -52,21 +52,21 @@ export class Duelist {
           msg = 'Challenger: Bring it on...!';
         }
         if (msg) {
-          scene.socketService.emitTo(scene.gameService.game.gameIdentifier, CommonEventsEnum.MSG_TO_SERVER, {msg: msg});
+          scene.socketService.emitTo(scene.gameService.game.gameIdentifier, CommonEventsEnum.MSG_TO_SERVER, { msg: msg });
         }
       }
 
-      for (let i=0; i<5; i++){
+      for (let i = 0; i < 5; i++) {
         setTimeout(() => {
           deckZone.transferCards(deckZone.takeCards(1, PositionsEnum.BOTTOM), shieldZone);
-        }, 100*i);
+        }, 100 * i);
       }
 
       setTimeout(() => {
-        for (let i=0; i<5; i++){
+        for (let i = 0; i < 5; i++) {
           setTimeout(() => {
             deckZone.transferCards(deckZone.takeCards(1, PositionsEnum.BOTTOM), handZone);
-          }, 100*i);
+          }, 100 * i);
         }
 
       }, 2000);

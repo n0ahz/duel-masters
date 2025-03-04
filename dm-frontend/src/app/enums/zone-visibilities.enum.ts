@@ -1,6 +1,6 @@
 export enum ZoneVisibilitiesEnum {
-  OFF='OFF',
-  PRIVATE='PRIVATE',
-  PROTECTED='PROTECTED',
-  PUBLIC='PUBLIC',
+  OFF = 'OFF',
+  PRIVATE = 'PRIVATE',
+  PROTECTED = 'PROTECTED',
+  PUBLIC = 'PUBLIC',
 }

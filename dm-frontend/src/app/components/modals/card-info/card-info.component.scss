@@ -64,24 +64,31 @@ mat-card {
   &--light {
     background-color: #fff949;
   }
+
   &--water {
     background-color: lightskyblue;
   }
+
   &--darkness {
     background-color: #d3c4bd;
   }
+
   &--fire {
     background-color: #ff6c4a;
   }
+
   &--nature {
     background-color: #6c8b11;
   }
+
   &--rainbow {
-    background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
+    background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
   }
+
   &--zero {
     background-color: white;
   }
+
   &--jokers {
     background-color: white;
   }

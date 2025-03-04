@@ -1,4 +1,4 @@
 export enum CoinSidesEnum {
-  HEADS='heads',
-  TAILS='tails',
+  HEADS = 'heads',
+  TAILS = 'tails',
 }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from "rxjs";
-import { GameInterface } from "../interfaces/game.interface";
-import { GamesEventsEnum } from "../enums/gateway/games-events.enum";
-import { SocketService } from "./socket.service";
+import { BehaviorSubject } from 'rxjs';
+import { GameInterface } from '../interfaces/game.interface';
+import { GamesEventsEnum } from '../enums/gateway/games-events.enum';
+import { SocketService } from './socket.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GameService {
 

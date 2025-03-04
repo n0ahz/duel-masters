@@ -8,9 +8,7 @@ import { DuelGateway } from './gateway/duel.gateway';
 
 @Module({
   imports: [],
-  controllers: [
-    AppController,
-  ],
+  controllers: [AppController],
   providers: [
     AppService,
     MainGateway,

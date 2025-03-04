@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { CoinSidesEnum } from "../../../enums/coin-sides.enum";
-import { CoinTossResultInterface } from "../../../interfaces/coin-toss-result.interface";
-import { SocketService } from "../../../services/socket.service";
-import { GameInterface } from "../../../interfaces/game.interface";
-import { CoinTossEventsEnum } from "../../../enums/gateway/coin-toss-events.enum";
+import { CoinSidesEnum } from '../../../enums/coin-sides.enum';
+import { CoinTossResultInterface } from '../../../interfaces/coin-toss-result.interface';
+import { SocketService } from '../../../services/socket.service';
+import { GameInterface } from '../../../interfaces/game.interface';
+import { CoinTossEventsEnum } from '../../../enums/gateway/coin-toss-events.enum';
 
 @Component({
   selector: 'app-coin-toss',
   templateUrl: './coin-toss.component.html',
-  styleUrls: ['./coin-toss.component.scss']
+  styleUrls: ['./coin-toss.component.scss'],
 })
 export class CoinTossComponent implements OnInit, OnDestroy {
 
@@ -22,7 +22,8 @@ export class CoinTossComponent implements OnInit, OnDestroy {
 
   constructor(
     private socketService: SocketService,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.coinClass = null;
@@ -36,20 +37,19 @@ export class CoinTossComponent implements OnInit, OnDestroy {
   startFlip() {
     const flipResult = Math.random();
     this.disabled = true;
-    this.socketService.emitTo(this.game.gameIdentifier, CoinTossEventsEnum.COIN_FLIPPED, {flipResult: flipResult});
+    this.socketService.emitTo(this.game.gameIdentifier, CoinTossEventsEnum.COIN_FLIPPED, { flipResult });
   }
 
   flip(flipResult: number, flipper: string) {
     this.coinClass = null;
     setTimeout(() => {
-      if(flipResult <= 0.5){
+      if (flipResult <= 0.5) {
         this.coinClass = CoinSidesEnum.HEADS;
-      }
-      else{
+      } else {
         this.coinClass = CoinSidesEnum.TAILS;
       }
-      this.publishResult = setTimeout(()=>{
-        this.won.emit({won: this.coinClass === this.selectedSide, flipper: flipper});
+      this.publishResult = setTimeout(() => {
+        this.won.emit({ won: this.coinClass === this.selectedSide, flipper });
       }, this.flipTimer);
     }, 100);
   }

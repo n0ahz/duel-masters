@@ -6,57 +6,57 @@
   </mat-card-title>
   <mat-card-content>
 
-  <table mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-    <ng-container matColumnDef="createdAt">
-      <th mat-header-cell *matHeaderCellDef> Created At </th>
-      <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
-    </ng-container>
-    <ng-container matColumnDef="gameType">
-      <th mat-header-cell *matHeaderCellDef> Type </th>
-      <td mat-cell *matCellDef="let element"> {{element.gameType}} </td>
-    </ng-container>
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-    </ng-container>
-    <ng-container matColumnDef="inviter">
-      <th mat-header-cell *matHeaderCellDef> Inviter </th>
-      <td mat-cell *matCellDef="let element"> {{element.inviter}} </td>
-    </ng-container>
-    <ng-container matColumnDef="challenger">
-      <th mat-header-cell *matHeaderCellDef> Challenger </th>
-      <td mat-cell *matCellDef="let element"> {{element.challenger}} </td>
-    </ng-container>
-    <ng-container matColumnDef="gameIdentifier">
-      <th mat-header-cell *matHeaderCellDef> Game ID </th>
-      <td mat-cell *matCellDef="let element"> {{element.gameIdentifier}} </td>
-    </ng-container>
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name</th>
+        <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef> Created At</th>
+        <td mat-cell *matCellDef="let element"> {{ element.createdAt }}</td>
+      </ng-container>
+      <ng-container matColumnDef="gameType">
+        <th mat-header-cell *matHeaderCellDef> Type</th>
+        <td mat-cell *matCellDef="let element"> {{ element.gameType }}</td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status</th>
+        <td mat-cell *matCellDef="let element"> {{ element.status }}</td>
+      </ng-container>
+      <ng-container matColumnDef="inviter">
+        <th mat-header-cell *matHeaderCellDef> Inviter</th>
+        <td mat-cell *matCellDef="let element"> {{ element.inviter }}</td>
+      </ng-container>
+      <ng-container matColumnDef="challenger">
+        <th mat-header-cell *matHeaderCellDef> Challenger</th>
+        <td mat-cell *matCellDef="let element"> {{ element.challenger }}</td>
+      </ng-container>
+      <ng-container matColumnDef="gameIdentifier">
+        <th mat-header-cell *matHeaderCellDef> Game ID</th>
+        <td mat-cell *matCellDef="let element"> {{ element.gameIdentifier }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="join">
-      <th mat-header-cell *matHeaderCellDef> Join </th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-icon-button color="primary" (click)="redirectToDetails(element)">
-          <mat-icon class="mat-18">videogame_asset</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="join">
+        <th mat-header-cell *matHeaderCellDef> Join</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" (click)="redirectToDetails(element)">
+            <mat-icon class="mat-18">videogame_asset</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="delete">
-      <th mat-header-cell *matHeaderCellDef> Delete </th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-icon-button color="warn" *ngIf="enableDelete(element)" (click)="redirectToDelete(element)">
-          <mat-icon class="mat-18">delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef> Delete</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="warn" *ngIf="enableDelete(element)" (click)="redirectToDelete(element)">
+            <mat-icon class="mat-18">delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
 
 
   </mat-card-content>

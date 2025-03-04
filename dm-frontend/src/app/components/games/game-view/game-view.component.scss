@@ -1,9 +1,11 @@
 mat-expansion-panel {
   //margin: 1em auto;
   padding: 0;
+
   mat-expansion-panel-header {
     background-color: bisque;
   }
+
   .mat-expansion-panel-body {
     padding: 0;
   }
@@ -23,9 +25,11 @@ mat-expansion-panel {
     //border-radius: 1em;
   }
 }
+
 .gamelogs {
   overflow: scroll !important;
 }
+
 .gamelogs .mat-figure {
   align-items: baseline !important;
   justify-content: left !important;
@@ -34,6 +38,7 @@ mat-expansion-panel {
     list-style-type: '>> ';
   }
 }
+
 .commentInput {
   padding: 1em;
   width: 100%;

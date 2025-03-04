@@ -1,4 +1,4 @@
-import { GameStatusEnum, GameTypesEnum } from "../enums/games.enum";
+import { GameStatusEnum, GameTypesEnum } from '../enums/games.enum';
 
 export interface GameInterface {
   name: string;

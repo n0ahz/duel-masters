@@ -1,14 +1,14 @@
-import { ZoneInterface } from "../interfaces/zone.interface";
-import { ZonesEnum } from "../enums/zones.enum";
-import { PlayerSidesEnum } from "../enums/player-sides.enum";
-import { ZoneTypesEnum } from "../enums/zone-types.enum";
-import { ZoneVisibilitiesEnum } from "../enums/zone-visibilities.enum";
-import { ZoneCard } from "./zone-card";
-import { DuelScene } from "./scenes/duel.scene";
-import * as Phaser from "phaser";
+import { ZoneInterface } from '../interfaces/zone.interface';
+import { ZonesEnum } from '../enums/zones.enum';
+import { PlayerSidesEnum } from '../enums/player-sides.enum';
+import { ZoneTypesEnum } from '../enums/zone-types.enum';
+import { ZoneVisibilitiesEnum } from '../enums/zone-visibilities.enum';
+import { ZoneCard } from './zone-card';
+import { DuelScene } from './scenes/duel.scene';
+import * as Phaser from 'phaser';
 import * as _ from 'lodash';
-import { PositionsEnum } from "../enums/positions.enum";
-import { ZoneSpacingEnum } from "../enums/zone-spacing.enum";
+import { PositionsEnum } from '../enums/positions.enum';
+import { ZoneSpacingEnum } from '../enums/zone-spacing.enum';
 
 export default class DuelZone implements ZoneInterface {
 
@@ -97,8 +97,8 @@ export default class DuelZone implements ZoneInterface {
         let middleIndex = 0;
         for (let i = 0; i < count; i++) {
           middleIndex = _.floor(this.cards.length / 2);
-          if (this.cards[ middleIndex ] !== undefined) {
-            cards.push(this.cards[ middleIndex ]);
+          if (this.cards[middleIndex] !== undefined) {
+            cards.push(this.cards[middleIndex]);
           }
         }
         break;
@@ -125,7 +125,7 @@ export default class DuelZone implements ZoneInterface {
     this.cards = [];
   }
 
-  switchCardSpacingType(){
+  switchCardSpacingType() {
     if (this.canSwitchCardSpacing) {
       if (this.cardsRendered >= 11) {
         this.zoneCardSpacing = ZoneSpacingEnum.EVEN;
@@ -170,6 +170,11 @@ export default class DuelZone implements ZoneInterface {
     });
     this.outline = this.scene.add.graphics();
     this.outline.lineStyle(1, 0xBFFF00);
-    this.outline.strokeRoundedRect(this.dropArea.x - this.dropArea.input.hitArea.width / 2, this.dropArea.y - this.dropArea.input.hitArea.height / 2, this.dropArea.input.hitArea.width, this.dropArea.input.hitArea.height, {tl: 5, tr: 5, bl: 5, br: 5});
+    this.outline.strokeRoundedRect(this.dropArea.x - this.dropArea.input.hitArea.width / 2, this.dropArea.y - this.dropArea.input.hitArea.height / 2, this.dropArea.input.hitArea.width, this.dropArea.input.hitArea.height, {
+      tl: 5,
+      tr: 5,
+      bl: 5,
+      br: 5,
+    });
   }
 }

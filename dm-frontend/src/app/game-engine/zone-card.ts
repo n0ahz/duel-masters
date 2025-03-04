@@ -1,13 +1,13 @@
-import { ZoneCardInterface } from "../interfaces/zone-card.interface";
-import { Card } from "./card";
-import * as Phaser from "phaser";
-import DuelZone from "./duel-zone";
-import { CARD, GAME } from "../constants/game";
-import { PlayerSidesEnum } from "../enums/player-sides.enum";
-import { ZoneVisibilitiesEnum } from "../enums/zone-visibilities.enum";
-import { ZoneTypesEnum } from "../enums/zone-types.enum";
-import { DuelEventsEnum } from "../enums/gateway/duel-events.enum";
-import { ZoneSpacingEnum } from "../enums/zone-spacing.enum";
+import { ZoneCardInterface } from '../interfaces/zone-card.interface';
+import { Card } from './card';
+import * as Phaser from 'phaser';
+import DuelZone from './duel-zone';
+import { CARD, GAME } from '../constants/game';
+import { PlayerSidesEnum } from '../enums/player-sides.enum';
+import { ZoneVisibilitiesEnum } from '../enums/zone-visibilities.enum';
+import { ZoneTypesEnum } from '../enums/zone-types.enum';
+import { DuelEventsEnum } from '../enums/gateway/duel-events.enum';
+import { ZoneSpacingEnum } from '../enums/zone-spacing.enum';
 
 export class ZoneCard implements ZoneCardInterface {
 
@@ -38,8 +38,8 @@ export class ZoneCard implements ZoneCardInterface {
         this.positionAllCards(zone);
       } else {
         if (this.ownerId !== zone.scene.socketService.getCurrentSocketId()) {
-          const x = GAME.WORLD.WIDTH/2 + (GAME.WORLD.WIDTH/2 - this.cardImg.x);
-          const y = GAME.WORLD.HEIGHT/2 + (GAME.WORLD.HEIGHT/2 - this.cardImg.y);
+          const x = GAME.WORLD.WIDTH / 2 + (GAME.WORLD.WIDTH / 2 - this.cardImg.x);
+          const y = GAME.WORLD.HEIGHT / 2 + (GAME.WORLD.HEIGHT / 2 - this.cardImg.y);
           this.cardImg.setX(x);
           this.cardImg.setY(y);
         }
@@ -61,7 +61,7 @@ export class ZoneCard implements ZoneCardInterface {
       this.cardImg.off('dragstart').on('dragstart', function (pointer, dragX, dragY) {
         zone.scene.children.bringToTop(this);
         // change image size to smaller for hand zone
-        if (zone.name === "Hand") {
+        if (zone.name === 'Hand') {
           this.displayWidth /= factor;
           this.displayHeight /= factor;
         }
@@ -71,11 +71,11 @@ export class ZoneCard implements ZoneCardInterface {
           self.negateCardDragDropEffect(this, zone, factor);
         }
       });
-      this.cardImg.off('drop').on('drop', function (pointer, targetDropZone){
+      this.cardImg.off('drop').on('drop', function (pointer, targetDropZone) {
         const targetZone = targetDropZone.data.values.zone;
         if (targetZone !== undefined && targetZone.canPutCards && zone.canDrawCards && (!targetZone.side || targetZone.side === zone.side)) {
           if (zone.uid !== targetZone.uid || zone.side === undefined) {
-            const data = {zoneCard: self, fromZone: zone.uid, toZone: targetZone.uid};
+            const data = { zoneCard: self, fromZone: zone.uid, toZone: targetZone.uid };
             if (!targetZone.side) {
               data['x'] = this.x;
               data['y'] = this.y;
@@ -92,7 +92,10 @@ export class ZoneCard implements ZoneCardInterface {
         if (pointer.rightButtonDown()) {
           if (pointer.getDuration() < 500) {
             if (zone.cardsCanTap) {
-              zone.scene.socketService.emitTo(zone.scene.gameService.game.gameIdentifier, DuelEventsEnum.TAP_UNTAP_CARD, {zoneCardId: self.uid, zoneId: zone.uid});
+              zone.scene.socketService.emitTo(zone.scene.gameService.game.gameIdentifier, DuelEventsEnum.TAP_UNTAP_CARD, {
+                zoneCardId: self.uid,
+                zoneId: zone.uid,
+              });
             }
           }
         } else {
@@ -148,7 +151,7 @@ export class ZoneCard implements ZoneCardInterface {
   negateCardDragDropEffect(cardImg: Phaser.GameObjects.Image, zone: DuelZone, factor: number) {
     cardImg.x = cardImg.input.dragStartX;
     cardImg.y = cardImg.input.dragStartY;
-    if (zone.name === "Hand") {
+    if (zone.name === 'Hand') {
       cardImg.displayWidth *= factor;
       cardImg.displayHeight *= factor;
     }
@@ -159,7 +162,7 @@ export class ZoneCard implements ZoneCardInterface {
     let rotation = 0;
     let objAngle = Phaser.Math.DegToRad(this.cardImg.angle).toFixed(2);
     switch (objAngle) {
-      case "0.00":
+      case '0.00':
         rotation = Phaser.Math.DegToRad(90);
         isTapped = true;
         break;

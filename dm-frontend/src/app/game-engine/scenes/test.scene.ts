@@ -1,4 +1,4 @@
-import * as Phaser from "phaser";
+import * as Phaser from 'phaser';
 
 export class TestScene extends Phaser.Scene {
   green: any;
@@ -21,7 +21,7 @@ export class TestScene extends Phaser.Scene {
   }
 
   create() {
-    this.bg = this.add.image(1280/2, 960/2, 'bg').setAlpha(0.5,0.5,0.5,0.5);
+    this.bg = this.add.image(1280 / 2, 960 / 2, 'bg').setAlpha(0.5, 0.5, 0.5, 0.5);
     this.blue = this.physics.add.image(100, 100, 'blueBox').setCollideWorldBounds(true);
     this.green = this.physics.add.image(300, 340, 'greenBox').setCollideWorldBounds(true);
 

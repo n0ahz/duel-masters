@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import * as Phaser from "phaser";
-import { DuelScene } from "../game-engine/scenes/duel.scene";
-import { GAME } from "../constants/game";
-import { MatDialog } from "@angular/material/dialog";
-import { CardInfoComponent } from "../components/modals/card-info/card-info.component";
-import { Card } from "../game-engine/card";
+import * as Phaser from 'phaser';
+import { DuelScene } from '../game-engine/scenes/duel.scene';
+import { GAME } from '../constants/game';
+import { MatDialog } from '@angular/material/dialog';
+import { CardInfoComponent } from '../components/modals/card-info/card-info.component';
+import { Card } from '../game-engine/card';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DuelService {
 
@@ -31,7 +31,7 @@ export class DuelService {
       scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-      }
+      },
     };
   }
 

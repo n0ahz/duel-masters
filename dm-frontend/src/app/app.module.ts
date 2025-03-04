@@ -6,35 +6,35 @@ import { AppComponent } from './app.component';
 import { PhaserTestComponent } from './components/phaser-test/phaser-test.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatButtonModule } from "@angular/material/button";
-import { MatTooltipModule } from "@angular/material/tooltip";
-import { MatButtonToggleModule } from "@angular/material/button-toggle";
-import { MatDividerModule } from "@angular/material/divider";
-import { MatCardModule } from "@angular/material/card";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatIconModule } from "@angular/material/icon";
-import { MatSelectModule } from "@angular/material/select";
-import { MatOptionModule } from "@angular/material/core";
-import { MatTableModule } from "@angular/material/table";
-import { MatExpansionModule } from "@angular/material/expansion";
-import { MatChipsModule } from "@angular/material/chips";
-import { MatGridListModule } from "@angular/material/grid-list";
-import { MatDialogModule } from "@angular/material/dialog";
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { MatTableModule } from '@angular/material/table';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AboutComponent } from './components/about/about.component';
-import { GameListComponent } from "./components/games/game-list/game-list.component";
-import { GameAddComponent } from "./components/games/game-add/game-add.component";
+import { GameListComponent } from './components/games/game-list/game-list.component';
+import { GameAddComponent } from './components/games/game-add/game-add.component';
 import { GameViewComponent } from './components/games/game-view/game-view.component';
 import { CoinTossComponent } from './components/games/coin-toss/coin-toss.component';
 import { DuelComponent } from './components/duel/duel.component';
 import { CardInfoComponent } from './components/modals/card-info/card-info.component';
-import { GoogleLoginProvider, SocialLoginModule } from "angularx-social-login";
+import { GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { RulesComponent } from './components/rules/rules.component';
 import { CardsComponent } from './components/cards/cards.component';
 
 
-const config: SocketIoConfig = {url: 'http://localhost:3000', options: {}};
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
   declarations: [
@@ -85,13 +85,13 @@ const config: SocketIoConfig = {url: 'http://localhost:3000', options: {}};
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider('519801663676-moqibve9j510ppopc8mk8t3cdm72inef.apps.googleusercontent.com'),
-          }
-        ]
+          },
+        ],
 
-      }
-    }
+      },
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
 }

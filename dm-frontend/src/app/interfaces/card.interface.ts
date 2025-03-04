@@ -1,7 +1,7 @@
-import { CivilizationsEnum } from "../enums/civilizations.enum";
-import { RaritiesEnum } from "../enums/rarities.enum";
-import { SetsEnum } from "../enums/sets.enum";
-import { RacesEnum } from "../enums/races.enum";
+import { CivilizationsEnum } from '../enums/civilizations.enum';
+import { RaritiesEnum } from '../enums/rarities.enum';
+import { SetsEnum } from '../enums/sets.enum';
+import { RacesEnum } from '../enums/races.enum';
 
 
 export interface CardInterface {

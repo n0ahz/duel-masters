@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatTableDataSource } from "@angular/material/table";
-import { GameInterface } from "../../../interfaces/game.interface";
-import { Router } from "@angular/router";
-import { SocketService } from "../../../services/socket.service";
-import { GamesEventsEnum } from "../../../enums/gateway/games-events.enum";
+import { MatTableDataSource } from '@angular/material/table';
+import { GameInterface } from '../../../interfaces/game.interface';
+import { Router } from '@angular/router';
+import { SocketService } from '../../../services/socket.service';
+import { GamesEventsEnum } from '../../../enums/gateway/games-events.enum';
 
 @Component({
   selector: 'app-game-list',
   templateUrl: './game-list.component.html',
-  styleUrls: ['./game-list.component.scss']
+  styleUrls: ['./game-list.component.scss'],
 })
 export class GameListComponent implements OnInit, OnDestroy {
 

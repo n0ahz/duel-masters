@@ -1,4 +1,4 @@
-import { DeckInterface } from "./deck.interface";
+import { DeckInterface } from './deck.interface';
 
 export interface PlayerInterface {
   name: string;

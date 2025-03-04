@@ -8,17 +8,20 @@
   <mat-grid-list cols="4" rowHeight="6:1" *ngIf="game">
     <mat-grid-tile>
       <mat-chip-list>
-        Name: <mat-chip>{{ game.name }}</mat-chip>
+        Name:
+        <mat-chip>{{ game.name }}</mat-chip>
       </mat-chip-list>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-chip-list>
-        Inviter: <mat-chip>{{ game.inviter }}</mat-chip>
+        Inviter:
+        <mat-chip>{{ game.inviter }}</mat-chip>
       </mat-chip-list>
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-chip-list>
-        Game Type: <mat-chip color="primary" selected>{{ game.gameType }}</mat-chip>
+        Game Type:
+        <mat-chip color="primary" selected>{{ game.gameType }}</mat-chip>
       </mat-chip-list>
     </mat-grid-tile>
 
@@ -31,7 +34,8 @@
 
     <mat-grid-tile>
       <mat-chip-list>
-        Created: <mat-chip>{{ game.createdAt }}</mat-chip>
+        Created:
+        <mat-chip>{{ game.createdAt }}</mat-chip>
       </mat-chip-list>
     </mat-grid-tile>
     <mat-grid-tile>
@@ -48,18 +52,21 @@
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-chip-list>
-        Status: <mat-chip color="accent" selected>{{ game.status }}</mat-chip>
+        Status:
+        <mat-chip color="accent" selected>{{ game.status }}</mat-chip>
       </mat-chip-list>
     </mat-grid-tile>
 
     <mat-grid-tile *ngIf="activeUsers.length > 0" title="Current users here">
       <mat-chip-list>
-        <mat-chip class="users-chip" *ngFor="let user of activeUsers">{{ user === this.socketService.getCurrentSocketId() ? 'You' : (user.substr(0, 6) + '***') }}</mat-chip>
+        <mat-chip class="users-chip"
+                  *ngFor="let user of activeUsers">{{ user === this.socketService.getCurrentSocketId() ? 'You' : (user.substr(0, 6) + '***') }}
+        </mat-chip>
       </mat-chip-list>
     </mat-grid-tile>
   </mat-grid-list>
 
-</mat-expansion-panel >
+</mat-expansion-panel>
 
 <mat-expansion-panel expanded="true">
   <mat-expansion-panel-header>
@@ -77,9 +84,10 @@
 
     <mat-grid-tile rowspan="1">
       <mat-form-field>
-        <mat-select placeholder = "Coin Side" [disabled]="coinTossDisabled" #coinSide (selectionChange)="changeCoinSideSelection(coinSide.value)" [value]="opponentSelectedCoinSide">
-          <mat-option value = "heads">Heads</mat-option>
-          <mat-option value = "tails">Tails</mat-option>
+        <mat-select placeholder="Coin Side" [disabled]="coinTossDisabled" #coinSide
+                    (selectionChange)="changeCoinSideSelection(coinSide.value)" [value]="opponentSelectedCoinSide">
+          <mat-option value="heads">Heads</mat-option>
+          <mat-option value="tails">Tails</mat-option>
         </mat-select>
       </mat-form-field>
       &nbsp;
@@ -87,24 +95,29 @@
       &nbsp;
       <ng-container *ngIf="game">
         <mat-form-field *ngIf="!duelDecisionDisabled && !game.firstToGo && isPlayer()">
-          <mat-select placeholder = "1st to go Duelist" [disabled]="!this.game?.challenger || duelDecisionDisabled" #duelDecision (selectionChange)="changeDuelDecisionSelection(duelDecision.value)" [value]="duelDecisionValue">
+          <mat-select placeholder="1st to go Duelist" [disabled]="!this.game?.challenger || duelDecisionDisabled"
+                      #duelDecision (selectionChange)="changeDuelDecisionSelection(duelDecision.value)"
+                      [value]="duelDecisionValue">
             <mat-option [value]="true">You</mat-option>
             <mat-option [value]="false">Opponent</mat-option>
           </mat-select>
         </mat-form-field>
         <ng-container *ngIf="game.firstToGo">
-          1st to go:&nbsp;<b>{{ game.firstToGo === game.inviter ? 'Inviter': 'Challenger' }}</b>
+          1st to go:&nbsp;<b>{{ game.firstToGo === game.inviter ? 'Inviter' : 'Challenger' }}</b>
         </ng-container>
       </ng-container>
     </mat-grid-tile>
 
     <mat-grid-tile rowspan="2">
-      <app-coin-toss [game]="game" [selectedSide]="opponentSelectedCoinSide" [disabled]="!this.game?.challenger || coinTossDisabled" (won)="getCoinTossResult($event)"></app-coin-toss>
+      <app-coin-toss [game]="game" [selectedSide]="opponentSelectedCoinSide"
+                     [disabled]="!this.game?.challenger || coinTossDisabled"
+                     (won)="getCoinTossResult($event)"></app-coin-toss>
     </mat-grid-tile>
 
     <mat-grid-tile rowspan="1">
       <mat-form-field class="commentInput">
-        <textarea matInput placeholder="Leave a comment" #comment (keydown)="checkKeyInput($event, comment.value)"></textarea>
+        <textarea matInput placeholder="Leave a comment" #comment
+                  (keydown)="checkKeyInput($event, comment.value)"></textarea>
       </mat-form-field>
       <mat-icon (click)="sendMessage(comment, comment.value)">send</mat-icon>
     </mat-grid-tile>

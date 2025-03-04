@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import * as Phaser from 'phaser';
-import { GAME } from "../../constants/game";
-import { TestScene } from "../../game-engine/scenes/test.scene";
+import { GAME } from '../../constants/game';
+import { TestScene } from '../../game-engine/scenes/test.scene';
 
 @Component({
   selector: 'app-phaser-test',
   templateUrl: './phaser-test.component.html',
-  styleUrls: ['./phaser-test.component.scss']
+  styleUrls: ['./phaser-test.component.scss'],
 })
 export class PhaserTestComponent implements OnInit {
 
@@ -26,7 +26,7 @@ export class PhaserTestComponent implements OnInit {
       scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-      }
+      },
     };
   }
 

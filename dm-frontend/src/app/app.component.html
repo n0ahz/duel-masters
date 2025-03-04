@@ -17,10 +17,10 @@
   </mat-button-toggle-group>
 
   <div style="position: absolute; right: 1em">
-<!--    <mat-icon>person_pin</mat-icon>-->
+    <!--    <mat-icon>person_pin</mat-icon>-->
     <ng-container *ngIf="this.socialUser">
-      <button class="menu__button">Hello, {{socialUser.name}}!</button>
-      <button class="menu__button">Your email: {{socialUser.email}}</button>
+      <button class="menu__button">Hello, {{ socialUser.name }}!</button>
+      <button class="menu__button">Your email: {{ socialUser.email }}</button>
       <button mat-raised-button (click)="logout()">Logout</button>
     </ng-container>
     <ng-container *ngIf="!this.socialUser">

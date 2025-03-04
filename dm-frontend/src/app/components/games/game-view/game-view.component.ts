@@ -1,15 +1,15 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
-import { GameInterface } from "../../../interfaces/game.interface";
-import { CoinSidesEnum } from "../../../enums/coin-sides.enum";
-import { CoinTossResultInterface } from "../../../interfaces/coin-toss-result.interface";
-import { SocketPayloadInterface } from "../../../interfaces/socket-payload.interface";
-import { SocketService } from "../../../services/socket.service";
-import { GamesEventsEnum } from "../../../enums/gateway/games-events.enum";
-import { CommonEventsEnum } from "../../../enums/gateway/common-events.enum";
-import { CoinTossEventsEnum } from "../../../enums/gateway/coin-toss-events.enum";
-import { GameService } from "../../../services/game.service";
-import { GameStatusEnum } from "../../../enums/games.enum";
+import { ActivatedRoute, Router } from '@angular/router';
+import { GameInterface } from '../../../interfaces/game.interface';
+import { CoinSidesEnum } from '../../../enums/coin-sides.enum';
+import { CoinTossResultInterface } from '../../../interfaces/coin-toss-result.interface';
+import { SocketPayloadInterface } from '../../../interfaces/socket-payload.interface';
+import { SocketService } from '../../../services/socket.service';
+import { GamesEventsEnum } from '../../../enums/gateway/games-events.enum';
+import { CommonEventsEnum } from '../../../enums/gateway/common-events.enum';
+import { CoinTossEventsEnum } from '../../../enums/gateway/coin-toss-events.enum';
+import { GameService } from '../../../services/game.service';
+import { GameStatusEnum } from '../../../enums/games.enum';
 
 
 @Component({
@@ -37,9 +37,10 @@ export class GameViewComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  get game():GameInterface {
+  get game(): GameInterface {
     return this.gameService.game;
   }
+
   set game(data: GameInterface) {
     this.gameService.game = data;
   }
@@ -52,7 +53,7 @@ export class GameViewComponent implements OnInit, OnDestroy {
     this.activeUsers = [];
     this.socketService.emitTo(this.gameIdentifier, GamesEventsEnum.JOIN_GAME);
 
-    this.socketService.emit(GamesEventsEnum.GET_GAME, {gameIdentifier: this.gameIdentifier});
+    this.socketService.emit(GamesEventsEnum.GET_GAME, { gameIdentifier: this.gameIdentifier });
 
     this.socketService.handleEvent(GamesEventsEnum.GAME_INFO, (res) => {
       this.game = res.data.game;
@@ -103,7 +104,7 @@ export class GameViewComponent implements OnInit, OnDestroy {
         this.addMessage(`<b>${this.getPlayerSide(res.data.firstToGo)}</b> will go first!`);
       }
       this.game.firstToGo = res.data.firstToGo;
-      this.socketService.emitTo(this.gameIdentifier, GamesEventsEnum.SET_FIRST_TO_GO, {firstToGo: res.data.firstToGo});
+      this.socketService.emitTo(this.gameIdentifier, GamesEventsEnum.SET_FIRST_TO_GO, { firstToGo: res.data.firstToGo });
       // inverse the result for proper scenario..
       if (this.socketService.getCurrentSocketId() !== res.data.decisionMaker) {
         this.duelDecisionValue = !res.data.duelDecision;
@@ -129,32 +130,38 @@ export class GameViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  addMessage(msg: string){
+  addMessage(msg: string) {
     if (msg) {
       this.msgs.push(msg);
     }
   }
 
-  challengeButtonEnabled(){
+  challengeButtonEnabled() {
     return !this.game.challenger && this.socketService.getCurrentSocketId() !== this.inviterSocketId;
   }
 
   challenge() {
-    this.socketService.emitTo(this.gameIdentifier, GamesEventsEnum.CHALLENGE, {challenger: this.socketService.getCurrentSocketId()});
+    this.socketService.emitTo(this.gameIdentifier, GamesEventsEnum.CHALLENGE, { challenger: this.socketService.getCurrentSocketId() });
   }
 
   changeCoinSideSelection(value: string) {
-    this.socketService.emitTo(this.gameIdentifier, CoinTossEventsEnum.COIN_SIDE_CHOSEN, {coinSide: value});
+    this.socketService.emitTo(this.gameIdentifier, CoinTossEventsEnum.COIN_SIDE_CHOSEN, { coinSide: value });
   }
 
   changeDuelDecisionSelection(value: boolean) {
-    this.socketService.emitTo(this.gameIdentifier, CoinTossEventsEnum.DUEL_DECISION_MADE, {duelDecision: value, game: this.game});
+    this.socketService.emitTo(this.gameIdentifier, CoinTossEventsEnum.DUEL_DECISION_MADE, {
+      duelDecision: value,
+      game: this.game,
+    });
   }
 
-  sendMessage(target: any, value: string){
+  sendMessage(target: any, value: string) {
     if (value) {
       value = this.socketService.getCurrentSocketId() + ': ' + value;
-      this.socketService.emitTo(this.gameIdentifier, CommonEventsEnum.MSG_TO_SERVER, {gameRoom: `${this.inviterSocketId}`, data: {msg: value}});
+      this.socketService.emitTo(this.gameIdentifier, CommonEventsEnum.MSG_TO_SERVER, {
+        gameRoom: `${this.inviterSocketId}`,
+        data: { msg: value },
+      });
       target.value = '';
     }
   }
@@ -186,7 +193,7 @@ export class GameViewComponent implements OnInit, OnDestroy {
     if (coinTossResult.won) {
       msg = 'won the toss!';
     } else {
-      msg = 'lost the toss!'
+      msg = 'lost the toss!';
     }
     msg = `<b>${this.getPlayerSide(coinTossResult.flipper)}</b> ` + msg;
     this.addMessage(msg);
@@ -207,7 +214,7 @@ export class GameViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.game.status === GameStatusEnum.PENDING){
+    if (this.game.status === GameStatusEnum.PENDING) {
       this.gameService.leaveGame();
     }
     this.socketService.removeAllListeners();

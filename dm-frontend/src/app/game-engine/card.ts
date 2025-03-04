@@ -1,15 +1,15 @@
-import { CardInterface } from "../interfaces/card.interface";
-import { CivilizationInterface } from "../interfaces/civilization.interface";
-import { CardTypesEnum } from "../enums/card-types.enum";
-import { RarityInterface } from "../interfaces/rarity.interface";
-import { CivilizationsEnum } from "../enums/civilizations.enum";
-import { CivilizationFactory } from "./factories/civilization.factory";
-import { RaritiesEnum } from "../enums/rarities.enum";
-import { RarityFactory } from "./factories/rarity.factory";
-import { SetsEnum } from "../enums/sets.enum";
-import { SetInterface } from "../interfaces/set.interface";
-import { SetFactory } from "./factories/set.factory";
-import { RacesEnum } from "../enums/races.enum";
+import { CardInterface } from '../interfaces/card.interface';
+import { CivilizationInterface } from '../interfaces/civilization.interface';
+import { CardTypesEnum } from '../enums/card-types.enum';
+import { RarityInterface } from '../interfaces/rarity.interface';
+import { CivilizationsEnum } from '../enums/civilizations.enum';
+import { CivilizationFactory } from './factories/civilization.factory';
+import { RaritiesEnum } from '../enums/rarities.enum';
+import { RarityFactory } from './factories/rarity.factory';
+import { SetsEnum } from '../enums/sets.enum';
+import { SetInterface } from '../interfaces/set.interface';
+import { SetFactory } from './factories/set.factory';
+import { RacesEnum } from '../enums/races.enum';
 
 
 export class Card implements CardInterface {

@@ -1,4 +1,6 @@
-<div id="coin" (click)="startFlip()" [ngClass]="coinClass" [ngStyle]="{pointerEvents: (disabled || !this.selectedSide) ? 'none' : 'auto'}" [title]="disabled ? '' : 'Click to Flip!'">
+<div id="coin" (click)="startFlip()" [ngClass]="coinClass"
+     [ngStyle]="{pointerEvents: (disabled || !this.selectedSide) ? 'none' : 'auto'}"
+     [title]="disabled ? '' : 'Click to Flip!'">
   <div class="side-a"></div>
   <div class="side-b"></div>
 </div>

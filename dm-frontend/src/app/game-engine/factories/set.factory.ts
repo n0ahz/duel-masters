@@ -1,10 +1,10 @@
-import {SetsEnum} from "../../enums/sets.enum";
-import {SetInterface} from "../../interfaces/set.interface";
+import { SetsEnum } from '../../enums/sets.enum';
+import { SetInterface } from '../../interfaces/set.interface';
 
 
 export class SetFactory {
 
-  static getInstance(value: SetsEnum) : SetInterface {
+  static getInstance(value: SetsEnum): SetInterface {
     switch (value) {
       case SetsEnum.DM_01:
         return dm01;
@@ -14,10 +14,10 @@ export class SetFactory {
   }
 }
 
-export const dm01 : SetInterface = {
-  id: "DM-01",
-  name: "Base Set",
-  fullName: "DM-01 Base Set",
+export const dm01: SetInterface = {
+  id: 'DM-01',
+  name: 'Base Set',
+  fullName: 'DM-01 Base Set',
   serial: 1,
   noOfCards: 120,
   year: 2004,

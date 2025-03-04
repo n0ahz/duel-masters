@@ -1,5 +1,5 @@
-import {PhasesEnum} from "../../enums/phases.enum";
-import {PhaseInterface} from "../../interfaces/phase.interface";
+import { PhasesEnum } from '../../enums/phases.enum';
+import { PhaseInterface } from '../../interfaces/phase.interface';
 
 
 export class PhaseFactory {
@@ -27,7 +27,7 @@ export class PhaseFactory {
     }
   }
 
-  static create(name: string, serial?: number) : PhaseInterface {
+  static create(name: string, serial?: number): PhaseInterface {
     return {
       name: name,
       serial: serial,
@@ -35,11 +35,11 @@ export class PhaseFactory {
   }
 }
 
-export const begin : PhaseInterface = PhaseFactory.create("Start", 1);
-export const untap : PhaseInterface = PhaseFactory.create("Untap", 2);
-export const standby : PhaseInterface = PhaseFactory.create("Stand By", 3);
-export const draw : PhaseInterface = PhaseFactory.create("Draw", 4);
-export const charge : PhaseInterface = PhaseFactory.create("Mana Charge", 5);
-export const main : PhaseInterface = PhaseFactory.create("Summon & Cast", 6);
-export const battle : PhaseInterface = PhaseFactory.create("Battle", 7);
-export const end : PhaseInterface = PhaseFactory.create("Finish", 8);
+export const begin: PhaseInterface = PhaseFactory.create('Start', 1);
+export const untap: PhaseInterface = PhaseFactory.create('Untap', 2);
+export const standby: PhaseInterface = PhaseFactory.create('Stand By', 3);
+export const draw: PhaseInterface = PhaseFactory.create('Draw', 4);
+export const charge: PhaseInterface = PhaseFactory.create('Mana Charge', 5);
+export const main: PhaseInterface = PhaseFactory.create('Summon & Cast', 6);
+export const battle: PhaseInterface = PhaseFactory.create('Battle', 7);
+export const end: PhaseInterface = PhaseFactory.create('Finish', 8);

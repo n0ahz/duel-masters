@@ -1,4 +1,4 @@
 export enum ZoneTypesEnum {
-  OWN='OWN',
-  SHARED='SHARED',
+  OWN = 'OWN',
+  SHARED = 'SHARED',
 }

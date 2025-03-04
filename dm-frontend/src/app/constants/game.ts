@@ -13,7 +13,7 @@ export const CARD = {
   },
   FACTOR: {
     HAND: 1.5,
-  }
+  },
 };
 
 export const GAME = {
