@@ -1,4 +1,4 @@
-export enum fGameTypesEnum {
+export enum GameTypesEnum {
   SINGLE = 'Single',
   BEST2OF3 = 'Best 2 / 3',
   BEST3OF5 = 'Best 3 / 5',
