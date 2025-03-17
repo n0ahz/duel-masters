@@ -22,13 +22,6 @@ export class AppComponent {
     });
   }
 
-  loginWithGoogle() {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((socialUser: SocialUser) => {
-      this.socialUser = socialUser;
-      this.router.navigateByUrl('');
-    });
-  }
-
   logout() {
     this.socialAuthService.signOut().then((res) => {
       this.socialUser = null;

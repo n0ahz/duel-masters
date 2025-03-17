@@ -24,7 +24,7 @@
       <button mat-raised-button (click)="logout()">Logout</button>
     </ng-container>
     <ng-container *ngIf="!this.socialUser">
-      <button class="menu__button" mat-raised-button matTooltip="Log In" (click)="loginWithGoogle()">Login</button>
+      <asl-google-signin-button data-text="Login" size='medium' matTooltip="Log In"></asl-google-signin-button>
     </ng-container>
   </div>
 </mat-toolbar>
