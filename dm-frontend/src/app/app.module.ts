@@ -29,7 +29,7 @@ import { GameViewComponent } from './components/games/game-view/game-view.compon
 import { CoinTossComponent } from './components/games/coin-toss/coin-toss.component';
 import { DuelComponent } from './components/duel/duel.component';
 import { CardInfoComponent } from './components/modals/card-info/card-info.component';
-import { GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
+import { GoogleLoginProvider, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { RulesComponent } from './components/rules/rules.component';
 import { CardsComponent } from './components/cards/cards.component';
 

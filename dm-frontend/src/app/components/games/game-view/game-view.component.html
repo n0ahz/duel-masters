@@ -7,22 +7,22 @@
 
   <mat-grid-list cols="4" rowHeight="6:1" *ngIf="game">
     <mat-grid-tile>
-      <mat-chip-list>
+      <mat-chip-listbox>
         Name:
-        <mat-chip>{{ game.name }}</mat-chip>
-      </mat-chip-list>
+        <mat-chip-option>{{ game.name }}</mat-chip-option>
+      </mat-chip-listbox>
     </mat-grid-tile>
     <mat-grid-tile>
-      <mat-chip-list>
+      <mat-chip-listbox>
         Inviter:
-        <mat-chip>{{ game.inviter }}</mat-chip>
-      </mat-chip-list>
+        <mat-chip-option>{{ game.inviter }}</mat-chip-option>
+      </mat-chip-listbox>
     </mat-grid-tile>
     <mat-grid-tile>
-      <mat-chip-list>
+      <mat-chip-listbox>
         Game Type:
-        <mat-chip color="primary" selected>{{ game.gameType }}</mat-chip>
-      </mat-chip-list>
+        <mat-chip-option color="primary" selected>{{ game.gameType }}</mat-chip-option>
+      </mat-chip-listbox>
     </mat-grid-tile>
 
     <mat-grid-tile>
@@ -33,36 +33,36 @@
     </mat-grid-tile>
 
     <mat-grid-tile>
-      <mat-chip-list>
+      <mat-chip-listbox>
         Created:
-        <mat-chip>{{ game.createdAt }}</mat-chip>
-      </mat-chip-list>
+        <mat-chip-option>{{ game.createdAt }}</mat-chip-option>
+      </mat-chip-listbox>
     </mat-grid-tile>
     <mat-grid-tile>
-      <mat-chip-list>
+      <mat-chip-listbox>
         Challenger:
         <ng-container *ngIf="challengeButtonEnabled()">
           &nbsp;
           <button mat-raised-button color="primary" (click)="challenge()">Challenge!</button>
         </ng-container>
         <ng-container *ngIf="!challengeButtonEnabled()">
-          <mat-chip>{{ game.challenger || 'N/A' }}</mat-chip>
+          <mat-chip-option>{{ game.challenger || 'N/A' }}</mat-chip-option>
         </ng-container>
-      </mat-chip-list>
+      </mat-chip-listbox>
     </mat-grid-tile>
     <mat-grid-tile>
-      <mat-chip-list>
+      <mat-chip-listbox>
         Status:
-        <mat-chip color="accent" selected>{{ game.status }}</mat-chip>
-      </mat-chip-list>
+        <mat-chip-option color="accent" selected>{{ game.status }}</mat-chip-option>
+      </mat-chip-listbox>
     </mat-grid-tile>
 
     <mat-grid-tile *ngIf="activeUsers.length > 0" title="Current users here">
-      <mat-chip-list>
-        <mat-chip class="users-chip"
+      <mat-chip-listbox>
+        <mat-chip-option class="users-chip"
                   *ngFor="let user of activeUsers">{{ user === this.socketService.getCurrentSocketId() ? 'You' : (user.substr(0, 6) + '***') }}
-        </mat-chip>
-      </mat-chip-list>
+        </mat-chip-option>
+      </mat-chip-listbox>
     </mat-grid-tile>
   </mat-grid-list>
 
