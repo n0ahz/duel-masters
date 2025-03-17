@@ -5,9 +5,10 @@ import { TestScene } from '../../game-engine/scenes/test.scene';
 
 
 @Component({
-  selector: 'app-phaser-test',
-  templateUrl: './phaser-test.component.html',
-  styleUrls: ['./phaser-test.component.scss'],
+    selector: 'app-phaser-test',
+    templateUrl: './phaser-test.component.html',
+    styleUrls: ['./phaser-test.component.scss'],
+    standalone: false
 })
 export class PhaserTestComponent implements OnInit {
 

@@ -8,9 +8,10 @@ import { GamesEventsEnum } from '../../../enums/gateway/games-events.enum';
 
 
 @Component({
-  selector: 'app-game-add',
-  templateUrl: './game-add.component.html',
-  styleUrls: ['./game-add.component.scss'],
+    selector: 'app-game-add',
+    templateUrl: './game-add.component.html',
+    styleUrls: ['./game-add.component.scss'],
+    standalone: false
 })
 export class GameAddComponent implements OnInit, OnDestroy {
 

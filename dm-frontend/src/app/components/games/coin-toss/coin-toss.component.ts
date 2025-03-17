@@ -7,9 +7,10 @@ import { CoinTossEventsEnum } from '../../../enums/gateway/coin-toss-events.enum
 
 
 @Component({
-  selector: 'app-coin-toss',
-  templateUrl: './coin-toss.component.html',
-  styleUrls: ['./coin-toss.component.scss'],
+    selector: 'app-coin-toss',
+    templateUrl: './coin-toss.component.html',
+    styleUrls: ['./coin-toss.component.scss'],
+    standalone: false
 })
 export class CoinTossComponent implements OnInit, OnDestroy {
 

@@ -13,10 +13,11 @@ import { GameStatusEnum } from '../../../enums/games.enum';
 
 
 @Component({
-  selector: 'app-game-view',
-  templateUrl: './game-view.component.html',
-  styleUrls: ['./game-view.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-game-view',
+    templateUrl: './game-view.component.html',
+    styleUrls: ['./game-view.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class GameViewComponent implements OnInit, OnDestroy {
 

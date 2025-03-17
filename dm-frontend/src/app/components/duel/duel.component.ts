@@ -9,9 +9,10 @@ import { GameService } from '../../services/game.service';
 
 
 @Component({
-  selector: 'app-duel',
-  templateUrl: './duel.component.html',
-  styleUrls: ['./duel.component.scss'],
+    selector: 'app-duel',
+    templateUrl: './duel.component.html',
+    styleUrls: ['./duel.component.scss'],
+    standalone: false
 })
 export class DuelComponent implements OnInit, OnDestroy {
 
