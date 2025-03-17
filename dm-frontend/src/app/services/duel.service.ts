@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as Phaser from 'phaser';
 import { DuelScene } from '../game-engine/scenes/duel.scene';
 import { GAME } from '../constants/game';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CardInfoComponent } from '../components/modals/card-info/card-info.component';
 import { Card } from '../game-engine/card';
 

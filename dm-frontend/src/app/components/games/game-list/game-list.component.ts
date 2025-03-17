@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { GameInterface } from '../../../interfaces/game.interface';
 import { Router } from '@angular/router';
 import { SocketService } from '../../../services/socket.service';
