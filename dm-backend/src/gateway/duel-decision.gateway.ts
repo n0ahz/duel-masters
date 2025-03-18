@@ -11,7 +11,7 @@ import { CoinTossEventsEnum } from '../enums/gateway/coin-toss-events.enum';
 import { GameInterface } from '../interfaces/game.interface';
 import { GatewayUtility } from '../utils/gateway.utility';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true, origin: '*' })
 export class DuelDecisionGateway {
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('DuelDecisionGateway');

@@ -12,7 +12,7 @@ import { Socket, Server } from 'socket.io';
 import { SocketPayloadInterface } from '../interfaces/socket-payload.interface';
 import { CommonEventsEnum } from '../enums/gateway/common-events.enum';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true, origin: '*' })
 export class MainGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;

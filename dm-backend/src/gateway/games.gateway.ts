@@ -14,7 +14,7 @@ import { CommonEventsEnum } from '../enums/gateway/common-events.enum';
 import { GatewayUtility } from '../utils/gateway.utility';
 import { GameStatusEnum } from '../enums/games.enum';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true, origin: '*' })
 export class GamesGateway {
   gameRooms: { [gameIdentifier: string]: GameInterface } = {}; // volatile data storage..use db..
   users: string[] = [];

@@ -13,7 +13,7 @@ import { DuelEventsEnum } from '../enums/gateway/duel-events.enum';
 import { ZoneCardInterface } from '../interfaces/zone-card.interface';
 import * as uuid from 'uuid';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true, origin: '*' })
 export class DuelGateway implements OnGatewayInit {
   persons: { [gameIdentifier: string]: string[] } = {}; // volatile data storage..use db?..
 
