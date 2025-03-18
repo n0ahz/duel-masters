@@ -29,7 +29,12 @@ import { GameViewComponent } from './components/games/game-view/game-view.compon
 import { CoinTossComponent } from './components/games/coin-toss/coin-toss.component';
 import { DuelComponent } from './components/duel/duel.component';
 import { CardInfoComponent } from './components/modals/card-info/card-info.component';
-import { GoogleLoginProvider, GoogleSigninButtonModule, SocialLoginModule } from '@abacritt/angularx-social-login';
+import {
+  GoogleLoginProvider,
+  GoogleSigninButtonModule,
+  SocialAuthServiceConfig,
+  SocialLoginModule,
+} from '@abacritt/angularx-social-login';
 import { RulesComponent } from './components/rules/rules.component';
 import { CardsComponent } from './components/cards/cards.component';
 
@@ -37,19 +42,19 @@ import { CardsComponent } from './components/cards/cards.component';
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        PhaserTestComponent,
-        AboutComponent,
-        GameListComponent,
-        GameAddComponent,
-        GameViewComponent,
-        CoinTossComponent,
-        DuelComponent,
-        CardInfoComponent,
-        RulesComponent,
-        CardsComponent,
-    ],
+  declarations: [
+    AppComponent,
+    PhaserTestComponent,
+    AboutComponent,
+    GameListComponent,
+    GameAddComponent,
+    GameViewComponent,
+    CoinTossComponent,
+    DuelComponent,
+    CardInfoComponent,
+    RulesComponent,
+    CardsComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -74,21 +79,21 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     MatDialogModule,
     GoogleSigninButtonModule,
   ],
-    providers: [
-        {
-            provide: 'SocialAuthServiceConfig',
-            useValue: {
-                autoLogin: true,
-                providers: [
-                    {
-                        id: GoogleLoginProvider.PROVIDER_ID,
-                        provider: new GoogleLoginProvider('519801663676-moqibve9j510ppopc8mk8t3cdm72inef.apps.googleusercontent.com'),
-                    },
-                ],
-            },
-        },
-    ],
-    bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: true,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('519801663676-moqibve9j510ppopc8mk8t3cdm72inef.apps.googleusercontent.com'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {
 }
