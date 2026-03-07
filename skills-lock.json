@@ -6,6 +6,11 @@
       "sourceType": "github",
       "computedHash": "3cb3ce921ec71179c0688d8e3836e6aa1a1060bbbd07ed4c4ac5f3b7c44bec67"
     },
+    "angular-material": {
+      "source": "pluginagentmarketplace/custom-plugin-angular",
+      "sourceType": "github",
+      "computedHash": "819b6e2f51a7778777f40c9f12653dbdc46189a917feac73455ec69fb5c83822"
+    },
     "frontend-design": {
       "source": "anthropics/skills",
       "sourceType": "github",
