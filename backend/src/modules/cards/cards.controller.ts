@@ -9,9 +9,10 @@ export class CardsController {
   findAll(
     @Query('civilization') civilization?: string,
     @Query('type') type?: string,
+    @Query('set') set?: string,
     @Query('search') search?: string,
   ) {
-    return this.cardsService.findAll({ civilization, type, search });
+    return this.cardsService.findAll({ civilization, type, set, search });
   }
 
   @Get(':id')

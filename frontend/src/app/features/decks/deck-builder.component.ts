@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { CardInterface, GameCommands, GAME_CONSTANTS, Civilization } from '@dm/shared';
+import { CardInterface, GameCommands, GAME_CONSTANTS, Civilization, CardType, CardSet } from '@dm/shared';
 import { SocketService } from '../../core/services/socket.service';
 import { GameService } from '../../core/services/game.service';
 
@@ -118,6 +118,20 @@ interface DeckEntry {
               <mat-select [(ngModel)]="civilization" (ngModelChange)="loadCards()">
                 <mat-option value="">ALL</mat-option>
                 <mat-option *ngFor="let civ of civilizations" [value]="civ">{{ civ }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="filter-field filter-field--sm">
+              <mat-label>Type</mat-label>
+              <mat-select [(ngModel)]="cardType" (ngModelChange)="loadCards()">
+                <mat-option value="">ALL</mat-option>
+                <mat-option *ngFor="let t of cardTypes" [value]="t">{{ t }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="filter-field filter-field--md">
+              <mat-label>Set</mat-label>
+              <mat-select [(ngModel)]="cardSet" (ngModelChange)="loadCards()">
+                <mat-option value="">ALL</mat-option>
+                <mat-option *ngFor="let s of cardSets" [value]="s">{{ s }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -255,11 +269,12 @@ interface DeckEntry {
       overflow: hidden;
     }
     .browser-filters {
-      display: flex; gap: 10px; padding: 10px 14px;
+      display: flex; flex-wrap: wrap; gap: 10px; padding: 10px 14px;
       border-bottom: 1px solid var(--border-dim); flex-shrink: 0;
     }
-    .filter-field { flex: 1; }
-    .filter-field--sm { flex: 0 0 150px; }
+    .filter-field { flex: 1; min-width: 120px; }
+    .filter-field--sm { flex: 0 0 140px; }
+    .filter-field--md { flex: 0 0 180px; }
     .search-icon { font-size: 14px !important; width: 14px !important; height: 14px !important; color: var(--text-secondary) !important; margin-right: 4px; }
     .card-list { flex: 1; overflow-y: auto; min-height: 0; scrollbar-width: thin; }
     .card-row {
@@ -304,12 +319,16 @@ export class DeckBuilderComponent implements OnInit {
 
   readonly DECK_MAX = GAME_CONSTANTS.DECK_MAX;
   readonly civilizations = Object.values(Civilization);
+  readonly cardTypes = Object.values(CardType);
+  readonly cardSets = Object.values(CardSet);
 
   editingDeckId: string | null = null;
   saving = false;
   deckName = '';
   search = '';
   civilization = '';
+  cardType = '';
+  cardSet = '';
   cards: CardInterface[] = [];
   deckEntries: DeckEntry[] = [];
 
@@ -359,6 +378,8 @@ export class DeckBuilderComponent implements OnInit {
     const params: Record<string, string> = {};
     if (this.search) params['search'] = this.search;
     if (this.civilization) params['civilization'] = this.civilization;
+    if (this.cardType) params['type'] = this.cardType;
+    if (this.cardSet) params['set'] = this.cardSet;
     this.http
       .get<CardInterface[]>('http://localhost:3000/cards', { params })
       .subscribe((cards) => (this.cards = cards));

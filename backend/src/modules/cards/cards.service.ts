@@ -10,11 +10,12 @@ export class CardsService {
   ) {}
 
   async findAll(
-    filters: { civilization?: string; type?: string; search?: string } = {},
+    filters: { civilization?: string; type?: string; set?: string; search?: string } = {},
   ): Promise<Card[]> {
     const query: any = {};
     if (filters.civilization) query.civilizations = filters.civilization;
     if (filters.type) query.type = filters.type;
+    if (filters.set) query['printings.set'] = filters.set;
     if (filters.search)
       query.name = { $regex: filters.search, $options: 'i' };
     return this.cardModel.find(query).limit(200).exec();

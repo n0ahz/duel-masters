@@ -1610,8 +1610,8 @@ let CardsController = class CardsController {
     constructor(cardsService) {
         this.cardsService = cardsService;
     }
-    findAll(civilization, type, search) {
-        return this.cardsService.findAll({ civilization, type, search });
+    findAll(civilization, type, set, search) {
+        return this.cardsService.findAll({ civilization, type, set, search });
     }
     findOne(id) {
         return this.cardsService.findById(id);
@@ -1622,9 +1622,10 @@ __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)('civilization')),
     __param(1, (0, common_1.Query)('type')),
-    __param(2, (0, common_1.Query)('search')),
+    __param(2, (0, common_1.Query)('set')),
+    __param(3, (0, common_1.Query)('search')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:paramtypes", [String, String, String, String]),
     __metadata("design:returntype", void 0)
 ], CardsController.prototype, "findAll", null);
 __decorate([
@@ -1715,6 +1716,8 @@ let CardsService = class CardsService {
             query.civilizations = filters.civilization;
         if (filters.type)
             query.type = filters.type;
+        if (filters.set)
+            query['printings.set'] = filters.set;
         if (filters.search)
             query.name = { $regex: filters.search, $options: 'i' };
         return this.cardModel.find(query).limit(200).exec();

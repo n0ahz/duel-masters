@@ -31,17 +31,14 @@ import { GameService } from '../../core/services/game.service';
       </div>
 
       <div class="deck-grid">
-        <div *ngFor="let deck of decks" class="deck-card">
+        <div *ngFor="let deck of decks" class="deck-card" [routerLink]="['/decks', deck._id]">
           <span class="corner corner--tl"></span>
           <span class="corner corner--br"></span>
 
           <div class="deck-card__header">
             <div class="deck-card__name">{{ deck.name }}</div>
             <div class="deck-card__actions">
-              <button class="deck-action-btn" [routerLink]="['/decks', deck._id]" title="Edit deck">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button class="deck-action-btn deck-action-btn--danger" (click)="deleteDeck(deck)" title="Delete deck">
+              <button class="deck-action-btn deck-action-btn--danger" (click)="deleteDeck(deck, $event)" title="Delete deck">
                 <mat-icon>delete_outline</mat-icon>
               </button>
             </div>
@@ -126,6 +123,7 @@ import { GameService } from '../../core/services/game.service';
       border: 1px solid var(--border-dim);
       padding: 16px;
       transition: border-color 0.2s;
+      cursor: pointer;
     }
     .deck-card:hover { border-color: var(--border-mid); }
 
@@ -233,7 +231,8 @@ export class DeckListComponent implements OnInit {
     return deck.cards.reduce((sum, c) => sum + c.copies, 0);
   }
 
-  deleteDeck(deck: DeckInterface): void {
+  deleteDeck(deck: DeckInterface, event: Event): void {
+    event.stopPropagation();
     if (!confirm(`Delete deck "${deck.name}"?`)) return;
     this.socketService.emit(GameCommands.DELETE_DECK, { deckId: deck._id });
   }
