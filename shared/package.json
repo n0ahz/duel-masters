@@ -1,0 +1,7 @@
+{
+  "name": "@dm/shared",
+  "version": "1.0.0",
+  "description": "Shared typed contracts for Duel Masters",
+  "main": "index.ts",
+  "private": true
+}

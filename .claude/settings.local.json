@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(test:*)",
+      "Bash(tail:*)",
+      "Bash(head:*)",
+      "Bash(npx tsc:*)",
+      "Bash(echo TSC exit: $?:*)",
+      "Bash(node:*)",
+      "Bash(echo Backend TSC exit: $?:*)",
+      "Bash(echo Frontend TSC exit: $?:*)",
+      "Bash(npm run:*)",
+      "Bash(find .:*)"
+    ]
+  }
+}

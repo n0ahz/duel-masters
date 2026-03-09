@@ -1,0 +1,397 @@
+@use '@angular/material' as mat;
+
+// ─── Retro-Futuristic Palettes ────────────────────────────────────────────────
+$primary: mat.m2-define-palette(mat.$m2-cyan-palette, 400, 200, 700);
+$accent:  mat.m2-define-palette(mat.$m2-pink-palette, A400, A200, A700);
+$warn:    mat.m2-define-palette(mat.$m2-red-palette);
+
+$light-theme: mat.m2-define-light-theme((
+  color: (primary: $primary, accent: $accent, warn: $warn),
+  typography: mat.m2-define-typography-config(),
+  density: 0,
+));
+
+$dark-theme: mat.m2-define-dark-theme((
+  color: (primary: $primary, accent: $accent, warn: $warn),
+  typography: mat.m2-define-typography-config(),
+  density: 0,
+));
+
+// Light theme is the default; dark overrides when .dark-theme on <body>
+@include mat.all-component-themes($light-theme);
+
+.dark-theme {
+  @include mat.all-component-colors($dark-theme);
+}
+
+// ─── Light-mode Design Tokens (default) ──────────────────────────────────────
+:root {
+  --neon-cyan: #0077bb;
+  --neon-cyan-dim: rgba(0, 119, 187, 0.1);
+  --neon-cyan-mid: rgba(0, 119, 187, 0.3);
+  --neon-cyan-glow: 0 0 8px rgba(0, 119, 187, 0.6), 0 0 20px rgba(0, 119, 187, 0.25);
+  --neon-magenta: #cc0066;
+  --neon-magenta-dim: rgba(204, 0, 102, 0.1);
+  --neon-magenta-glow: 0 0 8px rgba(204, 0, 102, 0.6), 0 0 20px rgba(204, 0, 102, 0.25);
+  --neon-gold: #b07000;
+  --neon-gold-dim: rgba(176, 112, 0, 0.1);
+  --neon-gold-glow: 0 0 8px rgba(176, 112, 0, 0.5), 0 0 16px rgba(176, 112, 0, 0.2);
+  --neon-green: #007a30;
+  --neon-green-dim: rgba(0, 122, 48, 0.1);
+  --bg-void: #e8edf4;
+  --bg-primary: #eef2f8;
+  --bg-secondary: #f4f7fc;
+  --bg-panel: #dde3ed;
+  --bg-card: #e2e8f2;
+  --bg-elevated: #f0f4fa;
+  --border-dim: rgba(0, 100, 160, 0.12);
+  --border-mid: rgba(0, 100, 160, 0.35);
+  --text-bright: #060d1a;
+  --text-primary: #1a2840;
+  --text-secondary: #4a6080;
+  --text-dim: #90a0b8;
+  --font-display: 'Orbitron', monospace;
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-body: 'Exo 2', sans-serif;
+  --grid-color: rgba(0, 100, 160, 0.04);
+  --scanline-color: rgba(0, 100, 160, 0.04);
+}
+
+// ─── Dark-mode Design Tokens ──────────────────────────────────────────────────
+body.dark-theme {
+  --neon-cyan: #00f5ff;
+  --neon-cyan-dim: rgba(0, 245, 255, 0.12);
+  --neon-cyan-mid: rgba(0, 245, 255, 0.3);
+  --neon-cyan-glow: 0 0 8px #00f5ff, 0 0 20px rgba(0, 245, 255, 0.45), 0 0 40px rgba(0, 245, 255, 0.15);
+  --neon-magenta: #ff0090;
+  --neon-magenta-dim: rgba(255, 0, 144, 0.12);
+  --neon-magenta-glow: 0 0 8px #ff0090, 0 0 20px rgba(255, 0, 144, 0.45), 0 0 40px rgba(255, 0, 144, 0.15);
+  --neon-gold: #ffd700;
+  --neon-gold-dim: rgba(255, 215, 0, 0.12);
+  --neon-gold-glow: 0 0 8px #ffd700, 0 0 20px rgba(255, 215, 0, 0.35);
+  --neon-green: #00ff41;
+  --neon-green-dim: rgba(0, 255, 65, 0.12);
+  --bg-void: #020209;
+  --bg-primary: #050512;
+  --bg-secondary: #08081e;
+  --bg-panel: #0c0c26;
+  --bg-card: #0f0f2e;
+  --bg-elevated: #131332;
+  --border-dim: rgba(0, 245, 255, 0.1);
+  --border-mid: rgba(0, 245, 255, 0.28);
+  --text-bright: #e8f8ff;
+  --text-primary: #a8d8f0;
+  --text-secondary: #4a7a90;
+  --text-dim: #1e3d50;
+  --grid-color: rgba(0, 245, 255, 0.025);
+  --scanline-color: rgba(0, 245, 255, 0.05);
+}
+
+// ─── Keyframes ────────────────────────────────────────────────────────────────
+@keyframes scanline {
+  0%   { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px var(--neon-cyan), 0 0 16px var(--neon-cyan-dim); }
+  50%       { box-shadow: 0 0 16px var(--neon-cyan), 0 0 32px var(--neon-cyan-mid); }
+}
+
+@keyframes glow-pulse-magenta {
+  0%, 100% { box-shadow: 0 0 8px var(--neon-magenta), 0 0 16px var(--neon-magenta-dim); }
+  50%       { box-shadow: 0 0 16px var(--neon-magenta), 0 0 32px var(--neon-magenta-dim); }
+}
+
+@keyframes flicker {
+  0%, 95%, 100% { opacity: 1; }
+  96%           { opacity: 0.85; }
+  97%           { opacity: 1; }
+  98%           { opacity: 0.9; }
+  99%           { opacity: 1; }
+}
+
+@keyframes blink-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}
+
+@keyframes slide-in-down {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes ping-expand {
+  0%   { opacity: 0.6; transform: scale(0.6); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+@keyframes hourglass-rotate {
+  0%, 40%, 100% { transform: rotate(0deg); }
+  50%           { transform: rotate(180deg); }
+  90%           { transform: rotate(180deg); }
+}
+
+@keyframes corner-flash {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}
+
+// ─── Global Reset & Base ──────────────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative;
+
+  // Circuit-board grid
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+    transition: background-image 0.3s;
+  }
+
+  // Scanline sweep (only visible in dark mode)
+  &::after {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 80px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      var(--scanline-color) 40%,
+      var(--scanline-color) 60%,
+      transparent 100%
+    );
+    animation: scanline 10s linear infinite;
+    pointer-events: none;
+    z-index: 9998;
+  }
+}
+
+// ─── Custom Scrollbar ─────────────────────────────────────────────────────────
+::-webkit-scrollbar         { width: 5px; height: 5px; }
+::-webkit-scrollbar-track   { background: var(--bg-secondary); }
+::-webkit-scrollbar-thumb   { background: var(--border-mid); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }
+
+// ─── Utility ──────────────────────────────────────────────────────────────────
+.spacer { flex: 1 1 auto; }
+
+.error-snackbar {
+  background: var(--bg-panel) !important;
+  color: var(--neon-magenta) !important;
+  border: 1px solid var(--neon-magenta) !important;
+  font-family: var(--font-mono) !important;
+}
+
+// ─── Angular Material Global Overrides ───────────────────────────────────────
+
+// Toolbar
+.mat-toolbar {
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-dim) !important;
+  transition: background 0.3s, border-color 0.3s !important;
+}
+
+// Buttons — Primary
+.mat-mdc-raised-button.mat-primary,
+.mdc-button--raised.mat-primary {
+  background: transparent !important;
+  color: var(--neon-cyan) !important;
+  border: 1px solid var(--neon-cyan) !important;
+  font-family: var(--font-display) !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 0 8px var(--neon-cyan-dim) !important;
+  transition: all 0.2s ease !important;
+
+  &:hover:not([disabled]) {
+    background: var(--neon-cyan-dim) !important;
+    box-shadow: var(--neon-cyan-glow) !important;
+  }
+  &[disabled] { opacity: 0.3 !important; }
+}
+
+// Buttons — Accent
+.mat-mdc-raised-button.mat-accent,
+.mdc-button--raised.mat-accent {
+  background: transparent !important;
+  color: var(--neon-magenta) !important;
+  border: 1px solid var(--neon-magenta) !important;
+  font-family: var(--font-display) !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 0 8px var(--neon-magenta-dim) !important;
+  transition: all 0.2s ease !important;
+
+  &:hover:not([disabled]) {
+    background: var(--neon-magenta-dim) !important;
+    box-shadow: var(--neon-magenta-glow) !important;
+  }
+}
+
+// Buttons — Default/Text
+.mat-mdc-button, .mdc-button {
+  color: var(--text-secondary) !important;
+  font-family: var(--font-display) !important;
+  font-size: 10px !important;
+  letter-spacing: 0.15em !important;
+  text-transform: uppercase !important;
+  transition: color 0.2s !important;
+  &:hover { color: var(--neon-cyan) !important; }
+}
+
+// Icon button
+.mat-mdc-icon-button mat-icon,
+.mat-mdc-icon-button .mat-icon {
+  color: var(--text-secondary) !important;
+  transition: color 0.2s, filter 0.2s !important;
+}
+.mat-mdc-icon-button:hover mat-icon,
+.mat-mdc-icon-button:hover .mat-icon {
+  color: var(--neon-cyan) !important;
+  filter: drop-shadow(0 0 4px var(--neon-cyan)) !important;
+}
+
+// Table
+.mat-mdc-table {
+  background: var(--bg-card) !important;
+  font-family: var(--font-mono) !important;
+  transition: background 0.3s !important;
+}
+.mat-mdc-header-row { background: var(--bg-panel) !important; transition: background 0.3s !important; }
+.mat-mdc-header-cell {
+  color: var(--neon-cyan) !important;
+  font-family: var(--font-display) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  border-bottom: 1px solid var(--border-dim) !important;
+}
+.mat-mdc-cell {
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-dim) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 13px !important;
+}
+.mat-mdc-row {
+  transition: background 0.15s !important;
+  &:hover { background: var(--neon-cyan-dim) !important; }
+}
+
+// Form fields
+.mat-mdc-form-field {
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: var(--border-mid) !important;
+    transition: border-color 0.2s !important;
+  }
+  &.mat-focused {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: var(--neon-cyan) !important;
+    }
+  }
+  .mat-mdc-input-element {
+    color: var(--text-bright) !important;
+    caret-color: var(--neon-cyan) !important;
+    font-family: var(--font-mono) !important;
+  }
+  .mat-mdc-floating-label { color: var(--text-secondary) !important; font-family: var(--font-mono) !important; }
+  &.mat-focused .mat-mdc-floating-label { color: var(--neon-cyan) !important; }
+  .mat-mdc-select-value-text { color: var(--text-primary) !important; font-family: var(--font-mono) !important; }
+  .mat-mdc-select-arrow { color: var(--text-secondary) !important; }
+}
+
+// Select overlay
+.mat-mdc-option {
+  background: var(--bg-panel) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 13px !important;
+  &:hover,
+  &.mdc-list-item--selected { background: var(--neon-cyan-dim) !important; color: var(--neon-cyan) !important; }
+}
+.mat-mdc-select-panel {
+  background: var(--bg-panel) !important;
+  border: 1px solid var(--border-mid) !important;
+}
+
+// Card
+.mat-mdc-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-dim) !important;
+  color: var(--text-primary) !important;
+  box-shadow: none !important;
+  transition: background 0.3s, border-color 0.3s !important;
+}
+.mat-mdc-card-title {
+  color: var(--neon-cyan) !important;
+  font-family: var(--font-display) !important;
+  font-size: 14px !important;
+  letter-spacing: 0.12em !important;
+}
+
+// Dialog
+.mat-mdc-dialog-container,
+.mdc-dialog__surface {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--neon-cyan) !important;
+  box-shadow: var(--neon-cyan-glow) !important;
+}
+.mat-mdc-dialog-title, [mat-dialog-title] {
+  color: var(--neon-cyan) !important;
+  font-family: var(--font-display) !important;
+  letter-spacing: 0.1em !important;
+  font-size: 15px !important;
+}
+.mat-mdc-dialog-content { color: var(--text-primary) !important; }
+.mat-mdc-dialog-actions { border-top: 1px solid var(--border-dim) !important; }
+
+// Spinner
+.mat-mdc-progress-spinner circle { stroke: var(--neon-cyan) !important; }
+
+// Snackbar
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  background: var(--bg-panel) !important;
+  border: 1px solid var(--border-mid) !important;
+  color: var(--text-primary) !important;
+}
