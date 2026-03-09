@@ -44,34 +44,41 @@ export class Duelist {
     handZone.canPutCards = true;
 
     deckZone.putCards(this.duelDeck);
-    setTimeout(() => {
-      if (scene.role !== RolesEnum.VIEWER && this.side === PlayerSidesEnum.BOTTOM) {
-        let msg = '';
-        if (scene.gameService.game.inviter == scene.socketService.getCurrentSocketId()) {
-          msg = 'Inviter: Activate Shields..!';
-        } else if (scene.gameService.game.challenger == scene.socketService.getCurrentSocketId()) {
-          msg = 'Challenger: Bring it on...!';
+
+    const INITIAL_DELAY_MS = 3000;
+    const CARD_INTERVAL_MS = 100;
+    const HAND_DELAY_MS = 2000;
+    const INITIAL_CARD_COUNT = 5;
+
+    scene.time.addEvent({
+      delay: INITIAL_DELAY_MS,
+      callback: () => {
+        if (scene.role !== RolesEnum.VIEWER && this.side === PlayerSidesEnum.BOTTOM) {
+          let msg = '';
+          if (scene.gameService.game.inviter === scene.socketService.getCurrentSocketId()) {
+            msg = 'Inviter: Activate Shields..!';
+          } else if (scene.gameService.game.challenger === scene.socketService.getCurrentSocketId()) {
+            msg = 'Challenger: Bring it on...!';
+          }
+          if (msg) {
+            scene.socketService.emitTo(scene.gameService.game.gameIdentifier, CommonEventsEnum.MSG_TO_SERVER, { msg: msg });
+          }
         }
-        if (msg) {
-          scene.socketService.emitTo(scene.gameService.game.gameIdentifier, CommonEventsEnum.MSG_TO_SERVER, { msg: msg });
-        }
-      }
+      },
+    });
 
-      for (let i = 0; i < 5; i++) {
-        setTimeout(() => {
-          deckZone.transferCards(deckZone.takeCards(1, PositionsEnum.BOTTOM), shieldZone);
-        }, 100 * i);
-      }
+    for (let i = 0; i < INITIAL_CARD_COUNT; i++) {
+      scene.time.addEvent({
+        delay: INITIAL_DELAY_MS + i * CARD_INTERVAL_MS,
+        callback: () => deckZone.transferCards(deckZone.takeCards(1, PositionsEnum.BOTTOM), shieldZone),
+      });
+    }
 
-      setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
-          setTimeout(() => {
-            deckZone.transferCards(deckZone.takeCards(1, PositionsEnum.BOTTOM), handZone);
-          }, 100 * i);
-        }
-
-      }, 2000);
-
-    }, 3000);
+    for (let i = 0; i < INITIAL_CARD_COUNT; i++) {
+      scene.time.addEvent({
+        delay: INITIAL_DELAY_MS + INITIAL_CARD_COUNT * CARD_INTERVAL_MS + HAND_DELAY_MS + i * CARD_INTERVAL_MS,
+        callback: () => deckZone.transferCards(deckZone.takeCards(1, PositionsEnum.BOTTOM), handZone),
+      });
+    }
   }
 }

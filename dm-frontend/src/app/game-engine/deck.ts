@@ -24,10 +24,10 @@ export class Deck implements DeckInterface {
 
   addCard(card: Card, times?: number) {
     if (this.cards.length >= DECK.MAX_CARDS_PER_DECK) {
-      throw 'Deck is full!';
+      throw new Error('Deck is full!');
     }
-    if (this.cards.filter(eachCard => eachCard === card).length >= 4) {
-      throw 'Can\'t add same card more than 4 times in a deck!';
+    if (this.cards.filter(c => c.collectorNo === card.collectorNo).length >= 4) {
+      throw new Error('Cannot add more than 4 copies of the same card');
     }
     if (times === undefined) times = 1;
     if (times > 4) times = 4;

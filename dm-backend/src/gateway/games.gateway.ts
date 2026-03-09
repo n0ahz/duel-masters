@@ -1,4 +1,5 @@
 import {
+  OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
@@ -6,7 +7,6 @@ import {
 } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
-import * as _ from 'lodash';
 import { SocketPayloadInterface } from '../interfaces/socket-payload.interface';
 import { GameInterface } from '../interfaces/game.interface';
 import { GamesEventsEnum } from '../enums/gateway/games-events.enum';
@@ -15,18 +15,33 @@ import { GatewayUtility } from '../utils/gateway.utility';
 import { GameStatusEnum } from '../enums/games.enum';
 
 @WebSocketGateway({ cors: true, origin: '*' })
-export class GamesGateway {
+export class GamesGateway implements OnGatewayInit {
   gameRooms: { [gameIdentifier: string]: GameInterface } = {}; // volatile data storage..use db..
-  users: string[] = [];
+  private users: Set<string> = new Set();
 
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('GamesGateway');
 
+  afterInit(server: Server): void {
+    setInterval(() => {
+      const expiry = Date.now() - 2 * 60 * 60 * 1000; // 2 hours
+      for (const [id, game] of Object.entries(this.gameRooms)) {
+        if (game.createdAt && new Date(game.createdAt).getTime() < expiry) {
+          delete this.gameRooms[id];
+        }
+      }
+    }, 30 * 60 * 1000); // Run every 30 minutes
+  }
+
   @SubscribeMessage(GamesEventsEnum.ADD_GAME)
   addGame(client: Socket, payload: SocketPayloadInterface) {
-    this.gameRooms[payload.data.game.gameIdentifier] = payload.data.game;
+    const game = payload?.data?.game;
+    if (!game?.gameIdentifier) {
+      return { event: 'error', data: { message: 'Invalid game payload' } };
+    }
+    this.gameRooms[game.gameIdentifier] = game;
     const response: SocketPayloadInterface = {
-      data: { msg: 'Games List', games: _.values(this.gameRooms) },
+      data: { msg: 'Games List', games: Object.values(this.gameRooms) },
     };
     this.server.emit(GamesEventsEnum.GAMES_LIST, response);
   }
@@ -34,9 +49,9 @@ export class GamesGateway {
   @SubscribeMessage(GamesEventsEnum.GET_GAMES)
   getGames(client: Socket, payload: SocketPayloadInterface) {
     const response: SocketPayloadInterface = {
-      data: { msg: 'Games List', games: _.values(this.gameRooms) },
+      data: { msg: 'Games List', games: Object.values(this.gameRooms) },
     };
-    this.server.emit(GamesEventsEnum.GAMES_LIST, response);
+    client.emit(GamesEventsEnum.GAMES_LIST, response);
   }
 
   @SubscribeMessage(GamesEventsEnum.GET_GAME)
@@ -56,7 +71,7 @@ export class GamesGateway {
       .emit(GamesEventsEnum.GAME_INFO, response)
       .emit(GamesEventsEnum.USER_INFO, {
         gameRoom: room,
-        data: { users: this.users },
+        data: { users: Array.from(this.users) },
       });
     return { event: GamesEventsEnum.GAME_INFO, data: response };
   }
@@ -71,7 +86,7 @@ export class GamesGateway {
         data: { msg: msg, inviterSocketId: client.id },
       });
       delete this.gameRooms[room];
-    } else if (game?.challenger == client.id) {
+    } else if (game?.challenger === client.id) {
       game.challenger = null;
       game.firstToGo = null;
       msg = null;
@@ -86,10 +101,10 @@ export class GamesGateway {
     }
     client.leave(room);
     client.room = '';
-    this.users = this.users.filter((user) => user !== client.id);
+    this.users.delete(client.id);
     client.to(room).emit(GamesEventsEnum.USER_INFO, {
       gameRoom: room,
-      data: { users: this.users },
+      data: { users: Array.from(this.users) },
     });
     return { msg: msg };
   }
@@ -115,10 +130,10 @@ export class GamesGateway {
       client.room = gameRoom;
       response.data = { msg: `${client.id} joined game...` };
       client.to(gameRoom).emit(CommonEventsEnum.MSG_TO_CLIENT, response);
-      this.users.push(client.id);
+      this.users.add(client.id);
       client.to(gameRoom).emit(GamesEventsEnum.USER_INFO, {
         gameRoom: gameRoom,
-        data: { users: this.users },
+        data: { users: Array.from(this.users) },
       });
       return { event: CommonEventsEnum.MSG_TO_CLIENT, data: response };
     }
@@ -150,8 +165,10 @@ export class GamesGateway {
     payload: SocketPayloadInterface,
   ): WsResponse<SocketPayloadInterface> {
     const room = payload.gameRoom;
-    const data = payload.data;
     const game: GameInterface = this.gameRooms[room];
+    if (!game) {
+      return { event: 'error', data: { message: 'Game not found' } } as any;
+    }
     game.challenger = client.id;
     const response: SocketPayloadInterface = {
       gameRoom: room,
@@ -173,6 +190,9 @@ export class GamesGateway {
     const room = payload.gameRoom;
     const data = payload.data;
     const game: GameInterface = this.gameRooms[room];
+    if (!game) {
+      return { event: 'error', data: { message: 'Game not found' } };
+    }
     game.firstToGo = data.firstToGo;
   }
 
@@ -183,6 +203,9 @@ export class GamesGateway {
   ): WsResponse<SocketPayloadInterface> {
     const room = payload.gameRoom;
     const game: GameInterface = this.gameRooms[room];
+    if (!game) {
+      return { event: 'error', data: { message: 'Game not found' } } as any;
+    }
     game.status = GameStatusEnum.IN_PROGRESS;
     const response: SocketPayloadInterface = {
       gameRoom: room,

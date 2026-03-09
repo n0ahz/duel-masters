@@ -25,7 +25,25 @@ export class ZoneCard implements ZoneCardInterface {
     this.isTapped = zoneCardDto.isTapped === undefined ? false : zoneCardDto.isTapped;
   }
 
+  private destroyListeners(): void {
+    if (!this.cardImg) return;
+    this.cardImg.off('drag');
+    this.cardImg.off('dragstart');
+    this.cardImg.off('dragend');
+    this.cardImg.off('drop');
+    this.cardImg.off('pointerdown');
+    this.cardImg.off('pointerover');
+    this.cardImg.off('pointerout');
+    this.cardImg.off('dragleave');
+  }
+
+  destroy(): void {
+    this.destroyListeners();
+    this.cardImg?.destroy();
+  }
+
   cardImageLoadHandler(zone: DuelZone, texture: string, destinationX?: number, destinationY?: number) {
+    this.destroyListeners();
     const self = this;
     if (!destinationX) destinationX = zone.dropArea.x;
     if (!destinationY) destinationY = zone.dropArea.y;
@@ -101,7 +119,6 @@ export class ZoneCard implements ZoneCardInterface {
           }
         } else {
           // open a popup menu
-          console.log(self.card);
           // if (!(zone.visibility === ZoneVisibilitiesEnum.OFF || (zone.type === ZoneTypesEnum.OWN && zone.visibility === ZoneVisibilitiesEnum.PRIVATE && zone.side !== PlayerSidesEnum.BOTTOM))) {
           //   zone.scene.renderCardInfo(self);
           // }

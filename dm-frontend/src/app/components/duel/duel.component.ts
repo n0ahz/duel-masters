@@ -80,6 +80,7 @@ export class DuelComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.phaserGame?.destroy(true);
     this.gameService.leaveGame();
     this.socketService.removeAllListeners();
   }

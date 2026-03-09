@@ -26,9 +26,6 @@ export class DuelService {
       scene: [
         DuelScene,
       ],
-      physics: {
-        default: 'arcade',
-      },
       scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -41,7 +38,6 @@ export class DuelService {
   }
 
   showCardInfoModal(card: Card) {
-    console.log(card);
     const dialogRef = this.dialog.open(CardInfoComponent, {
       width: '80%',
       data: card,

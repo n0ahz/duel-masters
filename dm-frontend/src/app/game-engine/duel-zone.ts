@@ -167,7 +167,6 @@ export default class DuelZone implements ZoneInterface {
       zone: self,
     });
     this.dropArea.on('pointerdown', (pointer) => {
-      console.log(this);
     });
     this.outline = this.scene.add.graphics();
     this.outline.lineStyle(1, 0xBFFF00);

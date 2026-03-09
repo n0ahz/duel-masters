@@ -59,7 +59,11 @@ export class DuelGateway implements OnGatewayInit {
     const room = payload.gameRoom;
     const data = payload.data;
     const cards: ZoneCardInterface[] = data.duelDeck;
-    cards.forEach((each) => (each.uid = uuid.v4()));
+    cards.forEach((each) => {
+      each.uid = uuid.v4();
+      each.ownerId = client.id;
+      each.isTapped = false;
+    });
     const response: SocketPayloadInterface = {
       gameRoom: room,
       data: { msg: 'Ikuzo..!', duelDeck: data.duelDeck },
@@ -80,7 +84,11 @@ export class DuelGateway implements OnGatewayInit {
     const room = payload.gameRoom;
     const data = payload.data;
     const cards: ZoneCardInterface[] = data.duelDeck;
-    cards.forEach((each) => (each.uid = uuid.v4()));
+    cards.forEach((each) => {
+      each.uid = uuid.v4();
+      each.ownerId = client.id;
+      each.isTapped = false;
+    });
     const response: SocketPayloadInterface = {
       gameRoom: room,
       data: { msg: 'Koi..!', duelDeck: data.duelDeck },

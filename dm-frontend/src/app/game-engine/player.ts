@@ -23,7 +23,7 @@ export class Player implements PlayerInterface {
   }
 
   removeDeck(deck: Deck) {
-    this.decks = this.decks.filter(d => d === deck);
+    this.decks = this.decks.filter(d => d !== deck);
   }
 
   setPrimaryDeck(deck: Deck) {

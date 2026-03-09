@@ -11,7 +11,10 @@ import { SocketService } from './socket.service';
 export class GameService {
 
   _game: BehaviorSubject<GameInterface>;
-  game: GameInterface;
+
+  get game(): GameInterface {
+    return this._game.getValue();
+  }
 
   constructor(
     private socketService: SocketService,
@@ -27,7 +30,6 @@ export class GameService {
       createdAt: null,
       endedAt: null,
     });
-    this._game.asObservable().subscribe(game => this.game = game);
   }
 
   leaveGame() {
