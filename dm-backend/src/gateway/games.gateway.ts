@@ -66,13 +66,11 @@ export class GamesGateway implements OnGatewayInit {
         game: this.gameRooms[payload.data.gameIdentifier],
       },
     };
-    client
-      .to(room)
-      .emit(GamesEventsEnum.GAME_INFO, response)
-      .emit(GamesEventsEnum.USER_INFO, {
-        gameRoom: room,
-        data: { users: Array.from(this.users) },
-      });
+    client.to(room).emit(GamesEventsEnum.GAME_INFO, response);
+    client.to(room).emit(GamesEventsEnum.USER_INFO, {
+      gameRoom: room,
+      data: { users: Array.from(this.users) },
+    });
     return { event: GamesEventsEnum.GAME_INFO, data: response };
   }
 
