@@ -139,6 +139,20 @@ export class GamesGateway {
   ) {
     const userId = socket.data.userId;
     const username = socket.data.username || 'Player';
+
+    const room = this.gameRoomService.getRoom(data.gameId);
+    if (room?.challengerId === userId && room?.status === GameStatus.CHALLENGED) {
+      this.gameRoomService.updateRoom(data.gameId, {
+        challengerId: undefined,
+        challengerName: undefined,
+        challengerSocketId: undefined,
+        status: GameStatus.WAITING,
+      });
+      this.server.to(data.gameId).emit(GameEvents.CHALLENGE_REVOKED, {
+        gameId: data.gameId,
+      });
+    }
+
     socket.leave(data.gameId);
     socket.data.gameId = undefined;
     this.server.to(data.gameId).emit(GameEvents.GAME_LEFT, {
@@ -164,6 +178,10 @@ export class GamesGateway {
       const room = this.gameRoomService.getRoom(data.gameId);
       if (!room)
         return socket.emit(GameEvents.ERROR, { message: 'Game not found' });
+      if (room.status !== GameStatus.WAITING)
+        return socket.emit(GameEvents.ERROR, { message: 'Game already has a challenger' });
+      if (room.inviterId === userId)
+        return socket.emit(GameEvents.ERROR, { message: 'Cannot challenge your own game' });
 
       this.gameRoomService.updateRoom(data.gameId, {
         challengerId: userId,

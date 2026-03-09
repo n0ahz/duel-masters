@@ -25,7 +25,7 @@ import {
 import { SocketService } from '../../core/services/socket.service';
 import { GameService } from '../../core/services/game.service';
 
-type GameViewPhase = 'waiting' | 'coin-toss' | 'decide' | 'deck-select';
+type GameViewPhase = 'waiting' | 'coin-toss' | 'decide' | 'first-turn-info' | 'deck-select';
 
 @Component({
   selector: 'app-game-view',
@@ -66,7 +66,7 @@ type GameViewPhase = 'waiting' | 'coin-toss' | 'decide' | 'deck-select';
               <div class="player-row">
                 <span class="player-role">CHALLENGER</span>
                 <span class="player-name">{{ challengerName || 'WAITING...' }}</span>
-                <span class="player-self-badge" *ngIf="myId !== inviterId && challengerName">YOU</span>
+                <span class="player-self-badge" *ngIf="isChallenger">YOU</span>
               </div>
             </div>
           </div>
@@ -123,13 +123,13 @@ type GameViewPhase = 'waiting' | 'coin-toss' | 'decide' | 'deck-select';
             <div class="phase-connector"></div>
             <div class="phase-step"
               [class.phase-step--active]="phase === 'coin-toss'"
-              [class.phase-step--done]="phase === 'decide' || phase === 'deck-select'">
+              [class.phase-step--done]="phase === 'decide' || phase === 'first-turn-info' || phase === 'deck-select'">
               <span class="phase-num">02</span>
               <span class="phase-name">COIN FLIP</span>
             </div>
             <div class="phase-connector"></div>
             <div class="phase-step"
-              [class.phase-step--active]="phase === 'decide'"
+              [class.phase-step--active]="phase === 'decide' || phase === 'first-turn-info'"
               [class.phase-step--done]="phase === 'deck-select'">
               <span class="phase-num">03</span>
               <span class="phase-name">INITIATIVE</span>
@@ -155,68 +155,137 @@ type GameViewPhase = 'waiting' | 'coin-toss' | 'decide' | 'deck-select';
 
             <!-- WAITING -->
             <div *ngIf="phase === 'waiting'" class="phase-content waiting-content">
-              <div class="hourglass-wrap">
-                <mat-icon class="hourglass-icon">hourglass_empty</mat-icon>
-                <div class="ping-rings">
-                  <div class="ping-ring ring-1"></div>
-                  <div class="ping-ring ring-2"></div>
-                  <div class="ping-ring ring-3"></div>
+
+              <!-- Inviter: scanning for challenger -->
+              <ng-container *ngIf="isInviter">
+                <div class="hourglass-wrap">
+                  <mat-icon class="hourglass-icon">hourglass_empty</mat-icon>
+                  <div class="ping-rings">
+                    <div class="ping-ring ring-1"></div>
+                    <div class="ping-ring ring-2"></div>
+                    <div class="ping-ring ring-3"></div>
+                  </div>
                 </div>
-              </div>
-              <p class="waiting-text">SCANNING FOR OPPONENT...</p>
-              <div class="waiting-dots">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-              </div>
+                <p class="waiting-text">SCANNING FOR OPPONENT...</p>
+                <div class="waiting-dots">
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+              </ng-container>
+
+              <!-- Joined player: can challenge or is a viewer -->
+              <ng-container *ngIf="!isInviter">
+
+                <!-- No challenger yet — show challenge button -->
+                <ng-container *ngIf="canChallenge">
+                  <div class="challenge-prompt">
+                    <div class="challenge-icon-wrap">
+                      <mat-icon class="challenge-icon">sports_mma</mat-icon>
+                    </div>
+                    <p class="waiting-text">READY TO DUEL?</p>
+                    <button
+                      mat-raised-button
+                      color="accent"
+                      class="challenge-btn"
+                      (click)="challenge()"
+                    >
+                      <mat-icon>flash_on</mat-icon>
+                      CHALLENGE HOST
+                    </button>
+                  </div>
+                </ng-container>
+
+                <!-- Already challenged by someone else — viewer mode -->
+                <ng-container *ngIf="isViewer">
+                  <div class="viewer-state">
+                    <mat-icon class="viewer-icon">visibility</mat-icon>
+                    <p class="viewer-label">SPECTATOR MODE</p>
+                    <p class="viewer-sub">{{ challengerName || 'Another player' }} is challenging the host</p>
+                    <p class="viewer-hint">You may challenge if they leave before the coin toss</p>
+                  </div>
+                </ng-container>
+
+              </ng-container>
             </div>
 
             <!-- COIN TOSS -->
             <div *ngIf="phase === 'coin-toss'" class="phase-content coin-content">
-              <p class="instruction-text">SELECT COIN FACE:</p>
-              <div class="coin-options">
+
+              <!-- Spinning animation (all players see this) -->
+              <ng-container *ngIf="isFlipping">
+                <div class="coin-anim-wrap">
+                  <div class="coin-3d-scene">
+                    <div class="coin-disc-spin"></div>
+                  </div>
+                  <p class="flipping-text">FLIPPING COIN...</p>
+                </div>
+              </ng-container>
+
+              <!-- Challenger: pick + flip -->
+              <ng-container *ngIf="!isFlipping && isChallenger && !coinResult">
+                <p class="instruction-text">SELECT YOUR COIN FACE:</p>
+                <div class="coin-options">
+                  <button
+                    class="coin-btn"
+                    [class.coin-btn--selected]="picked && pickedSide === 'heads'"
+                    [class.coin-btn--unselected]="picked && pickedSide !== 'heads'"
+                    [disabled]="picked"
+                    (click)="pick('heads')"
+                  >
+                    <span class="coin-symbol">Ω</span>
+                    <span class="coin-label">HEADS</span>
+                  </button>
+                  <div class="coin-vs">VS</div>
+                  <button
+                    class="coin-btn"
+                    [class.coin-btn--selected]="picked && pickedSide === 'tails'"
+                    [class.coin-btn--unselected]="picked && pickedSide !== 'tails'"
+                    [disabled]="picked"
+                    (click)="pick('tails')"
+                  >
+                    <span class="coin-symbol">∞</span>
+                    <span class="coin-label">TAILS</span>
+                  </button>
+                </div>
                 <button
-                  class="coin-btn"
-                  [class.coin-btn--selected]="picked && pickedSide === 'heads'"
-                  [class.coin-btn--unselected]="picked && pickedSide !== 'heads'"
-                  [disabled]="picked"
-                  (click)="pick('heads')"
+                  mat-raised-button
+                  color="accent"
+                  class="flip-btn"
+                  *ngIf="picked"
+                  (click)="flip()"
                 >
-                  <span class="coin-symbol">Ω</span>
-                  <span class="coin-label">HEADS</span>
+                  <mat-icon>casino</mat-icon>
+                  EXECUTE FLIP
                 </button>
-                <div class="coin-vs">VS</div>
-                <button
-                  class="coin-btn"
-                  [class.coin-btn--selected]="picked && pickedSide === 'tails'"
-                  [class.coin-btn--unselected]="picked && pickedSide !== 'tails'"
-                  [disabled]="picked"
-                  (click)="pick('tails')"
-                >
-                  <span class="coin-symbol">∞</span>
-                  <span class="coin-label">TAILS</span>
-                </button>
-              </div>
-              <button
-                mat-raised-button
-                color="accent"
-                class="flip-btn"
-                *ngIf="picked && !coinResult"
-                (click)="flip()"
-              >
-                <mat-icon>casino</mat-icon>
-                EXECUTE FLIP
-              </button>
-              <div *ngIf="coinResult" class="coin-result"
-                [class.coin-result--win]="isWinner"
-                [class.coin-result--loss]="!isWinner">
-                <div class="result-label">RESULT</div>
-                <div class="result-value">{{ coinResult | uppercase }}</div>
-                <div class="result-status" *ngIf="!isWinner">AWAITING OPPONENT DECISION...</div>
-              </div>
+              </ng-container>
+
+              <!-- Host / non-challengers: watch -->
+              <ng-container *ngIf="!isFlipping && !isChallenger && !coinResult">
+                <div class="watching-wrap">
+                  <mat-icon class="watching-icon">casino</mat-icon>
+                  <p class="waiting-text">CHALLENGER IS DECIDING...</p>
+                  <div class="waiting-dots">
+                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- Result (all players, after animation) -->
+              <ng-container *ngIf="!isFlipping && coinResult">
+                <div class="coin-result" [class.coin-result--win]="isWinner" [class.coin-result--loss]="!isWinner">
+                  <div class="coin-result__pick">
+                    CHALLENGER CHOSE: <span>{{ challengerPick | uppercase }}</span>
+                  </div>
+                  <div class="result-label">RESULT</div>
+                  <div class="result-value">{{ coinResult | uppercase }}</div>
+                  <div class="result-status" *ngIf="!isWinner">AWAITING WINNER DECISION...</div>
+                </div>
+              </ng-container>
+
             </div>
 
-            <!-- DECIDE -->
+            <!-- DECIDE (winner only) -->
             <div *ngIf="phase === 'decide'" class="phase-content decide-content">
               <div class="win-badge">
                 <span class="win-icon">◈</span>
@@ -238,6 +307,20 @@ type GameViewPhase = 'waiting' | 'coin-toss' | 'decide' | 'deck-select';
                     <span class="decide-sub">STRATEGIC DELAY</span>
                   </div>
                 </button>
+              </div>
+            </div>
+
+            <!-- FIRST TURN INFO -->
+            <div *ngIf="phase === 'first-turn-info'" class="phase-content first-turn-content">
+              <div class="first-turn-badge">
+                <mat-icon class="first-turn-icon">play_circle_filled</mat-icon>
+              </div>
+              <div class="first-turn-label">GOES FIRST</div>
+              <div class="first-turn-name">{{ firstPlayerName | uppercase }}</div>
+              <div class="first-turn-you" *ngIf="firstPlayerId === myId">— THAT'S YOU —</div>
+              <div class="first-turn-hint">
+                <mat-spinner diameter="16"></mat-spinner>
+                <span>PREPARING DECK SELECTION...</span>
               </div>
             </div>
 
@@ -646,7 +729,79 @@ type GameViewPhase = 'waiting' | 'coin-toss' | 'decide' | 'deck-select';
     .dot:nth-child(2) { animation-delay: 0.3s; }
     .dot:nth-child(3) { animation-delay: 0.6s; }
 
+    /* Challenge prompt */
+    .challenge-prompt { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .challenge-icon-wrap {
+      display: flex; align-items: center; justify-content: center;
+      width: 64px; height: 64px;
+      border: 1px solid var(--neon-orange, #ff6b35); border-radius: 50%;
+      box-shadow: 0 0 16px rgba(255, 107, 53, 0.3);
+    }
+    .challenge-icon {
+      font-size: 32px !important; width: 32px !important; height: 32px !important;
+      color: var(--neon-orange, #ff6b35) !important;
+    }
+    .challenge-btn {
+      letter-spacing: 0.15em; font-family: var(--font-mono); font-size: 12px;
+      padding: 0 24px; height: 40px;
+    }
+
+    /* Viewer state */
+    .viewer-state {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      padding: 20px; border: 1px dashed var(--border-dim); width: 100%; box-sizing: border-box;
+    }
+    .viewer-icon {
+      font-size: 36px !important; width: 36px !important; height: 36px !important;
+      color: var(--text-dim) !important;
+    }
+    .viewer-label {
+      font-family: var(--font-display); font-size: 13px; font-weight: 700;
+      color: var(--text-secondary); letter-spacing: 0.2em; margin: 0;
+    }
+    .viewer-sub {
+      font-family: var(--font-mono); font-size: 10px; color: var(--text-dim);
+      letter-spacing: 0.1em; margin: 0; text-align: center;
+    }
+    .viewer-hint {
+      font-family: var(--font-mono); font-size: 9px; color: var(--text-dim);
+      letter-spacing: 0.08em; margin: 0; text-align: center; opacity: 0.7;
+    }
+
     /* Coin toss */
+    /* -- animation -- */
+    .coin-anim-wrap { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 10px 0; }
+    .coin-3d-scene { width: 90px; height: 90px; perspective: 500px; display: flex; align-items: center; justify-content: center; }
+    .coin-disc-spin {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #ffe066, #c8960c 50%, #7a5500);
+      border: 3px solid #ffd700;
+      box-shadow: 0 0 24px rgba(255, 215, 0, 0.5), inset 0 0 12px rgba(0,0,0,0.3);
+      display: flex; align-items: center; justify-content: center;
+      animation: coinFlip3D 0.5s linear infinite;
+    }
+    @keyframes coinFlip3D {
+      0%   { transform: rotateY(0deg)   scaleX(1); }
+      25%  { transform: rotateY(90deg)  scaleX(0.1); }
+      50%  { transform: rotateY(180deg) scaleX(1); }
+      75%  { transform: rotateY(270deg) scaleX(0.1); }
+      100% { transform: rotateY(360deg) scaleX(1); }
+    }
+    .flipping-text {
+      font-family: var(--font-display); font-size: 13px; font-weight: 700;
+      letter-spacing: 0.25em; color: var(--neon-gold); text-shadow: var(--neon-gold-glow);
+      animation: glow-pulse 0.6s ease-in-out infinite; margin: 0;
+    }
+    /* -- watching -- */
+    .watching-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .watching-icon { font-size: 36px !important; width: 36px !important; height: 36px !important; color: var(--text-secondary) !important; }
+    /* -- coin pick display in result -- */
+    .coin-result__pick {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em;
+      color: var(--text-secondary); margin-bottom: 10px;
+    }
+    .coin-result__pick span { color: var(--neon-gold); font-weight: 700; }
+    /* -- coin buttons etc -- */
     .coin-options { display: flex; gap: 14px; align-items: center; margin-bottom: 20px; }
     .coin-vs { font-family: var(--font-display); font-size: 10px; font-weight: 700; color: var(--text-dim); letter-spacing: 0.2em; }
     .coin-btn {
@@ -663,6 +818,7 @@ type GameViewPhase = 'waiting' | 'coin-toss' | 'decide' | 'deck-select';
     .flip-btn { width: 100%; height: 40px !important; font-size: 11px !important; letter-spacing: 0.15em !important; animation: glow-pulse-magenta 2s ease-in-out infinite !important; }
     .coin-result { margin-top: 18px; padding: 14px; border: 1px solid var(--border-dim); text-align: center; }
     .coin-result--win  { border-color: var(--neon-gold); box-shadow: 0 0 16px rgba(255,215,0,0.15); }
+    .coin-result--loss { border-color: var(--border-mid); }
     .result-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.3em; color: var(--text-secondary); margin-bottom: 4px; }
     .result-value { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--neon-gold); text-shadow: var(--neon-gold-glow); letter-spacing: 0.2em; }
     .result-status { font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary); letter-spacing: 0.12em; margin-top: 6px; }
@@ -683,6 +839,20 @@ type GameViewPhase = 'waiting' | 'coin-toss' | 'decide' | 'deck-select';
     .decide-btn--opp .decide-icon { color: var(--neon-magenta); }
     .decide-label { font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--text-bright); display: block; }
     .decide-sub { font-family: var(--font-mono); font-size: 9px; color: var(--text-secondary); letter-spacing: 0.12em; display: block; margin-top: 1px; }
+
+    /* First turn info */
+    .first-turn-content { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 8px 0; }
+    .first-turn-badge {
+      width: 72px; height: 72px; border-radius: 50%;
+      border: 2px solid var(--neon-gold); display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 20px rgba(255,215,0,0.25);
+      animation: glow-pulse 1.5s ease-in-out infinite;
+    }
+    .first-turn-icon { font-size: 36px !important; width: 36px !important; height: 36px !important; color: var(--neon-gold) !important; }
+    .first-turn-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.3em; color: var(--text-secondary); }
+    .first-turn-name { font-family: var(--font-display); font-size: 20px; font-weight: 900; letter-spacing: 0.15em; color: var(--neon-gold); text-shadow: var(--neon-gold-glow); text-align: center; }
+    .first-turn-you { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--neon-cyan); }
+    .first-turn-hint { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; color: var(--text-dim); margin-top: 8px; }
 
     /* Deck select */
     .deck-list { display: flex; flex-direction: column; gap: 8px; }
@@ -727,15 +897,30 @@ export class GameViewComponent implements OnInit, AfterViewChecked {
   gameName = '';
   inviterId = '';
   inviterName = '';
+  challengerId = '';
   challengerName = '';
   phase: GameViewPhase = 'waiting';
   myId = '';
   myUsername = '';
   opponentId = '';
   coinResult = '';
+  challengerPick = '';
   isWinner = false;
+  isFlipping = false;
   picked = false;
   pickedSide: 'heads' | 'tails' | null = null;
+  firstPlayerId = '';
+
+  get isInviter(): boolean { return this.myId === this.inviterId; }
+  get isChallenger(): boolean { return this.myId === this.challengerId; }
+  get isViewer(): boolean { return !this.isInviter && !!this.challengerId && !this.isChallenger; }
+  get canChallenge(): boolean { return !this.isInviter && !this.challengerId; }
+  get firstPlayerName(): string {
+    if (!this.firstPlayerId) return '';
+    if (this.firstPlayerId === this.inviterId) return this.inviterName || 'HOST';
+    if (this.firstPlayerId === this.challengerId) return this.challengerName || 'CHALLENGER';
+    return 'UNKNOWN';
+  }
 
   messages: ChatMessageInterface[] = [];
   chatInput = '';
@@ -750,6 +935,7 @@ export class GameViewComponent implements OnInit, AfterViewChecked {
       waiting: 'AWAITING OPPONENT',
       'coin-toss': 'COIN TOSS',
       decide: 'FIRST TURN',
+      'first-turn-info': 'INITIATIVE SET',
       'deck-select': 'SELECT DECK',
     };
     return titles[this.phase];
@@ -760,6 +946,7 @@ export class GameViewComponent implements OnInit, AfterViewChecked {
       waiting: '01_STANDBY',
       'coin-toss': '02_FLIP',
       decide: '03_INITIATIVE',
+      'first-turn-info': '03_INITIATIVE',
       'deck-select': '04_ARMORY',
     };
     return codes[this.phase];
@@ -770,6 +957,7 @@ export class GameViewComponent implements OnInit, AfterViewChecked {
       waiting: 'WAITING',
       'coin-toss': 'COIN TOSS',
       decide: 'DECIDING',
+      'first-turn-info': 'INITIATIVE',
       'deck-select': 'DECK SELECT',
     };
     return labels[this.phase];
@@ -784,30 +972,67 @@ export class GameViewComponent implements OnInit, AfterViewChecked {
     this.gameName = state?.gameName || '';
     this.inviterId = state?.inviterId || '';
     this.inviterName = state?.inviterName || '';
+    if (state?.alreadyChallenged) {
+      this.challengerId = state.challengerId || '';
+      this.challengerName = state.challengerName || '';
+    }
 
     this.socketService
       .on<any>(GameEvents.CHALLENGED)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((data) => {
-        this.phase = 'coin-toss';
+        this.challengerId = data.challengerId;
         this.challengerName = data.challengerName || '';
         if (this.myId === data.challengerId) {
           this.opponentId = this.inviterId;
         } else {
           this.opponentId = data.challengerId;
         }
-        this.pushLog(`${data.challengerName} accepted the challenge`);
+        if (!this.isViewer) {
+          this.phase = 'coin-toss';
+          this.pushLog(`${data.challengerName} accepted the challenge`);
+        } else {
+          this.pushLog(`${data.challengerName} is now the challenger — you are watching`);
+        }
+      });
+
+    this.socketService
+      .on<any>(GameEvents.CHALLENGE_REVOKED)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.challengerId = '';
+        this.challengerName = '';
+        this.pushLog('Challenger left — challenge is now open');
       });
 
     this.socketService
       .on<any>(GameEvents.COIN_TOSS_RESULT)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((data) => {
-        this.coinResult = data.result;
-        if (data.winnerId === this.myId) {
-          this.isWinner = true;
-          this.phase = 'decide';
-        }
+        if (this.isViewer) return;
+        this.challengerPick = data.challengerPick || '';
+        this.isFlipping = true;
+        setTimeout(() => {
+          this.isFlipping = false;
+          this.coinResult = data.result;
+          if (data.winnerId === this.myId) {
+            this.isWinner = true;
+            this.phase = 'decide';
+          }
+        }, 3000);
+      });
+
+    this.socketService
+      .on<any>(GameEvents.WHO_GOES_FIRST)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((data) => {
+        if (this.isViewer) return;
+        this.firstPlayerId = data.firstPlayerId;
+        this.phase = 'first-turn-info';
+        setTimeout(() => {
+          this.phase = 'deck-select';
+          this.loadDecks();
+        }, 3000);
       });
 
     this.socketService
@@ -863,6 +1088,10 @@ export class GameViewComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  challenge(): void {
+    this.socketService.emit(GameCommands.CHALLENGE, { gameId: this.gameId });
+  }
+
   pick(side: 'heads' | 'tails'): void {
     this.socketService.emit(GameCommands.COIN_TOSS_PICK, { gameId: this.gameId, side });
     this.picked = true;
@@ -879,8 +1108,7 @@ export class GameViewComponent implements OnInit, AfterViewChecked {
       gameId: this.gameId,
       firstPlayerId,
     });
-    this.phase = 'deck-select';
-    this.loadDecks();
+    // Phase transition handled by WHO_GOES_FIRST event (broadcast to both players)
   }
 
   sendChat(): void {

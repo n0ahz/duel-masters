@@ -60,24 +60,36 @@ export class DuelDecisionGateway {
     @MessageBody() data: { gameId: string },
     @ConnectedSocket() socket: Socket,
   ) {
+    const room = this.gameRoomService.getRoom(data.gameId);
+    if (!room)
+      return socket.emit(GameEvents.ERROR, { message: 'Game not found' });
+    if (room.challengerId !== socket.data.userId)
+      return socket.emit(GameEvents.ERROR, {
+        message: 'Only the challenger can flip the coin',
+      });
+
     const result = this.coinTossService.flip(data.gameId);
     if (!result)
       return socket.emit(GameEvents.ERROR, {
-        message: 'Not all players have picked',
+        message: 'Pick a side before flipping',
       });
 
-    const room = this.gameRoomService.getRoom(data.gameId);
-    if (room?.dbId) {
+    const toss = this.coinTossService.getToss(data.gameId);
+    const challengerPick = toss?.picks.get(room.challengerId) ?? null;
+
+    if (room.dbId) {
       await this.gamesService.recordStep(room.dbId, {
         playerId: socket.data.userId,
         type: 'coin_toss_flip',
-        payload: result,
+        payload: { ...result, challengerPick },
       });
     }
 
-    this.server
-      .to(data.gameId)
-      .emit(GameEvents.COIN_TOSS_RESULT, { gameId: data.gameId, ...result });
+    this.server.to(data.gameId).emit(GameEvents.COIN_TOSS_RESULT, {
+      gameId: data.gameId,
+      ...result,
+      challengerPick,
+    });
   }
 
   @SubscribeMessage(GameCommands.DECIDE_WHO_GOES_FIRST)
@@ -97,6 +109,11 @@ export class DuelDecisionGateway {
         playerId: socket.data.userId,
         type: 'decide_first',
         payload: { firstPlayerId: data.firstPlayerId },
+      });
+
+      this.server.to(data.gameId).emit(GameEvents.WHO_GOES_FIRST, {
+        gameId: data.gameId,
+        firstPlayerId: data.firstPlayerId,
       });
 
       await this.checkAndStartDuel(data.gameId, socket);

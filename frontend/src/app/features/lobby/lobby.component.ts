@@ -320,9 +320,15 @@ export class LobbyComponent implements OnInit {
 
   joinGame(game: GameInterface): void {
     this.socketService.emit(GameCommands.JOIN_GAME, { gameId: game.id });
-    this.socketService.emit(GameCommands.CHALLENGE, { gameId: game.id });
     this.router.navigate(['/game', game.id], {
-      state: { gameName: game.name, inviterId: game.inviterId, inviterName: game.inviterName },
+      state: {
+        gameName: game.name,
+        inviterId: game.inviterId,
+        inviterName: game.inviterName,
+        alreadyChallenged: !!game.challengerId,
+        challengerId: game.challengerId || '',
+        challengerName: game.challengerName || '',
+      },
     });
   }
 

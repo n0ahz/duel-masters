@@ -11,7 +11,8 @@
       "Bash(echo Backend TSC exit: $?:*)",
       "Bash(echo Frontend TSC exit: $?:*)",
       "Bash(npm run:*)",
-      "Bash(find .:*)"
+      "Bash(find .:*)",
+      "Bash(find:*)"
     ]
   }
 }
