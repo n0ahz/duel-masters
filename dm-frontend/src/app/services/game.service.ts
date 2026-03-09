@@ -16,6 +16,10 @@ export class GameService {
     return this._game.getValue();
   }
 
+  set game(data: GameInterface) {
+    this._game.next(data);
+  }
+
   constructor(
     private socketService: SocketService,
   ) {
