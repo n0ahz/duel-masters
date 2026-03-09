@@ -23,6 +23,7 @@ import {
 } from '@dm/shared';
 import { SocketService } from '../../core/services/socket.service';
 import { DuelEngineService } from '../../core/services/duel-engine.service';
+import { GameService } from '../../core/services/game.service';
 
 @Component({
   selector: 'app-duel',
@@ -301,6 +302,7 @@ export class DuelComponent implements OnInit, AfterViewInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private socketService = inject(SocketService);
   private duelEngineService = inject(DuelEngineService);
+  private gameService = inject(GameService);
   private destroyRef = inject(DestroyRef);
 
   gameId = '';
@@ -309,11 +311,20 @@ export class DuelComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.gameId = this.route.snapshot.paramMap.get('id') || '';
+    const localUserId = this.socketService.currentUserId;
 
     this.socketService
       .on<ChatMessageInterface>(GameEvents.CHAT_MESSAGE)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((msg) => { this.chatMessages.push(msg); });
+
+    this.gameService.gameState$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((state) => {
+        if (state) {
+          this.duelEngineService.applyGameState(state, localUserId);
+        }
+      });
   }
 
   ngAfterViewInit(): void {

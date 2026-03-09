@@ -177,7 +177,7 @@ export class DuelDecisionGateway {
         entry.decks.get(challengerId)!,
       );
 
-      this.duelStateService.initGame(gameId, [
+      const gameState = this.duelStateService.initGame(gameId, [
         { userId: inviterId, username: room.inviterName, deck: inviterDeck },
         {
           userId: challengerId,
@@ -198,6 +198,8 @@ export class DuelDecisionGateway {
       });
 
       this.duelReadyState.delete(gameId);
+
+      this.server.to(gameId).emit(GameEvents.GAME_STATE_UPDATE, gameState);
 
       this.server.to(gameId).emit(GameEvents.DUEL_STARTED, {
         gameId,

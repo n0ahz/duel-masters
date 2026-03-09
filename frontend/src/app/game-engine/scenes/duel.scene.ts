@@ -36,17 +36,28 @@ export class DuelScene extends Phaser.Scene {
       })
       .setOrigin(0.5)
       .setDepth(10);
+
+    // Apply state that may have arrived before the scene was ready
+    const state = this.game.registry.get('gameState') as GameStateInterface | undefined;
+    const localUserId = this.game.registry.get('localUserId') as string | undefined;
+    if (state && localUserId) {
+      this.applyState(state, localUserId);
+    }
   }
 
   override update(_time: number, _delta: number): void {
     // Per-frame logic (animations, hover effects)
   }
 
-  applyState(state: GameStateInterface): void {
+  applyState(state: GameStateInterface, localUserId: string): void {
     const playerIds = Object.keys(state.players);
     if (playerIds.length < 2) return;
 
-    // Update status text
+    const opponentId = playerIds.find((id) => id !== localUserId) ?? playerIds[0];
+
+    this.bottomZones.applyPlayerState(state, localUserId);
+    this.topZones.applyPlayerState(state, opponentId);
+
     this.statusText.setText(
       `Phase: ${state.currentPhase} | Turn: ${state.turnNumber}`,
     );
