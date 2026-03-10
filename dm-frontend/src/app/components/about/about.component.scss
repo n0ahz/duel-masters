@@ -1,4 +1,380 @@
-.about-container {
-  font-family: monospace;
-  padding: 1em;
+// ─── Variables ────────────────────────────────────────────────────────────────
+$gold:          var(--dm-gold);
+$gold-bright:   var(--dm-gold-bright);
+$gold-border:   var(--dm-gold-border);
+$gold-dim:      var(--dm-gold-dim);
+$surface:       var(--dm-surface);
+$surface-2:     var(--dm-surface-2);
+$surface-3:     var(--dm-surface-3);
+$text:          var(--dm-text);
+$text-soft:     var(--dm-text-soft);
+$text-muted:    var(--dm-text-muted);
+$glow-gold:     var(--dm-glow-gold);
+$glow-soft:     var(--dm-glow-soft);
+
+// ─── Keyframes ────────────────────────────────────────────────────────────────
+@keyframes ring-breathe {
+  0%, 100% { opacity: 0.18; transform: translate(-50%, -50%) scale(1); }
+  50%       { opacity: 0.35; transform: translate(-50%, -50%) scale(1.03); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rune-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+  50%       { transform: translateY(-6px) rotate(8deg); opacity: 0.6; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+// ─── Wrapper ─────────────────────────────────────────────────────────────────
+.about-wrap {
+  min-height: calc(100vh - var(--dm-h));
+  background: var(--dm-bg);
+  color: $text;
+  overflow-x: hidden;
+}
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72vh;
+  padding: 6rem 2rem 5rem;
+  text-align: center;
+  overflow: hidden;
+
+  // Subtle radial glow behind content
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(201,162,39,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+}
+
+.hero__ring {
+  position: absolute;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+
+  &--1 {
+    width: 680px; height: 680px;
+    border: 1px solid $gold-border;
+    animation: ring-breathe 7s ease-in-out infinite;
+  }
+  &--2 {
+    width: 480px; height: 480px;
+    border: 1px solid rgba(201,162,39,0.12);
+    animation: ring-breathe 7s ease-in-out infinite 1.5s;
+  }
+  &--3 {
+    width: 300px; height: 300px;
+    border: 1px solid rgba(201,162,39,0.08);
+    animation: ring-breathe 7s ease-in-out infinite 3s;
+  }
+}
+
+.hero__rune {
+  position: absolute;
+  font-size: 0.75rem;
+  color: $gold;
+  animation: rune-float 5s ease-in-out infinite;
+  pointer-events: none;
+
+  &--tl { top: 18%; left: 12%; animation-delay: 0s; }
+  &--tr { top: 18%; right: 12%; animation-delay: 1.2s; }
+  &--bl { bottom: 22%; left: 12%; animation-delay: 2.4s; }
+  &--br { bottom: 22%; right: 12%; animation-delay: 3.6s; }
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  animation: fade-up 0.9s ease both;
+}
+
+.hero__eyebrow {
+  margin: 0 0 1.25rem;
+  font-family: armada, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: $gold;
+  opacity: 0.75;
+  animation: fade-up 0.9s ease 0.1s both;
+}
+
+.hero__title {
+  margin: 0;
+  font-family: perceval, serif;
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.04em;
+
+  // Gold shimmer gradient
+  background: linear-gradient(
+    105deg,
+    #c9a227 0%,
+    #ecc84a 30%,
+    #f5d96a 50%,
+    #ecc84a 70%,
+    #c9a227 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fade-up 0.9s ease 0.2s both, shimmer 5s linear 1.2s infinite;
+  text-shadow: none;
+  filter: drop-shadow(0 0 24px rgba(201,162,39,0.5));
+}
+
+.hero__divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.25rem auto;
+  width: 220px;
+  animation: fade-up 0.9s ease 0.35s both;
+}
+
+.hero__divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, $gold-border, transparent);
+}
+
+.hero__divider-gem {
+  color: $gold;
+  font-size: 0.55rem;
+  opacity: 0.7;
+}
+
+.hero__subtitle {
+  margin: 0 0 1.5rem;
+  font-family: armada, monospace;
+  font-size: clamp(0.85rem, 2vw, 1.1rem);
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: $text-soft;
+  animation: fade-up 0.9s ease 0.45s both;
+}
+
+.hero__desc {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: $text-soft;
+  max-width: 480px;
+  margin-inline: auto;
+  animation: fade-up 0.9s ease 0.6s both;
+}
+
+// ─── Section label ────────────────────────────────────────────────────────────
+.section-label {
+  text-align: center;
+  font-family: armada, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: $gold;
+  opacity: 0.6;
+  margin-bottom: 2.5rem;
+
+  &::before,
+  &::after {
+    content: '— ';
+  }
+  &::after {
+    content: ' —';
+  }
+}
+
+// ─── Pillars ──────────────────────────────────────────────────────────────────
+.pillars {
+  padding: 5rem 2rem;
+  max-width: 1100px;
+  margin-inline: auto;
+}
+
+.pillars__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.5rem;
+}
+
+.pillar {
+  position: relative;
+  background: $surface;
+  border: 1px solid $gold-border;
+  border-radius: 4px;
+  padding: 2.5rem 2rem 2rem;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+
+  &:hover {
+    border-color: $gold;
+    box-shadow: $glow-soft;
+    transform: translateY(-3px);
+
+    .pillar__accent { width: 100%; }
+    .pillar__glyph  { color: $gold-bright; text-shadow: 0 0 20px rgba(201,162,39,0.6); }
+  }
+
+  // top-left corner decoration
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 28px; height: 28px;
+    border-top: 2px solid $gold;
+    border-left: 2px solid $gold;
+    opacity: 0.5;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 28px; height: 28px;
+    border-bottom: 2px solid $gold;
+    border-right: 2px solid $gold;
+    opacity: 0.5;
+  }
+}
+
+.pillar__accent {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(to right, $gold, transparent);
+  transition: width 0.5s ease;
+}
+
+.pillar__glyph {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: block;
+  color: $gold;
+  transition: color 0.3s, text-shadow 0.3s;
+  line-height: 1;
+}
+
+.pillar__title {
+  margin: 0 0 0.75rem;
+  font-family: officina, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: $text;
+}
+
+.pillar__body {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: $text-soft;
+}
+
+// ─── Stack section ────────────────────────────────────────────────────────────
+.stack-section {
+  padding: 4rem 2rem 5rem;
+  max-width: 900px;
+  margin-inline: auto;
+
+  &::before {
+    content: '';
+    display: block;
+    height: 1px;
+    background: linear-gradient(to right, transparent, $gold-border, transparent);
+    margin-bottom: 4rem;
+  }
+}
+
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.stack-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.75rem 1.5rem;
+  background: $surface-2;
+  border: 1px solid rgba(201,162,39,0.15);
+  border-radius: 4px;
+  text-align: center;
+  transition: border-color 0.3s, background 0.3s;
+
+  &:hover {
+    border-color: $gold-border;
+    background: $surface-3;
+  }
+}
+
+.stack-layer {
+  display: block;
+  font-family: armada, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: $gold;
+  opacity: 0.7;
+  margin-bottom: 0.25rem;
+}
+
+.stack-tech {
+  display: block;
+  font-family: officina, serif;
+  font-size: 1rem;
+  color: $text;
+
+  &--secondary {
+    font-size: 0.8rem;
+    color: $text-soft;
+  }
+}
+
+// ─── Footer ───────────────────────────────────────────────────────────────────
+.about-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2.5rem 2rem;
+  border-top: 1px solid rgba(201,162,39,0.1);
+}
+
+.footer-seal {
+  color: $gold;
+  font-size: 1.1rem;
+  opacity: 0.5;
+}
+
+.footer-text {
+  font-family: armada, monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: $text-muted;
+  text-align: center;
 }
