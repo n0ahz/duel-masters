@@ -1,1 +1,1 @@
-export { CardInterface } from '@dm/shared/interfaces/card.interface';
+export { CardInterface } from '@dm/shared';

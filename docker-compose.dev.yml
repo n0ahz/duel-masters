@@ -28,6 +28,7 @@ services:
     volumes:
       - ./dm-backend:/app
       - ./shared:/shared
+      - ./data:/data
       - /app/node_modules
     environment:
       MONGODB_URI: mongodb://mongodb:27017/duel-masters

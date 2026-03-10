@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,7 +38,8 @@ import {
 } from '@abacritt/angularx-social-login';
 import { environment } from '../environments/environment';
 import { RulesComponent } from './components/rules/rules.component';
-import { CardsComponent } from './components/cards/cards.component';
+import { SetsComponent } from './components/sets/sets.component';
+import { SetDetailComponent } from './components/set-detail/set-detail.component';
 
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
@@ -54,10 +56,12 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     DuelComponent,
     CardInfoComponent,
     RulesComponent,
-    CardsComponent,
+    SetsComponent,
+    SetDetailComponent,
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     SocialLoginModule,

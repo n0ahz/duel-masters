@@ -6,8 +6,13 @@ export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
 
   @Get()
-  findAll(@Query('name') name?: string, @Query('civilization') civilization?: string, @Query('type') type?: string) {
-    return this.cardsService.findAll({ name, civilization, type });
+  findAll(
+    @Query('name') name?: string,
+    @Query('civilization') civilization?: string,
+    @Query('type') type?: string,
+    @Query('set') set?: string,
+  ) {
+    return this.cardsService.findAll({ name, civilization, type, set });
   }
 
   @Get(':id')

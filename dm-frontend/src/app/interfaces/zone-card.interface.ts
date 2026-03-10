@@ -1,1 +1,1 @@
-export { ZoneCardInterface } from '@dm/shared/interfaces/zone-card.interface';
+export { ZoneCardInterface } from '@dm/shared';

@@ -8,14 +8,16 @@ import { GameViewComponent } from './components/games/game-view/game-view.compon
 import { DuelComponent } from './components/duel/duel.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RulesComponent } from './components/rules/rules.component';
-import { CardsComponent } from './components/cards/cards.component';
+import { SetsComponent } from './components/sets/sets.component';
+import { SetDetailComponent } from './components/set-detail/set-detail.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
   { path: 'about', component: AboutComponent },
   { path: 'rules', component: RulesComponent },
-  { path: 'cards', component: CardsComponent },
+  { path: 'cards', component: SetsComponent },
+  { path: 'cards/:setCode', component: SetDetailComponent },
   { path: 'games/list', component: GameListComponent, canActivate: [AuthGuard] },
   { path: 'games/add', component: GameAddComponent, canActivate: [AuthGuard] },
   { path: 'games/view/:gameIdentifier', component: GameViewComponent, canActivate: [AuthGuard] },

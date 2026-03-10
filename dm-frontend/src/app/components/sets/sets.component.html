@@ -1,0 +1,338 @@
+<div class="cards-wrap">
+
+  <!-- ── Page hero ── -->
+  <header class="cards-hero">
+    <div class="cards-hero__bg"></div>
+    <div class="cards-hero__content">
+      <p class="cards-hero__eyebrow">Card Catalog</p>
+      <h1 class="cards-hero__title">Expansion Sets</h1>
+      <p class="cards-hero__desc">
+        Cards were released in Expansion Sets — grouped in blocks of 3–5 sets,
+        each containing a major 120-card set and 2–4 smaller 60-card sets,
+        sold as Booster Packs, Starter Packs, and Theme Decks.
+      </p>
+    </div>
+    <!-- Era jump nav -->
+    <nav class="era-nav">
+      <a href="cards#shobu-era" class="era-nav__link">
+        <span class="era-nav__prefix">DM</span>
+        <span class="era-nav__name">Shobu Era</span>
+      </a>
+      <span class="era-nav__sep">◆</span>
+      <a href="cards#katta-era" class="era-nav__link">
+        <span class="era-nav__prefix">DMR</span>
+        <span class="era-nav__name">Katta Era</span>
+      </a>
+      <span class="era-nav__sep">◆</span>
+      <a href="cards#joe-era" class="era-nav__link">
+        <span class="era-nav__prefix">DMRP</span>
+        <span class="era-nav__name">Joe Era</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- ══════════════════════════════════════
+       ERA I — SHOBU
+  ══════════════════════════════════════ -->
+  <section id="shobu-era" class="era era--shobu">
+    <div class="era__banner">
+      <div class="era__banner-inner">
+        <span class="era__prefix-badge">DM</span>
+        <div class="era__banner-text">
+          <h2 class="era__title">Shobu Era</h2>
+          <p class="era__subtitle">Booster Pack Blocks · Sets DM-01 – DM-39</p>
+        </div>
+        <span class="era__count">39 sets</span>
+      </div>
+    </div>
+
+    <div class="era__blocks">
+
+      <div class="block">
+        <h3 class="block__title">Beginner's Block</h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DM-01']"><span class="set-tile__code">DM-01</span><span class="set-tile__name">Base Set</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-02']"><span class="set-tile__code">DM-02</span><span class="set-tile__name">Master of Evolution</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-03']"><span class="set-tile__code">DM-03</span><span class="set-tile__name">Master of Destruction</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-04']"><span class="set-tile__code">DM-04</span><span class="set-tile__name">Challenge of Black Shadow</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-05']"><span class="set-tile__code">DM-05</span><span class="set-tile__name">Return of the Survivor</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">Fighting Spirit Saga</h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DM-06']"><span class="set-tile__code">DM-06</span><span class="set-tile__name">Invincible Soul</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-07']"><span class="set-tile__code">DM-07</span><span class="set-tile__name">Invincible Charge</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-08']"><span class="set-tile__code">DM-08</span><span class="set-tile__name">Invincible Legend</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-09']"><span class="set-tile__code">DM-09</span><span class="set-tile__name">Invincible Blood</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">Holy Fist Saga</h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DM-10']"><span class="set-tile__code">DM-10</span><span class="set-tile__name">Eternal Arms</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-11']"><span class="set-tile__code">DM-11</span><span class="set-tile__name">Eternal Wave</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-12']"><span class="set-tile__code">DM-12</span><span class="set-tile__name">Eternal Vortex</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-13']"><span class="set-tile__code">DM-13</span><span class="set-tile__name">Eternal Phoenix</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">Reincarnation Saga</h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DM-14']"><span class="set-tile__code">DM-14</span><span class="set-tile__name">Generate Gear</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-15']"><span class="set-tile__code">DM-15</span><span class="set-tile__name">Secret of Hidden Gear</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-16']"><span class="set-tile__code">DM-16</span><span class="set-tile__name">Origin of Perfect Gear</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-17']"><span class="set-tile__code">DM-17</span><span class="set-tile__name">The Over-Technocross</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">Phoenix Saga</h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DM-19']"><span class="set-tile__code">DM-19</span><span class="set-tile__name">Spectacle Nova</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-20']"><span class="set-tile__code">DM-20</span><span class="set-tile__name">The Ultimate Nova</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-21']"><span class="set-tile__code">DM-21</span><span class="set-tile__name">History of Devil Nova</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-22']"><span class="set-tile__code">DM-22</span><span class="set-tile__name">The Dragonic Nova</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-23']"><span class="set-tile__code">DM-23</span><span class="set-tile__name">The End of the Universe</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">God Apex Saga</h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DM-24']"><span class="set-tile__code">DM-24</span><span class="set-tile__name">Violence Heaven</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-25']"><span class="set-tile__code">DM-25</span><span class="set-tile__name">Violence Creator</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-26']"><span class="set-tile__code">DM-26</span><span class="set-tile__name">Dragonic Wars</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-27']"><span class="set-tile__code">DM-27</span><span class="set-tile__name">Perfect Heaven</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">Sengoku Saga</h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DM-28']"><span class="set-tile__code">DM-28</span><span class="set-tile__name">Battle Galaxy</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-29']"><span class="set-tile__code">DM-29</span><span class="set-tile__name">Rock-on Heroes</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-30']"><span class="set-tile__code">DM-30</span><span class="set-tile__name">Ultra Duel</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-31']"><span class="set-tile__code">DM-31</span><span class="set-tile__name">Greatest Champion</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">Divine Evolution Saga</h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DM-32']"><span class="set-tile__code">DM-32</span><span class="set-tile__name">Evolution Saga</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-33']"><span class="set-tile__code">DM-33</span><span class="set-tile__name">Rising Dragon</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-34']"><span class="set-tile__code">DM-34</span><span class="set-tile__name">Cross Generation</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-35']"><span class="set-tile__code">DM-35</span><span class="set-tile__name">Neverending Saga</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">
+          Psychic Shock
+          <img class="block__icon" src="https://static.wikia.nocookie.net/duelmasters/images/4/43/PS.png/revision/latest/scale-to-width-down/20?cb=20170105181941" alt="PS" width="20" height="20">
+        </h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DM-36']"><span class="set-tile__code">DM-36</span><span class="set-tile__name">Psychic Shock</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-37']"><span class="set-tile__code">DM-37</span><span class="set-tile__name">Dark Emperor</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-38']"><span class="set-tile__code">DM-38</span><span class="set-tile__name">Angelic Wars</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DM-39']"><span class="set-tile__code">DM-39</span><span class="set-tile__name">Psychic Splash</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       ERA II — KATTA
+  ══════════════════════════════════════ -->
+  <section id="katta-era" class="era era--katta">
+    <div class="era__banner">
+      <div class="era__banner-inner">
+        <span class="era__prefix-badge">DMR</span>
+        <div class="era__banner-text">
+          <h2 class="era__title">Katta Era</h2>
+          <p class="era__subtitle">Booster Pack Blocks · Sets DMR-01 – DMR-23</p>
+        </div>
+        <span class="era__count">23 sets</span>
+      </div>
+    </div>
+
+    <div class="era__blocks">
+
+      <div class="block">
+        <h3 class="block__title">
+          Episode 1
+          <img class="block__icon" src="https://static.wikia.nocookie.net/duelmasters/images/d/de/E1.png/revision/latest/scale-to-width-down/20?cb=20200119065801" alt="E1" width="20" height="21">
+        </h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-01']"><span class="set-tile__code">DMR-01</span><span class="set-tile__name">First Contact</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-02']"><span class="set-tile__code">DMR-02</span><span class="set-tile__name">Dark Side</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-03']"><span class="set-tile__code">DMR-03</span><span class="set-tile__name">Gaial Victory</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-04']"><span class="set-tile__code">DMR-04</span><span class="set-tile__name">Rising Hope</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">
+          Episode 2
+          <img class="block__icon" src="https://static.wikia.nocookie.net/duelmasters/images/f/f3/E2.png/revision/latest/scale-to-width-down/20?cb=20170101141854" alt="E2" width="20" height="21">
+        </h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-05']"><span class="set-tile__code">DMR-05</span><span class="set-tile__name">Golden Age</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-06']"><span class="set-tile__code">DMR-06</span><span class="set-tile__name">Victory Rush</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-07']"><span class="set-tile__code">DMR-07</span><span class="set-tile__name">Golden Dragon</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-08']"><span class="set-tile__code">DMR-08</span><span class="set-tile__name">Great Miracle</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">
+          Episode 3
+          <img class="block__icon" src="https://static.wikia.nocookie.net/duelmasters/images/5/5f/E3.png/revision/latest/scale-to-width-down/20?cb=20170101141859" alt="E3" width="20" height="20">
+        </h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-09']"><span class="set-tile__code">DMR-09</span><span class="set-tile__name">Rage vs God</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-10']"><span class="set-tile__code">DMR-10</span><span class="set-tile__name">Dead &amp; Beat</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-11']"><span class="set-tile__code">DMR-11</span><span class="set-tile__name">Ultra Victory Master</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-12']"><span class="set-tile__code">DMR-12</span><span class="set-tile__name">Omega Climax</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">
+          Dragon Saga
+          <img class="block__icon" src="https://static.wikia.nocookie.net/duelmasters/images/3/37/DS.png/revision/latest/scale-to-width-down/25?cb=20170101144131" alt="DS" width="25" height="25">
+        </h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-13']"><span class="set-tile__code">DMR-13</span><span class="set-tile__name">Dragsolution Gaiginga</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-14']"><span class="set-tile__code">DMR-14</span><span class="set-tile__name">Wild Dragon Gaiglen</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-15']"><span class="set-tile__code">DMR-15</span><span class="set-tile__name">Double Swords Ohginga</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-16極']"><span class="set-tile__code">DMR-16極</span><span class="set-tile__name">Super Battle Guynext x Goku</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-16真']"><span class="set-tile__code">DMR-16真</span><span class="set-tile__name">Super Battle Guynext x Shin</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">
+          Revolution
+          <img class="block__icon" src="https://static.wikia.nocookie.net/duelmasters/images/2/23/Rev.png/revision/latest/scale-to-width-down/25?cb=20191117012719" alt="Rev" width="25" height="24">
+        </h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-17']"><span class="set-tile__code">DMR-17</span><span class="set-tile__name">Burning Dogiragon!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-18']"><span class="set-tile__code">DMR-18</span><span class="set-tile__name">Seize the Moment, Miradante!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-19']"><span class="set-tile__code">DMR-19</span><span class="set-tile__name">Forbidden Dokindam X</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-20']"><span class="set-tile__code">DMR-20</span><span class="set-tile__name">Gyuujinmaru's True Identity!!</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">
+          Revolution Final
+          <img class="block__icon" src="https://static.wikia.nocookie.net/duelmasters/images/d/d3/RevF.png/revision/latest/scale-to-width-down/25?cb=20210306140313" alt="RevF" width="25" height="23">
+        </h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-21']"><span class="set-tile__code">DMR-21</span><span class="set-tile__name">Team Hamukatsu and Dogiragon Buster</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-22']"><span class="set-tile__code">DMR-22</span><span class="set-tile__name">The World of Zero!! Blackout!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMR-23']"><span class="set-tile__code">DMR-23</span><span class="set-tile__name">Dogiragolden VS Dormageddon X</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       ERA III — JOE
+  ══════════════════════════════════════ -->
+  <section id="joe-era" class="era era--joe">
+    <div class="era__banner">
+      <div class="era__banner-inner">
+        <span class="era__prefix-badge">DMRP</span>
+        <div class="era__banner-text">
+          <h2 class="era__title">Joe Era</h2>
+          <p class="era__subtitle">Booster Pack Blocks · Sets DMRP-01 – DMRP-19</p>
+        </div>
+        <span class="era__count">19 sets</span>
+      </div>
+    </div>
+
+    <div class="era__blocks">
+
+      <div class="block">
+        <h3 class="block__title">
+          Duel Masters
+          <img class="block__icon" src="https://static.wikia.nocookie.net/duelmasters/images/0/02/DM.png/revision/latest/scale-to-width-down/25?cb=20210307084111" alt="DM" width="25" height="19">
+        </h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-01']"><span class="set-tile__code">DMRP-01</span><span class="set-tile__name">Here Come the Jokers!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-02']"><span class="set-tile__code">DMRP-02</span><span class="set-tile__name">All So Truly B・A・D Labyrinth!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-03']"><span class="set-tile__code">DMRP-03</span><span class="set-tile__name">Feeling Joejoe Meraventure!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-04裁']"><span class="set-tile__code">DMRP-04裁</span><span class="set-tile__name">The Rise of Master Dragon!! ~Judgment for Justice~</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-04魔']"><span class="set-tile__code">DMRP-04魔</span><span class="set-tile__name">The Rise of Master Dolszak!! ~Demon Phoenix of Moonless Night~</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">
+          Twinpact Series
+          <img class="block__icon" src="https://static.wikia.nocookie.net/duelmasters/images/5/56/Twin.png/revision/latest/scale-to-width-down/20?cb=20190310102513" alt="Twin" width="20" height="21">
+        </h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-05']"><span class="set-tile__code">DMRP-05</span><span class="set-tile__name">Gokai!! Joragon Go Fight!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-06']"><span class="set-tile__code">DMRP-06</span><span class="set-tile__name">Strike Back Galaxy 卍・Inferno・Annihilation!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-07']"><span class="set-tile__code">DMRP-07</span><span class="set-tile__name">Ghira Ghira Ghiramessiah and Finaling QX!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-08']"><span class="set-tile__code">DMRP-08</span><span class="set-tile__name">The Showdown! Baraghiara!! Invincible OraOra Ringfinity ∞</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">
+          Gacharange Series
+          <img class="block__icon" src="https://static.wikia.nocookie.net/duelmasters/images/9/93/GR.png/revision/latest/scale-to-width-down/20?cb=20190310102426" alt="GR" width="20" height="20">
+        </h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-09']"><span class="set-tile__code">DMRP-09</span><span class="set-tile__name">New Zone Was Born! Super GR and Orega Ora!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-10']"><span class="set-tile__code">DMRP-10</span><span class="set-tile__name">Blue C.A.P and Black DaiBanZai</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-11']"><span class="set-tile__code">DMRP-11</span><span class="set-tile__name">Zero Birth! Maji's Jornado 1059!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-12']"><span class="set-tile__code">DMRP-12</span><span class="set-tile__name">SuperSuperSuper Top! The Awakening Joghiragon vs. Zeeron Bang-Tan!</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">
+          Ten Kings
+          <img class="block__icon" src="https://static.wikia.nocookie.net/duelmasters/images/a/a8/TK.png/revision/latest/scale-to-width-down/15?cb=20200328130537" alt="TK" width="15" height="19">
+        </h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-13']"><span class="set-tile__code">DMRP-13</span><span class="set-tile__name">Kirifuda x Onifuda King Wars!!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-14']"><span class="set-tile__code">DMRP-14</span><span class="set-tile__name">Explosive Dragon x Explosive Rising Dynabolt!!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-15']"><span class="set-tile__code">DMRP-15</span><span class="set-tile__name">Phantom Dragon x Swift Attack Genmu Emperor!!!</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-16']"><span class="set-tile__code">DMRP-16</span><span class="set-tile__name">The Hundred Kings x Evil King Oni Revolution!!!</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="block__title">
+          The Rise of Kings
+          <img class="block__icon" src="https://static.wikia.nocookie.net/duelmasters/images/c/cb/TROK.png/revision/latest/scale-to-width-down/20?cb=20210227043016" alt="TROK" width="20" height="25">
+        </h3>
+        <ul class="set-grid">
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-17']"><span class="set-tile__code">DMRP-17</span><span class="set-tile__name">RexStars and Dispector</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-18']"><span class="set-tile__code">DMRP-18</span><span class="set-tile__name">Miracle Forbidden</span></li>
+          <li class="set-tile" [routerLink]="['/cards', 'DMRP-19']"><span class="set-tile__code">DMRP-19</span><span class="set-tile__name">Eternal Premiums</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="cards-footer">
+    <span class="footer-seal">⟡</span>
+    <span class="footer-text">All Sets · All Eras · One Platform</span>
+    <span class="footer-seal">⟡</span>
+  </div>
+
+</div>

@@ -1,1 +1,1 @@
-export { GameInterface } from '@dm/shared/interfaces/game.interface';
+export { GameInterface } from '@dm/shared';

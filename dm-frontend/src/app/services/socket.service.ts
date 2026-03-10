@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Socket } from 'ngx-socket-io';
 import { SocketPayloadInterface } from '../interfaces/socket-payload.interface';
-import { SocketCommandMap, SocketEventMap } from '@dm/shared/interfaces/socket-event-map.interface';
+import { SocketCommandMap, SocketEventMap } from '@dm/shared';
 
 @Injectable({
   providedIn: 'root',

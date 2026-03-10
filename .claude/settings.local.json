@@ -5,7 +5,18 @@
       "Bash(tail:*)",
       "Bash(ls:*)",
       "Bash(npm run:*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(head:*)",
+      "Bash(curl:*)",
+      "Bash(docker exec:*)",
+      "Bash(cat:*)",
+      "Bash(docker restart:*)",
+      "Bash(docker-compose -f docker-compose.dev.yml stop backend && docker-compose -f docker-compose.dev.yml rm -f backend && docker volume ls | grep dm-backend 2>&1)",
+      "Bash(docker-compose:*)",
+      "Bash(docker-compose -f docker-compose.dev.yml stop backend && docker-compose -f docker-compose.dev.yml rm -f backend && docker volume prune -f 2>&1)",
+      "Bash(curl -s \"http://localhost:3000/cards?set=DM-01\" | python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(f'Cards found: {len\\(d\\)}'\\); [print\\(c['name']\\) for c in d[:3]]\" 2>&1)",
+      "Bash(curl -s \"http://localhost:3000/cards\" | python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(f'Total: {len\\(d\\)}'\\); c=d[0]; print\\(json.dumps\\(c.get\\('printings', []\\)[:2], indent=2\\)\\)\" 2>&1)",
+      "Bash(sleep 8:*)"
     ]
   }
 }

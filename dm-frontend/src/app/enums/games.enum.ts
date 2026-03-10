@@ -1,1 +1,1 @@
-export { GameTypesEnum, GameStatusEnum } from '@dm/shared/enums/game.enum';
+export { GameTypesEnum, GameStatusEnum } from '@dm/shared';

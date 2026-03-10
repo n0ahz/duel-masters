@@ -1,1 +1,1 @@
-export { DECK, CARD, GAME } from '@dm/shared/constants/game';
+export { DECK, CARD, GAME } from '@dm/shared';
