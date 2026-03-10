@@ -1,4 +1,1 @@
-export enum CommonEventsEnum {
-  MSG_TO_SERVER = 'msgToServer',
-  MSG_TO_CLIENT = 'msgToClient',
-}
+export { CommonCommandsEnum, CommonEventsEnum } from '@dm/shared/enums/gateway/common-events.enum';

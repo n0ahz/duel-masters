@@ -9,56 +9,49 @@ import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
 import { SocketPayloadInterface } from '../interfaces/socket-payload.interface';
 import { GatewayUtility } from '../utils/gateway.utility';
-import { DuelEventsEnum } from '../enums/gateway/duel-events.enum';
+import { DuelCommandsEnum, DuelEventsEnum } from '../enums/gateway/duel-events.enum';
 import { ZoneCardInterface } from '../interfaces/zone-card.interface';
+import { DuelStateService } from '../services/duel-state.service';
 import * as uuid from 'uuid';
 
 @WebSocketGateway({ cors: true, origin: '*' })
 export class DuelGateway implements OnGatewayInit {
-  persons: { [gameIdentifier: string]: string[] } = {}; // volatile data storage..use db?..
-
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('DuelGateway');
 
-  afterInit(server: Server) {
-    this.persons = {};
-  }
+  constructor(private readonly duelStateService: DuelStateService) {}
 
-  @SubscribeMessage(DuelEventsEnum.SET_UP)
+  afterInit(server: Server) {}
+
+  @SubscribeMessage(DuelCommandsEnum.SET_UP)
   setUp(
     client: Socket,
     payload: SocketPayloadInterface,
   ): WsResponse<SocketPayloadInterface> {
     const room = payload.gameRoom;
-    const data = payload.data;
-    const game = data.game;
-    if (!(game?.gameIdentifier in this.persons)) {
-      this.persons[game.gameIdentifier] = [];
+    const game = payload.data?.game;
+    if (!game?.gameIdentifier) {
+      return { event: 'error', data: { message: 'Invalid game payload' } } as any;
     }
-    this.persons[game.gameIdentifier].push(client.id);
-    const allSet =
-      this.persons[game.gameIdentifier].indexOf(game.inviter) !== -1 &&
-      this.persons[game.gameIdentifier].indexOf(game.challenger) !== -1;
+    this.duelStateService.register(game.gameIdentifier, client.id);
+    const allSet = this.duelStateService.isAllSet(game.gameIdentifier, game.inviter, game.challenger);
     const response: SocketPayloadInterface = {
       gameRoom: room,
-      data: { allSet: allSet },
+      data: { allSet },
     };
-    return GatewayUtility.broadcastTo(
-      client,
-      room,
-      DuelEventsEnum.ALL_SET,
-      response,
-    );
+    return GatewayUtility.broadcastTo(client, room, DuelEventsEnum.ALL_SET, response);
   }
 
-  @SubscribeMessage(DuelEventsEnum.IKUJO)
+  @SubscribeMessage(DuelCommandsEnum.IKUJO)
   ikujo(
     client: Socket,
     payload: SocketPayloadInterface,
   ): WsResponse<SocketPayloadInterface> {
     const room = payload.gameRoom;
-    const data = payload.data;
-    const cards: ZoneCardInterface[] = data.duelDeck;
+    const cards: ZoneCardInterface[] = payload.data?.duelDeck;
+    if (!cards) {
+      return { event: 'error', data: { message: 'Invalid duel deck' } } as any;
+    }
     cards.forEach((each) => {
       each.uid = uuid.v4();
       each.ownerId = client.id;
@@ -66,24 +59,21 @@ export class DuelGateway implements OnGatewayInit {
     });
     const response: SocketPayloadInterface = {
       gameRoom: room,
-      data: { msg: 'Ikuzo..!', duelDeck: data.duelDeck },
+      data: { msg: 'Ikuzo..!', duelDeck: cards },
     };
-    return GatewayUtility.broadcastTo(
-      client,
-      room,
-      DuelEventsEnum.IKUJO,
-      response,
-    );
+    return GatewayUtility.broadcastTo(client, room, DuelEventsEnum.IKUJO, response);
   }
 
-  @SubscribeMessage(DuelEventsEnum.KOI)
+  @SubscribeMessage(DuelCommandsEnum.KOI)
   koi(
     client: Socket,
     payload: SocketPayloadInterface,
   ): WsResponse<SocketPayloadInterface> {
     const room = payload.gameRoom;
-    const data = payload.data;
-    const cards: ZoneCardInterface[] = data.duelDeck;
+    const cards: ZoneCardInterface[] = payload.data?.duelDeck;
+    if (!cards) {
+      return { event: 'error', data: { message: 'Invalid duel deck' } } as any;
+    }
     cards.forEach((each) => {
       each.uid = uuid.v4();
       each.ownerId = client.id;
@@ -91,45 +81,28 @@ export class DuelGateway implements OnGatewayInit {
     });
     const response: SocketPayloadInterface = {
       gameRoom: room,
-      data: { msg: 'Koi..!', duelDeck: data.duelDeck },
+      data: { msg: 'Koi..!', duelDeck: cards },
     };
-    return GatewayUtility.broadcastTo(
-      client,
-      room,
-      DuelEventsEnum.KOI,
-      response,
-    );
+    return GatewayUtility.broadcastTo(client, room, DuelEventsEnum.KOI, response);
   }
 
-  @SubscribeMessage(DuelEventsEnum.DROP_CARDS)
+  @SubscribeMessage(DuelCommandsEnum.DROP_CARDS)
   cardDropped(
     client: Socket,
     payload: SocketPayloadInterface,
   ): WsResponse<SocketPayloadInterface> {
     const room = payload.gameRoom;
-    const data = payload.data;
-    const response: SocketPayloadInterface = { gameRoom: room, data: data };
-    return GatewayUtility.broadcastTo(
-      client,
-      room,
-      DuelEventsEnum.DROP_CARDS,
-      response,
-    );
+    const response: SocketPayloadInterface = { gameRoom: room, data: payload.data };
+    return GatewayUtility.broadcastTo(client, room, DuelEventsEnum.DROP_CARDS, response);
   }
 
-  @SubscribeMessage(DuelEventsEnum.TAP_UNTAP_CARD)
+  @SubscribeMessage(DuelCommandsEnum.TAP_UNTAP_CARD)
   tapUntapCard(
     client: Socket,
     payload: SocketPayloadInterface,
   ): WsResponse<SocketPayloadInterface> {
     const room = payload.gameRoom;
-    const data = payload.data;
-    const response: SocketPayloadInterface = { gameRoom: room, data: data };
-    return GatewayUtility.broadcastTo(
-      client,
-      room,
-      DuelEventsEnum.TAP_UNTAP_CARD,
-      response,
-    );
+    const response: SocketPayloadInterface = { gameRoom: room, data: payload.data };
+    return GatewayUtility.broadcastTo(client, room, DuelEventsEnum.TAP_UNTAP_CARD, response);
   }
 }

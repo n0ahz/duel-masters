@@ -1,4 +1,1 @@
-export interface SocketPayloadInterface {
-  gameRoom?: string;
-  data?: any;
-}
+export { SocketPayloadInterface } from '@dm/shared/interfaces/socket-payload.interface';

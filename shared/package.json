@@ -1,0 +1,6 @@
+{
+  "name": "@dm/shared",
+  "version": "1.0.0",
+  "description": "Shared types, enums, interfaces and constants for Duel Masters",
+  "main": "index.ts"
+}

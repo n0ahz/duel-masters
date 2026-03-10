@@ -35,6 +35,7 @@ import {
   SocialAuthServiceConfig,
   SocialLoginModule,
 } from '@abacritt/angularx-social-login';
+import { environment } from '../environments/environment';
 import { RulesComponent } from './components/rules/rules.component';
 import { CardsComponent } from './components/cards/cards.component';
 
@@ -87,7 +88,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('519801663676-moqibve9j510ppopc8mk8t3cdm72inef.apps.googleusercontent.com'),
+            provider: new GoogleLoginProvider(environment.googleClientId),
           },
         ],
       } as SocialAuthServiceConfig,

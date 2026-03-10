@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as Phaser from 'phaser';
+import UIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin';
 import { DuelScene } from '../game-engine/scenes/duel.scene';
+import { PreloadScene } from '../game-engine/scenes/preload.scene';
 import { GAME } from '../constants/game';
 import { MatDialog } from '@angular/material/dialog';
 import { CardInfoComponent } from '../components/modals/card-info/card-info.component';
@@ -24,8 +26,14 @@ export class DuelService {
       width: GAME.WORLD.WIDTH,
       height: GAME.WORLD.HEIGHT,
       scene: [
+        PreloadScene,
         DuelScene,
       ],
+      plugins: {
+        scene: [
+          { key: 'rexUI', plugin: UIPlugin, mapping: 'rexUI' },
+        ],
+      },
       scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,

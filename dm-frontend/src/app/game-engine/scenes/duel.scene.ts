@@ -3,9 +3,9 @@ import { Mock } from '../test-data/mock';
 import { CARD, GAME } from '../../constants/game';
 import { DuelService } from '../../services/duel.service';
 import { SocketService } from '../../services/socket.service';
-import { DuelEventsEnum } from '../../enums/gateway/duel-events.enum';
+import { DuelCommandsEnum, DuelEventsEnum } from '../../enums/gateway/duel-events.enum';
 import { CommonEventsEnum } from '../../enums/gateway/common-events.enum';
-import UIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin';
+import { DuelSceneData } from './preload.scene';
 import { RolesEnum } from '../../enums/roles.enum';
 import { PlayerSidesEnum } from '../../enums/player-sides.enum';
 import { GameService } from '../../services/game.service';
@@ -45,33 +45,17 @@ export class DuelScene extends Phaser.Scene {
     this.duelists = [];
   }
 
-  preload() {
-    this.load.setBaseURL('');
-    this.load.image('bg', 'assets/imgs/bg.jpg');
-    this.load.image('cardBack', 'assets/imgs/card-back.png');
-    // zone icons
-    this.load.image('hand', 'assets/imgs/zones/hand.png');
-    this.load.image('mana', 'assets/imgs/zones/mana.png');
-    this.load.image('shield', 'assets/imgs/zones/shield.png');
-    this.load.image('deck', 'assets/imgs/zones/deck.png');
-    this.load.image('grave', 'assets/imgs/zones/grave.png');
-    this.load.image('battle', 'assets/imgs/zones/battle.png');
-    this.load.image('hs', 'assets/imgs/zones/hs.png');
-    // initial avatar icons
-    this.load.image('hakuoh', 'assets/imgs/avatars/hakuoh.png');
-    this.load.image('kokujo', 'assets/imgs/avatars/kokujo.png');
-
-    this.load.scenePlugin({
-      key: 'rexUI',
-      url: UIPlugin,
-      sceneKey: 'rexUI',
-    });
-  }
-
-  create(data) {
+  init(data: DuelSceneData): void {
     this.socketService = data.socketService;
     this.gameService = data.gameService;
     this.duelService = data.duelService;
+  }
+
+  preload(): void {
+    // Assets loaded by PreloadScene
+  }
+
+  create() {
 
     const self = this;
     this.gameWorldWidth = Number(this.game.config.width);
@@ -124,14 +108,14 @@ export class DuelScene extends Phaser.Scene {
 
     const duelist1 = this.duelists[0];
     const duelist2 = this.duelists[1];
-    this.socketService.emitTo(this.gameService.game.gameIdentifier, DuelEventsEnum.SET_UP, { game: this.gameService.game });
+    this.socketService.emitTo(this.gameService.game.gameIdentifier, DuelCommandsEnum.SET_UP, { game: this.gameService.game });
     this.socketService.handleEvent(DuelEventsEnum.ALL_SET, (res) => {
       // log( ready player 1 / 2 )..
       if (res.data.allSet === true) {
         // after both player posts ALL_SET then do ikujo koi..
         if (this.gameService.game.firstToGo === this.socketService.getCurrentSocketId()) {
           duelist1.prepareDuelDeck();
-          this.socketService.emitTo(this.gameService.game.gameIdentifier, DuelEventsEnum.IKUJO, { duelDeck: duelist1.duelDeck });
+          this.socketService.emitTo(this.gameService.game.gameIdentifier, DuelCommandsEnum.IKUJO, { duelDeck: duelist1.duelDeck });
         }
       }
     });
@@ -145,10 +129,10 @@ export class DuelScene extends Phaser.Scene {
       duelist1.startGame(this);
 
       if (this.gameService.game.firstToGo !== this.socketService.getCurrentSocketId() && [this.gameService.game.inviter, this.gameService.game.challenger].indexOf(this.socketService.getCurrentSocketId()) !== -1) {
-        setTimeout(() => {
+        this.time.delayedCall(1000, () => {
           duelist2.prepareDuelDeck();
-          this.socketService.emitTo(this.gameService.game.gameIdentifier, DuelEventsEnum.KOI, { duelDeck: duelist2.duelDeck });
-        }, 1000);
+          this.socketService.emitTo(this.gameService.game.gameIdentifier, DuelCommandsEnum.KOI, { duelDeck: duelist2.duelDeck });
+        });
       }
     });
     this.socketService.handleEvent(DuelEventsEnum.KOI, (res) => {
@@ -433,11 +417,15 @@ export class DuelScene extends Phaser.Scene {
     const p2_grid = PhaserComponents.getGridTable(this, (GAME.WORLD.WIDTH - (GAME.WORLD.WIDTH - GAME.STAGE.WIDTH) / 4) + 5, 160, (GAME.WORLD.WIDTH - GAME.STAGE.WIDTH) / 2 - 30, 200, p2_items);
     const p1_grid = PhaserComponents.getGridTable(this, (GAME.WORLD.WIDTH - (GAME.WORLD.WIDTH - GAME.STAGE.WIDTH) / 4) + 5, GAME.STAGE.HEIGHT - 160, (GAME.WORLD.WIDTH - GAME.STAGE.WIDTH) / 2 - 30, 200, p1_items);
 
-    setTimeout(() => {
+    this.time.delayedCall(2000, () => {
       p1_grid.items.forEach(item => {
         item.value = '1';
       });
       p1_grid.refresh();
-    }, 2000);
+    });
+  }
+
+  shutdown(): void {
+    this.socketService.removeAllListeners();
   }
 }

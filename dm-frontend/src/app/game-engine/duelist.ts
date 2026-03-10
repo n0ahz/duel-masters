@@ -1,7 +1,7 @@
 import { Player } from './player';
 import { PlayerSidesEnum } from '../enums/player-sides.enum';
 import { DuelScene } from './scenes/duel.scene';
-import { CommonEventsEnum } from '../enums/gateway/common-events.enum';
+import { CommonCommandsEnum } from '../enums/gateway/common-events.enum';
 import { RolesEnum } from '../enums/roles.enum';
 import { ZonesEnum } from '../enums/zones.enum';
 import { ZoneCard } from './zone-card';
@@ -61,7 +61,7 @@ export class Duelist {
             msg = 'Challenger: Bring it on...!';
           }
           if (msg) {
-            scene.socketService.emitTo(scene.gameService.game.gameIdentifier, CommonEventsEnum.MSG_TO_SERVER, { msg: msg });
+            scene.socketService.emitTo(scene.gameService.game.gameIdentifier, CommonCommandsEnum.MSG_TO_SERVER, { msg: msg });
           }
         }
       },

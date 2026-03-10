@@ -33,34 +33,30 @@ export class DuelComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // if (this.game.gameIdentifier) {
     this.phaserGame = this.duelService.createGame();
-    this.phaserGame.scene.start('duel', {
+    this.phaserGame.scene.start('preload', {
       socketService: this.socketService,
       gameService: this.gameService,
       duelService: this.duelService,
     });
-    // } else {
-    //   this.endGame();
-    // }
-    this.socketService.handleEvent(GamesEventsEnum.INVITER_LEFT, (res) => {
+    this.socketService.handleEvent(GamesEventsEnum.INVITER_LEFT, () => {
       // this.endGame();
     });
-    this.socketService.handleEvent(GamesEventsEnum.RESET_GAME, (res) => {
+    this.socketService.handleEvent(GamesEventsEnum.RESET_GAME, () => {
       // this.endGame();
     });
   }
 
   goFullScreen() {
-    let elem = document.documentElement;
-    let methodToBeInvoked = elem['requestFullscreen'] || elem['webkitRequestFullScreen'] || elem['mozRequestFullscreen'] || elem['msRequestFullscreen'];
-    if (methodToBeInvoked) methodToBeInvoked.call(elem);
+    const elem = document.documentElement;
+    const method = elem['requestFullscreen'] || elem['webkitRequestFullScreen'] || elem['mozRequestFullscreen'] || elem['msRequestFullscreen'];
+    if (method) method.call(elem);
   }
 
   exitFullScreen() {
-    let elem = document;
-    let methodToBeInvoked = elem['exitFullscreen'] || elem['webkitExitFullscreen'] || elem['mozCancelFullScreen'] || elem['msExitFullscreen'];
-    if (methodToBeInvoked) methodToBeInvoked.call(elem);
+    const elem = document as any;
+    const method = elem['exitFullscreen'] || elem['webkitExitFullscreen'] || elem['mozCancelFullScreen'] || elem['msExitFullscreen'];
+    if (method) method.call(elem);
   }
 
   toggleFullScreen() {
@@ -74,9 +70,7 @@ export class DuelComponent implements OnInit, OnDestroy {
   }
 
   endGame() {
-    setTimeout(() => {
-      this.router.navigateByUrl('/games/list');
-    }, 2000);
+    setTimeout(() => this.router.navigateByUrl('/games/list'), 2000);
   }
 
   ngOnDestroy(): void {

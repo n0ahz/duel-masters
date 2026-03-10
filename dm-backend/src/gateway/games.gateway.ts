@@ -8,63 +8,67 @@ import {
 import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
 import { SocketPayloadInterface } from '../interfaces/socket-payload.interface';
-import { GameInterface } from '../interfaces/game.interface';
-import { GamesEventsEnum } from '../enums/gateway/games-events.enum';
-import { CommonEventsEnum } from '../enums/gateway/common-events.enum';
+import { GamesCommandsEnum, GamesEventsEnum } from '../enums/gateway/games-events.enum';
+import { CommonCommandsEnum, CommonEventsEnum } from '../enums/gateway/common-events.enum';
 import { GatewayUtility } from '../utils/gateway.utility';
 import { GameStatusEnum } from '../enums/games.enum';
+import { GameRoomService } from '../services/game-room.service';
 
 @WebSocketGateway({ cors: true, origin: '*' })
 export class GamesGateway implements OnGatewayInit {
-  gameRooms: { [gameIdentifier: string]: GameInterface } = {}; // volatile data storage..use db..
   private users: Set<string> = new Set();
 
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('GamesGateway');
 
+  constructor(private readonly gameRoomService: GameRoomService) {}
+
   afterInit(server: Server): void {
     setInterval(() => {
-      const expiry = Date.now() - 2 * 60 * 60 * 1000; // 2 hours
-      for (const [id, game] of Object.entries(this.gameRooms)) {
-        if (game.createdAt && new Date(game.createdAt).getTime() < expiry) {
-          delete this.gameRooms[id];
-        }
-      }
-    }, 30 * 60 * 1000); // Run every 30 minutes
+      this.gameRoomService.cleanup(2 * 60 * 60 * 1000); // remove games older than 2 hours
+    }, 30 * 60 * 1000); // run every 30 minutes
   }
 
-  @SubscribeMessage(GamesEventsEnum.ADD_GAME)
+  private assertPlayerInGame(client: Socket, gameRoom: string): void {
+    if (!client.rooms.has(gameRoom)) {
+      throw new Error('Client is not in this game room');
+    }
+  }
+
+  @SubscribeMessage(GamesCommandsEnum.ADD_GAME)
   addGame(client: Socket, payload: SocketPayloadInterface) {
     const game = payload?.data?.game;
     if (!game?.gameIdentifier) {
       return { event: 'error', data: { message: 'Invalid game payload' } };
     }
-    this.gameRooms[game.gameIdentifier] = game;
+    this.gameRoomService.add(game);
     const response: SocketPayloadInterface = {
-      data: { msg: 'Games List', games: Object.values(this.gameRooms) },
+      data: { msg: 'Games List', games: this.gameRoomService.all() },
     };
     this.server.emit(GamesEventsEnum.GAMES_LIST, response);
   }
 
-  @SubscribeMessage(GamesEventsEnum.GET_GAMES)
+  @SubscribeMessage(GamesCommandsEnum.GET_GAMES)
   getGames(client: Socket, payload: SocketPayloadInterface) {
     const response: SocketPayloadInterface = {
-      data: { msg: 'Games List', games: Object.values(this.gameRooms) },
+      data: { msg: 'Games List', games: this.gameRoomService.all() },
     };
     client.emit(GamesEventsEnum.GAMES_LIST, response);
   }
 
-  @SubscribeMessage(GamesEventsEnum.GET_GAME)
+  @SubscribeMessage(GamesCommandsEnum.GET_GAME)
   getGame(
     client: Socket,
     payload: SocketPayloadInterface,
   ): WsResponse<SocketPayloadInterface> {
     const room = payload.gameRoom;
+    const gameIdentifier = payload?.data?.gameIdentifier;
+    const game = gameIdentifier ? this.gameRoomService.get(gameIdentifier) : null;
+    if (!game) {
+      return { event: 'error', data: { message: 'Game not found' } } as any;
+    }
     const response: SocketPayloadInterface = {
-      data: {
-        msg: 'Games Info',
-        game: this.gameRooms[payload.data.gameIdentifier],
-      },
+      data: { msg: 'Games Info', game },
     };
     client.to(room).emit(GamesEventsEnum.GAME_INFO, response);
     client.to(room).emit(GamesEventsEnum.USER_INFO, {
@@ -74,26 +78,23 @@ export class GamesGateway implements OnGatewayInit {
     return { event: GamesEventsEnum.GAME_INFO, data: response };
   }
 
-  private gameLeaveHandler(client: Socket, room) {
-    const game: GameInterface = this.gameRooms[room];
+  private gameLeaveHandler(client: Socket, room: string) {
+    const game = this.gameRoomService.get(room);
     let msg = `${client.id} left game...`;
     if (game?.inviter === client.id) {
       msg = '<b>Inviter</b> has left the game...';
       client.to(room).emit(GamesEventsEnum.INVITER_LEFT, {
         gameRoom: room,
-        data: { msg: msg, inviterSocketId: client.id },
+        data: { msg, inviterSocketId: client.id },
       });
-      delete this.gameRooms[room];
+      this.gameRoomService.remove(room);
     } else if (game?.challenger === client.id) {
       game.challenger = null;
       game.firstToGo = null;
       msg = null;
       client.to(room).emit(GamesEventsEnum.SET_CHALLENGER, {
         gameRoom: room,
-        data: {
-          msg: '<b>Challenger</b> has left the game...',
-          challenger: null,
-        },
+        data: { msg: '<b>Challenger</b> has left the game...', challenger: null },
       });
       client.to(room).emit(GamesEventsEnum.RESET_GAME);
     }
@@ -104,10 +105,10 @@ export class GamesGateway implements OnGatewayInit {
       gameRoom: room,
       data: { users: Array.from(this.users) },
     });
-    return { msg: msg };
+    return { msg };
   }
 
-  @SubscribeMessage(GamesEventsEnum.JOIN_GAME)
+  @SubscribeMessage(GamesCommandsEnum.JOIN_GAME)
   joinGame(
     client: Socket,
     payload: SocketPayloadInterface,
@@ -121,7 +122,7 @@ export class GamesGateway implements OnGatewayInit {
         const data = this.gameLeaveHandler(client, previousRoom);
         client.to(previousRoom).emit(CommonEventsEnum.MSG_TO_CLIENT, {
           gameRoom: client.room,
-          data: data,
+          data,
         });
       }
       client.join(gameRoom);
@@ -130,14 +131,14 @@ export class GamesGateway implements OnGatewayInit {
       client.to(gameRoom).emit(CommonEventsEnum.MSG_TO_CLIENT, response);
       this.users.add(client.id);
       client.to(gameRoom).emit(GamesEventsEnum.USER_INFO, {
-        gameRoom: gameRoom,
+        gameRoom,
         data: { users: Array.from(this.users) },
       });
       return { event: CommonEventsEnum.MSG_TO_CLIENT, data: response };
     }
   }
 
-  @SubscribeMessage(GamesEventsEnum.LEAVE_GAME)
+  @SubscribeMessage(GamesCommandsEnum.LEAVE_GAME)
   leaveGame(
     client: Socket,
     payload: SocketPayloadInterface,
@@ -157,63 +158,49 @@ export class GamesGateway implements OnGatewayInit {
     }
   }
 
-  @SubscribeMessage(GamesEventsEnum.CHALLENGE)
+  @SubscribeMessage(GamesCommandsEnum.CHALLENGE)
   challenge(
     client: Socket,
     payload: SocketPayloadInterface,
   ): WsResponse<SocketPayloadInterface> {
     const room = payload.gameRoom;
-    const game: GameInterface = this.gameRooms[room];
+    const game = this.gameRoomService.get(room);
     if (!game) {
       return { event: 'error', data: { message: 'Game not found' } } as any;
     }
     game.challenger = client.id;
     const response: SocketPayloadInterface = {
       gameRoom: room,
-      data: {
-        msg: `${client.id} has issued a challenge!`,
-        challenger: client.id,
-      },
+      data: { msg: `${client.id} has issued a challenge!`, challenger: client.id },
     };
-    return GatewayUtility.broadcastTo(
-      client,
-      room,
-      GamesEventsEnum.SET_CHALLENGER,
-      response,
-    );
+    return GatewayUtility.broadcastTo(client, room, GamesEventsEnum.SET_CHALLENGER, response);
   }
 
-  @SubscribeMessage(GamesEventsEnum.SET_FIRST_TO_GO)
+  @SubscribeMessage(GamesCommandsEnum.SET_FIRST_TO_GO)
   setFirstToGo(client: Socket, payload: SocketPayloadInterface) {
     const room = payload.gameRoom;
-    const data = payload.data;
-    const game: GameInterface = this.gameRooms[room];
+    const game = this.gameRoomService.get(room);
     if (!game) {
       return { event: 'error', data: { message: 'Game not found' } };
     }
-    game.firstToGo = data.firstToGo;
+    game.firstToGo = payload.data?.firstToGo;
   }
 
-  @SubscribeMessage(GamesEventsEnum.START_DUEL)
+  @SubscribeMessage(GamesCommandsEnum.START_DUEL)
   duel(
     client: Socket,
     payload: SocketPayloadInterface,
   ): WsResponse<SocketPayloadInterface> {
     const room = payload.gameRoom;
-    const game: GameInterface = this.gameRooms[room];
+    const game = this.gameRoomService.get(room);
     if (!game) {
       return { event: 'error', data: { message: 'Game not found' } } as any;
     }
     game.status = GameStatusEnum.IN_PROGRESS;
     const response: SocketPayloadInterface = {
       gameRoom: room,
-      data: { msg: `Duel!`, game: game },
+      data: { msg: `Duel!`, game },
     };
-    return GatewayUtility.broadcastTo(
-      client,
-      room,
-      GamesEventsEnum.DUEL,
-      response,
-    );
+    return GatewayUtility.broadcastTo(client, room, GamesEventsEnum.DUEL, response);
   }
 }

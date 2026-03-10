@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GameInterface } from '../../../interfaces/game.interface';
 import { GameStatusEnum, GameTypesEnum } from '../../../enums/games.enum';
 import { Router } from '@angular/router';
 import * as uuid from 'uuid';
 import { SocketService } from '../../../services/socket.service';
-import { GamesEventsEnum } from '../../../enums/gateway/games-events.enum';
+import { GameService } from '../../../services/game.service';
 
 
 @Component({
@@ -13,33 +13,28 @@ import { GamesEventsEnum } from '../../../enums/gateway/games-events.enum';
     styleUrls: ['./game-add.component.scss'],
     standalone: false
 })
-export class GameAddComponent implements OnInit, OnDestroy {
+export class GameAddComponent implements OnInit {
 
   game: GameInterface;
 
   constructor(
     private router: Router,
     private socketService: SocketService,
-  ) {
-  }
+    private gameService: GameService,
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onSubmit(name?: string, gameType?: GameTypesEnum) {
     this.game = {
-      name: name,
+      name,
       inviter: this.socketService.getCurrentSocketId(),
       gameType: GameTypesEnum[gameType],
       gameIdentifier: uuid.v4(),
       createdAt: new Date().toLocaleTimeString(),
       status: GameStatusEnum.PENDING,
     };
-    this.socketService.emit(GamesEventsEnum.ADD_GAME, { game: this.game });
+    this.gameService.addGame(this.game);
     this.router.navigateByUrl('games/list');
-  }
-
-  ngOnDestroy(): void {
-    this.socketService.removeAllListeners();
   }
 }

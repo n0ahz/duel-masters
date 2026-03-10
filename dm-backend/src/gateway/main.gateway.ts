@@ -10,7 +10,7 @@ import {
 import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
 import { SocketPayloadInterface } from '../interfaces/socket-payload.interface';
-import { CommonEventsEnum } from '../enums/gateway/common-events.enum';
+import { CommonCommandsEnum, CommonEventsEnum } from '../enums/gateway/common-events.enum';
 
 @WebSocketGateway({ cors: true, origin: '*' })
 export class MainGateway
@@ -30,8 +30,7 @@ export class MainGateway
     this.logger.log(`Main: Client disconnected: ${client.id}`);
   }
 
-  // add methods..
-  @SubscribeMessage(CommonEventsEnum.MSG_TO_SERVER)
+  @SubscribeMessage(CommonCommandsEnum.MSG_TO_SERVER)
   handleMessage(
     client: Socket,
     payload: SocketPayloadInterface,

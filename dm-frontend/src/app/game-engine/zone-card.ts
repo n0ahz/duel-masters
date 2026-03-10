@@ -6,7 +6,7 @@ import { CARD, GAME } from '../constants/game';
 import { PlayerSidesEnum } from '../enums/player-sides.enum';
 import { ZoneVisibilitiesEnum } from '../enums/zone-visibilities.enum';
 import { ZoneTypesEnum } from '../enums/zone-types.enum';
-import { DuelEventsEnum } from '../enums/gateway/duel-events.enum';
+import { DuelCommandsEnum } from '../enums/gateway/duel-events.enum';
 import { ZoneSpacingEnum } from '../enums/zone-spacing.enum';
 
 
@@ -99,7 +99,7 @@ export class ZoneCard implements ZoneCardInterface {
               data['x'] = this.x;
               data['y'] = this.y;
             }
-            zone.scene.socketService.emitTo(zone.scene.gameService.game.gameIdentifier, DuelEventsEnum.DROP_CARDS, data);
+            zone.scene.socketService.emitTo(zone.scene.gameService.game.gameIdentifier, DuelCommandsEnum.DROP_CARDS, data);
           } else {
             self.negateCardDragDropEffect(this, zone, factor);
           }
@@ -111,7 +111,7 @@ export class ZoneCard implements ZoneCardInterface {
         if (pointer.rightButtonDown()) {
           if (pointer.getDuration() < 500) {
             if (zone.cardsCanTap) {
-              zone.scene.socketService.emitTo(zone.scene.gameService.game.gameIdentifier, DuelEventsEnum.TAP_UNTAP_CARD, {
+              zone.scene.socketService.emitTo(zone.scene.gameService.game.gameIdentifier, DuelCommandsEnum.TAP_UNTAP_CARD, {
                 zoneCardId: self.uid,
                 zoneId: zone.uid,
               });
@@ -214,11 +214,15 @@ export class ZoneCard implements ZoneCardInterface {
     if (zone.visibility === ZoneVisibilitiesEnum.OFF || (zone.type === ZoneTypesEnum.OWN && zone.visibility === ZoneVisibilitiesEnum.PRIVATE && zone.side !== PlayerSidesEnum.BOTTOM)) {
       this.cardImageLoadHandler(zone, 'cardBack', xOrd, yOrd);
     } else {
-      zone.scene.load.image(this.card.image, 'assets/imgs/cards/' + this.card.image);
-      zone.scene.load.once('complete', () => {
+      if (zone.scene.textures.exists(this.card.image)) {
         this.cardImageLoadHandler(zone, this.card.image, xOrd, yOrd);
-      });
-      zone.scene.load.start();
+      } else {
+        zone.scene.load.image(this.card.image, 'assets/imgs/cards/' + this.card.image);
+        zone.scene.load.once('complete', () => {
+          this.cardImageLoadHandler(zone, this.card.image, xOrd, yOrd);
+        });
+        zone.scene.load.start();
+      }
     }
   }
 }
