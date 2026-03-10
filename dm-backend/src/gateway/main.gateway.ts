@@ -11,12 +11,15 @@ import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
 import { SocketPayloadInterface } from '../interfaces/socket-payload.interface';
 import { CommonCommandsEnum, CommonEventsEnum } from '../enums/gateway/common-events.enum';
+import { GamesHistoryService } from '../games-history/games-history.service';
 
 @WebSocketGateway({ cors: true, origin: '*' })
 export class MainGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('MainGateway');
+
+  constructor(private readonly gamesHistoryService: GamesHistoryService) {}
 
   afterInit(server: Server) {
     this.logger.log('Main WS gateway initialized..');
@@ -36,6 +39,7 @@ export class MainGateway
     payload: SocketPayloadInterface,
   ): WsResponse<unknown> {
     if (payload.gameRoom) {
+      this.gamesHistoryService.addStep(payload.gameRoom, 'chat', client.id, 'msgToClient', payload.data).catch(() => {});
       client.to(payload.gameRoom).emit(CommonEventsEnum.MSG_TO_CLIENT, payload);
     }
     return { event: CommonEventsEnum.MSG_TO_CLIENT, data: payload };

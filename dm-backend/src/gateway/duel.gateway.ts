@@ -12,6 +12,7 @@ import { GatewayUtility } from '../utils/gateway.utility';
 import { DuelCommandsEnum, DuelEventsEnum } from '../enums/gateway/duel-events.enum';
 import { ZoneCardInterface } from '../interfaces/zone-card.interface';
 import { DuelStateService } from '../services/duel-state.service';
+import { GamesHistoryService } from '../games-history/games-history.service';
 import * as uuid from 'uuid';
 
 @WebSocketGateway({ cors: true, origin: '*' })
@@ -19,7 +20,10 @@ export class DuelGateway implements OnGatewayInit {
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('DuelGateway');
 
-  constructor(private readonly duelStateService: DuelStateService) {}
+  constructor(
+    private readonly duelStateService: DuelStateService,
+    private readonly gamesHistoryService: GamesHistoryService,
+  ) {}
 
   afterInit(server: Server) {}
 
@@ -92,6 +96,7 @@ export class DuelGateway implements OnGatewayInit {
     payload: SocketPayloadInterface,
   ): WsResponse<SocketPayloadInterface> {
     const room = payload.gameRoom;
+    this.gamesHistoryService.addStep(room, 'move', client.id, 'dropCards', payload.data).catch(() => {});
     const response: SocketPayloadInterface = { gameRoom: room, data: payload.data };
     return GatewayUtility.broadcastTo(client, room, DuelEventsEnum.DROP_CARDS, response);
   }
@@ -102,6 +107,7 @@ export class DuelGateway implements OnGatewayInit {
     payload: SocketPayloadInterface,
   ): WsResponse<SocketPayloadInterface> {
     const room = payload.gameRoom;
+    this.gamesHistoryService.addStep(room, 'action', client.id, 'tapUntapCard', payload.data).catch(() => {});
     const response: SocketPayloadInterface = { gameRoom: room, data: payload.data };
     return GatewayUtility.broadcastTo(client, room, DuelEventsEnum.TAP_UNTAP_CARD, response);
   }

@@ -1,0 +1,63 @@
+version: '3.9'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: dm-mongodb
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: duel-masters
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./dm-backend
+      dockerfile: Dockerfile.dev
+    container_name: dm-backend
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./dm-backend:/app
+      - ./shared:/shared
+      - /app/node_modules
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/duel-masters
+      JWT_SECRET: ${JWT_SECRET:-duel-masters-jwt-secret-change-in-production}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_CALLBACK_URL: ${GOOGLE_CALLBACK_URL:-http://localhost:3000/auth/google/callback}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./dm-frontend
+      dockerfile: Dockerfile.dev
+    container_name: dm-frontend
+    restart: unless-stopped
+    ports:
+      - '4200:4200'
+    volumes:
+      - ./dm-frontend:/app
+      - ./shared:/shared
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+
+volumes:
+  mongodb_data:

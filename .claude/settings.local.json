@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(tail:*)",
+      "Bash(ls:*)",
+      "Bash(npm run:*)",
+      "Bash(cd:*)"
     ]
   }
 }

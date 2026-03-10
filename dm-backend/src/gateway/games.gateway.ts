@@ -13,6 +13,7 @@ import { CommonCommandsEnum, CommonEventsEnum } from '../enums/gateway/common-ev
 import { GatewayUtility } from '../utils/gateway.utility';
 import { GameStatusEnum } from '../enums/games.enum';
 import { GameRoomService } from '../services/game-room.service';
+import { GamesHistoryService } from '../games-history/games-history.service';
 
 @WebSocketGateway({ cors: true, origin: '*' })
 export class GamesGateway implements OnGatewayInit {
@@ -21,7 +22,10 @@ export class GamesGateway implements OnGatewayInit {
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('GamesGateway');
 
-  constructor(private readonly gameRoomService: GameRoomService) {}
+  constructor(
+    private readonly gameRoomService: GameRoomService,
+    private readonly gamesHistoryService: GamesHistoryService,
+  ) {}
 
   afterInit(server: Server): void {
     setInterval(() => {
@@ -42,6 +46,7 @@ export class GamesGateway implements OnGatewayInit {
       return { event: 'error', data: { message: 'Invalid game payload' } };
     }
     this.gameRoomService.add(game);
+    this.gamesHistoryService.createGame(game).catch(() => {});
     const response: SocketPayloadInterface = {
       data: { msg: 'Games List', games: this.gameRoomService.all() },
     };
@@ -87,6 +92,7 @@ export class GamesGateway implements OnGatewayInit {
         gameRoom: room,
         data: { msg, inviterSocketId: client.id },
       });
+      this.gamesHistoryService.updateGame(room, { status: GameStatusEnum.ABORTED, endedAt: new Date() } as any).catch(() => {});
       this.gameRoomService.remove(room);
     } else if (game?.challenger === client.id) {
       game.challenger = null;
@@ -169,6 +175,7 @@ export class GamesGateway implements OnGatewayInit {
       return { event: 'error', data: { message: 'Game not found' } } as any;
     }
     game.challenger = client.id;
+    this.gamesHistoryService.updateGame(room, { challenger: client.id }).catch(() => {});
     const response: SocketPayloadInterface = {
       gameRoom: room,
       data: { msg: `${client.id} has issued a challenge!`, challenger: client.id },
@@ -197,6 +204,7 @@ export class GamesGateway implements OnGatewayInit {
       return { event: 'error', data: { message: 'Game not found' } } as any;
     }
     game.status = GameStatusEnum.IN_PROGRESS;
+    this.gamesHistoryService.updateGame(room, { status: GameStatusEnum.IN_PROGRESS }).catch(() => {});
     const response: SocketPayloadInterface = {
       gameRoom: room,
       data: { msg: `Duel!`, game },
