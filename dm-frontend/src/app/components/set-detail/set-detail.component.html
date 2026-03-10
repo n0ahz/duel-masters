@@ -8,6 +8,7 @@
     </button>
     <div class="set-header__info">
       <span class="set-header__code">{{ setCode }}</span>
+      <span class="set-header__name" *ngIf="setInfo">{{ setInfo.name }}</span>
       <span class="set-header__count" *ngIf="!loading && !error">{{ cards.length }} cards</span>
     </div>
   </header>
@@ -15,7 +16,7 @@
   <!-- ── Loading ── -->
   <div class="state-box" *ngIf="loading">
     <div class="spinner"></div>
-    <p class="state-box__text">Loading cards…</p>
+    <p class="state-box__text">Loading set…</p>
   </div>
 
   <!-- ── Error ── -->
@@ -24,34 +25,131 @@
     <button class="retry-btn" (click)="ngOnInit()">Retry</button>
   </div>
 
-  <!-- ── Empty ── -->
-  <div class="state-box" *ngIf="!loading && !error && cards.length === 0">
-    <p class="state-box__text">No cards found for <strong>{{ setCode }}</strong>.</p>
-  </div>
+  <ng-container *ngIf="!loading && !error">
 
-  <!-- ── Card grid ── -->
-  <div class="card-grid" *ngIf="!loading && !error && cards.length > 0">
-    <div class="card-tile" *ngFor="let card of cards">
-      <div class="card-tile__top">
-        <div class="card-tile__civs">
-          <span
-            class="civ-dot"
-            *ngFor="let civ of card.civilizations"
-            [class]="'civ-dot--' + civ.toLowerCase()">
-          </span>
+    <!-- ── Set info panel ── -->
+    <div class="set-info" *ngIf="setInfo">
+      <div class="set-info__left">
+        <div class="set-info__image-wrap" *ngIf="setInfo.imageUrl; else noImage">
+          <img class="set-info__image" [src]="setInfo.imageUrl" [alt]="setInfo.name" />
         </div>
-        <span class="card-tile__cost">{{ card.cost }}</span>
+        <ng-template #noImage>
+          <div class="set-info__image-placeholder">
+            <span class="set-info__placeholder-code">{{ setCode }}</span>
+          </div>
+        </ng-template>
       </div>
-      <p class="card-tile__name">{{ card.name }}</p>
-      <div class="card-tile__meta">
-        <span class="card-tile__type">{{ card.type }}</span>
-        <span class="card-tile__power" *ngIf="card.power">{{ card.power }}</span>
+      <div class="set-info__right">
+        <div class="set-info__meta-row">
+          <span class="set-info__badge set-info__badge--era">{{ setInfo.era | titlecase }} Era</span>
+          <span class="set-info__badge set-info__badge--block" *ngIf="setInfo.block">{{ setInfo.block }}</span>
+          <span class="set-info__badge set-info__badge--year" *ngIf="setInfo.releaseYear">{{ setInfo.releaseYear }}</span>
+        </div>
+        <h2 class="set-info__title">{{ setInfo.name }}</h2>
+        <p class="set-info__desc" *ngIf="setInfo.description">{{ setInfo.description }}</p>
+        <div class="set-info__stats">
+          <div class="set-info__stat">
+            <span class="set-info__stat-value">{{ cards.length }}</span>
+            <span class="set-info__stat-label">Cards in DB</span>
+          </div>
+          <div class="set-info__stat" *ngIf="setInfo.totalCards">
+            <span class="set-info__stat-value">{{ setInfo.totalCards }}</span>
+            <span class="set-info__stat-label">Total in Set</span>
+          </div>
+        </div>
       </div>
-      <div class="card-tile__civs-label">
-        <span *ngFor="let civ of card.civilizations; last as isLast">
-          {{ civ }}<span *ngIf="!isLast"> / </span>
+    </div>
+
+    <!-- ── Empty ── -->
+    <div class="state-box" *ngIf="cards.length === 0">
+      <p class="state-box__text">No cards found for <strong>{{ setCode }}</strong>.</p>
+    </div>
+
+    <!-- ── Card grid ── -->
+    <div class="card-grid" *ngIf="cards.length > 0">
+      <div class="card-tile" *ngFor="let card of cards" (click)="openCard(card)">
+        <div class="card-tile__top">
+          <div class="card-tile__civs">
+            <span
+              class="civ-dot"
+              *ngFor="let civ of card.civilizations"
+              [class]="'civ-dot--' + civ.toLowerCase()">
+            </span>
+          </div>
+          <span class="card-tile__cost">{{ card.cost }}</span>
+        </div>
+        <p class="card-tile__name">{{ card.name }}</p>
+        <div class="card-tile__meta">
+          <span class="card-tile__type">{{ card.type }}</span>
+          <span class="card-tile__power" *ngIf="card.power">{{ card.power }}</span>
+        </div>
+        <div class="card-tile__footer">
+          <span class="card-tile__civs-label">
+            <span *ngFor="let civ of card.civilizations; last as isLast">
+              {{ civ }}<span *ngIf="!isLast"> / </span>
+            </span>
+          </span>
+          <span class="card-tile__id" *ngIf="getPrintingId(card)">{{ getPrintingId(card) }}</span>
+        </div>
+        <span class="card-tile__rarity" [attr.data-rarity]="getRarity(card)"
+              *ngIf="getRarity(card)">
+          {{ getRarity(card) }}
         </span>
       </div>
+    </div>
+
+  </ng-container>
+
+  <!-- ── Card Modal ── -->
+  <div class="modal-overlay" *ngIf="selectedCard" (click)="closeCard()">
+    <div class="modal" (click)="$event.stopPropagation()">
+
+      <button class="modal__close" (click)="closeCard()">✕</button>
+
+      <!-- Top bar: civs + cost -->
+      <div class="modal__topbar">
+        <div class="modal__civs">
+          <span
+            class="civ-dot civ-dot--lg"
+            *ngFor="let civ of selectedCard.civilizations"
+            [class]="'civ-dot--' + civ.toLowerCase()">
+          </span>
+          <span class="modal__civ-names">
+            <span *ngFor="let civ of selectedCard.civilizations; last as isLast">
+              {{ civ }}<span *ngIf="!isLast"> / </span>
+            </span>
+          </span>
+        </div>
+        <span class="modal__cost">{{ selectedCard.cost }}</span>
+      </div>
+
+      <!-- Name & type -->
+      <h3 class="modal__name">{{ selectedCard.name }}</h3>
+      <div class="modal__type-row">
+        <span class="modal__type">{{ selectedCard.type }}</span>
+        <span class="modal__subtypes" *ngIf="selectedCard.subtypes?.length">
+          — {{ selectedCard.subtypes!.join(' / ') }}
+        </span>
+        <span class="modal__power" *ngIf="selectedCard.power">{{ selectedCard.power }}</span>
+      </div>
+
+      <!-- Card text -->
+      <p class="modal__text" *ngIf="selectedCard.text">{{ selectedCard.text }}</p>
+
+      <!-- Printings -->
+      <div class="modal__printings" *ngIf="selectedCard.printings?.length">
+        <h4 class="modal__section-title">Printings</h4>
+        <div class="modal__printing" *ngFor="let p of selectedCard.printings">
+          <div class="modal__printing-header">
+            <span class="modal__printing-set">{{ p.set }}</span>
+            <span class="modal__printing-id">{{ p.id }}</span>
+            <span class="modal__printing-rarity" [attr.data-rarity]="p.rarity">{{ p.rarity }}</span>
+          </div>
+          <span class="modal__printing-artist">Illus. {{ p.illustrator }}</span>
+          <p class="modal__flavor" *ngIf="p.flavor">{{ p.flavor }}</p>
+        </div>
+      </div>
+
     </div>
   </div>
 

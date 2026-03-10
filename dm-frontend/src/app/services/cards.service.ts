@@ -23,6 +23,18 @@ export interface Card {
   printings: CardPrinting[];
 }
 
+export interface SetInfo {
+  _id: string;
+  setCode: string;
+  name: string;
+  description?: string;
+  era: string;
+  block?: string;
+  totalCards: number;
+  imageUrl?: string;
+  releaseYear?: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class CardsHttpService {
   private readonly api = 'http://localhost:3000';
@@ -31,5 +43,9 @@ export class CardsHttpService {
 
   getCardsBySet(setCode: string): Observable<Card[]> {
     return this.http.get<Card[]>(`${this.api}/cards`, { params: { set: setCode } });
+  }
+
+  getSetInfo(setCode: string): Observable<SetInfo> {
+    return this.http.get<SetInfo>(`${this.api}/sets/${encodeURIComponent(setCode)}`);
   }
 }

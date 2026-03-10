@@ -73,6 +73,13 @@
   background-clip: text;
 }
 
+.set-header__name {
+  font-family: officina, serif;
+  font-size: clamp(0.9rem, 2vw, 1.15rem);
+  color: var(--dm-text-soft);
+  font-weight: 400;
+}
+
 .set-header__count {
   font-family: armada, monospace;
   font-size: 0.62rem;
@@ -234,4 +241,399 @@
   text-transform: uppercase;
   color: var(--dm-text-muted);
   opacity: 0.7;
+}
+
+.card-tile__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.card-tile__id {
+  font-family: armada, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--dm-gold);
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.card-tile__rarity {
+  display: inline-block;
+  margin-top: 0.45rem;
+  font-family: armada, monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  border: 1px solid currentColor;
+  opacity: 0.75;
+  color: var(--dm-text-muted);
+
+  &[data-rarity='Common']      { color: #aaa; }
+  &[data-rarity='Uncommon']    { color: #78b8a0; }
+  &[data-rarity='Rare']        { color: #6a9fd8; }
+  &[data-rarity='Very Rare']   { color: #b07fe0; }
+  &[data-rarity='Super Rare']  { color: #e8a030; }
+}
+
+// ─── Set Info Panel ───────────────────────────────────────────────────────────
+.set-info {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  padding: 1.5rem;
+  background: var(--dm-surface);
+  border: 1px solid var(--dm-gold-border);
+  border-radius: 6px;
+  animation: fade-up 0.4s ease 0.05s both;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+}
+
+.set-info__left {
+  flex-shrink: 0;
+}
+
+.set-info__image-wrap {
+  width: 140px;
+  height: 140px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--dm-gold-border);
+}
+
+.set-info__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.set-info__image-placeholder {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--dm-gold-border);
+  border-radius: 4px;
+  background: var(--dm-surface-2);
+}
+
+.set-info__placeholder-code {
+  font-family: perceval, serif;
+  font-size: 1.4rem;
+  background: linear-gradient(105deg, #c9a227 0%, #ecc84a 50%, #c9a227 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  padding: 0.5rem;
+  word-break: break-all;
+}
+
+.set-info__right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.set-info__meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.set-info__badge {
+  font-family: armada, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+
+  &--era   { background: rgba(201, 162, 39, 0.15); color: var(--dm-gold); border: 1px solid rgba(201, 162, 39, 0.3); }
+  &--block { background: var(--dm-surface-2); color: var(--dm-text-soft); border: 1px solid var(--dm-gold-border); }
+  &--year  { background: var(--dm-surface-2); color: var(--dm-text-muted); border: 1px solid var(--dm-gold-border); }
+}
+
+.set-info__title {
+  font-family: perceval, serif;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-weight: 400;
+  margin: 0;
+  color: var(--dm-text);
+  line-height: 1.2;
+}
+
+.set-info__desc {
+  font-size: 0.85rem;
+  color: var(--dm-text-soft);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.set-info__stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--dm-gold-border);
+}
+
+.set-info__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.set-info__stat-value {
+  font-family: perceval, serif;
+  font-size: 1.4rem;
+  color: var(--dm-gold);
+  line-height: 1;
+}
+
+.set-info__stat-label {
+  font-family: armada, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dm-text-muted);
+}
+
+// ─── Card Modal ───────────────────────────────────────────────────────────────
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.95) translateY(12px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.5rem;
+}
+
+.modal {
+  position: relative;
+  background: var(--dm-surface);
+  border: 1px solid var(--dm-gold-border);
+  border-radius: 6px;
+  padding: 1.75rem 1.75rem 1.5rem;
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  overflow-y: auto;
+  animation: modal-in 0.22s ease both;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--dm-gold-border) transparent;
+}
+
+.modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: 1px solid var(--dm-gold-border);
+  border-radius: 3px;
+  color: var(--dm-text-muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, color 0.15s;
+
+  &:hover {
+    border-color: var(--dm-gold);
+    color: var(--dm-text);
+  }
+}
+
+.modal__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+  padding-right: 2rem;
+}
+
+.modal__civs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.civ-dot--lg {
+  width: 14px;
+  height: 14px;
+}
+
+.modal__civ-names {
+  font-family: armada, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dm-text-muted);
+  margin-left: 4px;
+}
+
+.modal__cost {
+  font-family: armada, monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--dm-gold);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--dm-gold-border);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.modal__name {
+  font-family: perceval, serif;
+  font-size: clamp(1.2rem, 4vw, 1.6rem);
+  font-weight: 400;
+  margin: 0 0 0.5rem;
+  color: var(--dm-text);
+  line-height: 1.25;
+  padding-right: 2rem;
+}
+
+.modal__type-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.modal__type {
+  font-family: armada, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dm-text-muted);
+  background: var(--dm-surface-2);
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+}
+
+.modal__subtypes {
+  font-family: armada, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--dm-text-muted);
+}
+
+.modal__power {
+  font-family: armada, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--dm-text-soft);
+  margin-left: auto;
+  letter-spacing: 0.05em;
+}
+
+.modal__text {
+  font-size: 0.82rem;
+  color: var(--dm-text-soft);
+  line-height: 1.65;
+  margin: 0 0 1.25rem;
+  padding: 0.85rem 1rem;
+  background: var(--dm-surface-2);
+  border-left: 2px solid var(--dm-gold-border);
+  border-radius: 0 3px 3px 0;
+  white-space: pre-line;
+}
+
+.modal__section-title {
+  font-family: armada, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dm-text-muted);
+  margin: 0 0 0.65rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--dm-gold-border);
+}
+
+.modal__printing {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  &:last-child { border-bottom: none; }
+}
+
+.modal__printing-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.3rem;
+}
+
+.modal__printing-set {
+  font-family: officina, serif;
+  font-size: 0.78rem;
+  color: var(--dm-text);
+  flex: 1;
+}
+
+.modal__printing-id {
+  font-family: armada, monospace;
+  font-size: 0.65rem;
+  color: var(--dm-gold);
+  letter-spacing: 0.05em;
+}
+
+.modal__printing-rarity {
+  font-family: armada, monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  border: 1px solid currentColor;
+
+  &[data-rarity='Common']      { color: #aaa; }
+  &[data-rarity='Uncommon']    { color: #78b8a0; }
+  &[data-rarity='Rare']        { color: #6a9fd8; }
+  &[data-rarity='Very Rare']   { color: #b07fe0; }
+  &[data-rarity='Super Rare']  { color: #e8a030; }
+}
+
+.modal__printing-artist {
+  font-family: armada, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--dm-text-muted);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.modal__flavor {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--dm-text-muted);
+  margin: 0.35rem 0 0;
+  line-height: 1.5;
+  opacity: 0.8;
 }

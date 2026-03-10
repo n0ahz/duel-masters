@@ -14,6 +14,7 @@ import { UsersModule } from './users/users.module';
 import { CardsModule } from './cards/cards.module';
 import { DecksModule } from './decks/decks.module';
 import { GamesHistoryModule } from './games-history/games-history.module';
+import { SetsModule } from './sets/sets.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { GamesHistoryModule } from './games-history/games-history.module';
     CardsModule,
     DecksModule,
     GamesHistoryModule,
+    SetsModule,
   ],
   controllers: [AppController],
   providers: [
