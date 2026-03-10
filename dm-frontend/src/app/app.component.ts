@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { ThemeService } from './services/theme.service';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class AppComponent {
   constructor(
     private router: Router,
     public socialAuthService: SocialAuthService,
+    public themeService: ThemeService,
   ) {
     this.socialAuthService.authState.subscribe(async (res) => {
       this.socialUser = res;
@@ -23,10 +25,9 @@ export class AppComponent {
   }
 
   logout() {
-    this.socialAuthService.signOut().then((res) => {
+    this.socialAuthService.signOut().then(() => {
       this.socialUser = null;
       this.router.navigateByUrl('');
     });
   }
-
 }

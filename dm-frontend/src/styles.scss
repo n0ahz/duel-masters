@@ -7,6 +7,9 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: var(--dm-bg);
+  color: var(--dm-text);
+  transition: background 0.35s ease, color 0.35s ease;
 }
 
 @font-face {
@@ -22,4 +25,47 @@ body {
 @font-face {
   font-family: armada;
   src: url('assets/fonts/armada.ttf');
+}
+
+// ─── Theme: Dark (default) ────────────────────────────────────────────────────
+:root {
+  --dm-bg:            #090c14;
+  --dm-surface:       #0f1421;
+  --dm-surface-2:     #171d2e;
+  --dm-surface-3:     #1e2540;
+  --dm-navbar-top:    #0f1523;
+  --dm-navbar-bot:    #090c14;
+  --dm-gold:          #c9a227;
+  --dm-gold-bright:   #ecc84a;
+  --dm-gold-dim:      rgba(201, 162, 39, 0.10);
+  --dm-gold-border:   rgba(201, 162, 39, 0.28);
+  --dm-text:          #ddd0b3;
+  --dm-text-soft:     #a89070;
+  --dm-text-muted:    #60574a;
+  --dm-red:           #c0392b;
+  --dm-red-glow:      rgba(192, 57, 43, 0.35);
+  --dm-glow-gold:     0 0 18px rgba(201, 162, 39, 0.45);
+  --dm-glow-soft:     0 0 10px rgba(201, 162, 39, 0.20);
+  --dm-h:             66px;
+}
+
+// ─── Theme: Light (parchment) ─────────────────────────────────────────────────
+html.theme-light {
+  --dm-bg:            #f0e8d5;
+  --dm-surface:       #ebe0c8;
+  --dm-surface-2:     #e2d4b6;
+  --dm-surface-3:     #d5c8a0;
+  --dm-navbar-top:    #f5edd8;
+  --dm-navbar-bot:    #e8d9c0;
+  --dm-gold:          #8a6410;
+  --dm-gold-bright:   #a47c18;
+  --dm-gold-dim:      rgba(138, 100, 16, 0.10);
+  --dm-gold-border:   rgba(138, 100, 16, 0.30);
+  --dm-text:          #1e1408;
+  --dm-text-soft:     #4a3820;
+  --dm-text-muted:    #7a6850;
+  --dm-red:           #c0392b;
+  --dm-red-glow:      rgba(192, 57, 43, 0.20);
+  --dm-glow-gold:     0 0 14px rgba(138, 100, 16, 0.30);
+  --dm-glow-soft:     0 0 8px  rgba(138, 100, 16, 0.18);
 }
