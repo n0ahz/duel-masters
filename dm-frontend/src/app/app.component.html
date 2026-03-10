@@ -1,32 +1,56 @@
-<!-- Toolbar -->
-<mat-toolbar color="warn">
-  <img alt="Duel Masters" height="100%" routerLink="/" src="../assets/imgs/dm-logo.png">
+<!-- Navbar -->
+<mat-toolbar class="dm-navbar">
 
-  <mat-divider style="height:100%" vertical></mat-divider>
+  <!-- Brand -->
+  <a class="dm-brand" routerLink="/">
+    <img alt="Duel Masters" class="dm-logo" src="../assets/imgs/dm-logo.png">
+  </a>
 
-  <button class="menu__button" mat-raised-button matTooltip="Official Card Game / Trading Card Game"
-          routerLink="/games/list" *ngIf="this.socialUser">
-    OCG / TCG
-  </button>
+  <div class="dm-divider"></div>
 
-  <mat-button-toggle-group aria-label="Menu" name="menuItems">
-    <mat-button-toggle routerLink="/rules" value="rules">Rules</mat-button-toggle>
-    <mat-button-toggle routerLink="/cards" value="cards">Cards</mat-button-toggle>
-    <mat-button-toggle routerLink="/" value="decks" *ngIf="this.socialUser">Decks</mat-button-toggle>
-    <mat-button-toggle routerLink="/" value="players" *ngIf="this.socialUser">Players</mat-button-toggle>
-  </mat-button-toggle-group>
+  <!-- Center Navigation -->
+  <nav class="dm-nav" aria-label="Main navigation">
+    <a class="dm-nav__link"
+       routerLink="/games/list"
+       routerLinkActive="dm-nav__link--active"
+       matTooltip="Official Card Game / Trading Card Game"
+       *ngIf="this.socialUser">
+      <span class="dm-nav__gem"></span>Play
+    </a>
+    <a class="dm-nav__link" routerLink="/rules" routerLinkActive="dm-nav__link--active">Rules</a>
+    <a class="dm-nav__link" routerLink="/cards" routerLinkActive="dm-nav__link--active">Cards</a>
+    <a class="dm-nav__link" routerLink="/" routerLinkActive="dm-nav__link--active" *ngIf="this.socialUser">Decks</a>
+    <a class="dm-nav__link" routerLink="/" routerLinkActive="dm-nav__link--active" *ngIf="this.socialUser">Players</a>
+  </nav>
 
-  <div style="position: absolute; right: 1em">
-    <!--    <mat-icon>person_pin</mat-icon>-->
+  <span class="dm-spacer"></span>
+
+  <!-- Auth / Profile -->
+  <div class="dm-auth">
     <ng-container *ngIf="this.socialUser">
-      <button class="menu__button">Hello, {{ socialUser.name }}!</button>
-      <button class="menu__button">Your email: {{ socialUser.email }}</button>
-      <button mat-raised-button (click)="logout()">Logout</button>
+      <div class="dm-profile">
+        <div class="dm-profile__avatar">{{ socialUser.name?.charAt(0)?.toUpperCase() }}</div>
+        <div class="dm-profile__details">
+          <span class="dm-profile__name">{{ socialUser.name }}</span>
+          <span class="dm-profile__email">{{ socialUser.email }}</span>
+        </div>
+        <button class="dm-logout" (click)="logout()" matTooltip="Sign out" aria-label="Logout">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </button>
+      </div>
     </ng-container>
     <ng-container *ngIf="!this.socialUser">
-      <asl-google-signin-button data-text="Login" size='medium' matTooltip="Log In"></asl-google-signin-button>
+      <div class="dm-signin">
+        <asl-google-signin-button data-text="Login" size='medium' matTooltip="Log In"></asl-google-signin-button>
+      </div>
     </ng-container>
   </div>
+
 </mat-toolbar>
 
 <!-- Body -->
